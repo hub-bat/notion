@@ -1,0 +1,2563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - in-absentia-&#128293;</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+            font-weight: 300;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+            font-weight: 600;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+            font-weight: 700;
+        }
+
+        body {
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .preserve-whitespace {
+            white-space: pre-wrap;
+        }
+
+        .spoiler-text {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .spoiler-text--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .spoiler-text--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .spoiler-text--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .quote {
+            display: flex;
+            margin: 0.05em 0;
+        }
+
+        .quote::before {
+            content: "";
+            margin-right: 0.5em;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .pre--multiline {
+            margin-top: 0.25em;
+            padding: 0.5em;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .pre--multiline.hljs {
+            background-color: #2f3136;
+            color: #b9bbbe;
+        }
+
+        .pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+
+        .mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #7289da;
+            background-color: rgba(114, 137, 218, .1);
+            font-weight: 500;
+        }
+
+        .timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .emoji {
+            width: 1.325em;
+            height: 1.325em;
+            margin: 0 0.06em;
+            vertical-align: -0.4em;
+        }
+
+        .emoji--small {
+            width: 1em;
+            height: 1em;
+        }
+
+        .emoji--large {
+            width: 2.8em;
+            height: 2.8em;
+        }
+
+        .preamble {
+            display: grid;
+            margin: 0 0.3em 0.6em 0.3em;
+            max-width: 100%;
+            grid-template-columns: auto 1fr;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 0.6em;
+        }
+
+        .preamble__entry {
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+
+        .preamble__entry--small {
+            font-size: 1em;
+        }
+
+        .chatlog {
+            max-width: 100%;
+        }
+
+        .chatlog__message-group {
+            display: grid;
+            margin: 0 0.6em;
+            padding: 0.9em 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            grid-template-columns: auto 1fr;
+        }
+
+        .chatlog__reference-symbol {
+            grid-column: 1;
+            margin: 8px 4px 4px 18px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            grid-column: 2;
+            margin-bottom: 0.25em;
+            font-size: 0.875em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            align-items: center;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-avatar {
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25em;
+        }
+
+        .chatlog__reference-name {
+            margin-right: 0.3em;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-content a:hover {
+            text-decoration: none;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.spoiler-text) {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25em;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__author-avatar-container {
+            grid-column: 1;
+            width: 40px;
+            height: 40px;
+            margin-right: 16px;
+        }
+
+        .chatlog__author-avatar {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatlog__messages {
+            grid-column: 2;
+            min-width: 50%;
+        }
+
+        .chatlog__author-name {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3em;
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__message {
+            padding: 0.1em 0.3em;
+            margin: 0 -0.3em;
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__content {
+            font-size: 0.95em;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15em;
+            font-size: 0.8em;
+        }
+
+        .chatlog__attachment {
+            display: inline-block;
+            position: relative;
+            margin-top: 0.3em;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            z-index: 999;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.4em 0.8em;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            color: #dcddde;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            width: 100%;
+            max-width: 520px;
+            height: 40px;
+            padding: 10px;
+            background-color: #2f3136;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__edited-timestamp {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3em;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25em;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5em 0.6em;
+            background-color: rgba(46, 48, 54, 0.3);
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author {
+            display: flex;
+            margin-bottom: 0.3em;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            margin-right: 0.5em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author-name {
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff
+        }
+
+        .chatlog__embed-author-name-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.2em;
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-description {
+            font-weight: 500;
+            font-size: 0.85em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5em;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6em;
+            font-size: 0.875em;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 150px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-field-value {
+            font-weight: 500;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            margin-left: 1.2em;
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            margin-right: 0.2em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            align-items: center;
+            margin: 0.35em 0.1em 0.1em 0.1em;
+            padding: 0.2em 0.35em;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35em;
+            font-size: 0.875em;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .chatlog__bot-tag {
+            position: relative;
+            top: -.1em;
+            margin-left: 0.3em;
+            padding: 0.05em 0.3em;
+            border-radius: 3px;
+            line-height: 1.3;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625em;
+            font-weight: 500;
+        }
+
+        .postamble {
+            margin: 1.4em 0.3em 0.6em 0.3em;
+            padding: 1em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+
+        function showSpoiler(event, element) {
+            if (element && element.classList.contains('spoiler-text--hidden')) {
+                event.preventDefault();
+                element.classList.remove('spoiler-text--hidden');
+            }
+            if (element && element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="icon-attachment" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z" />
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z" />
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z" />
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z" />
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/cc89a94880f4abdfeade2fb82f1919a2-4FB72.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">Keep Quiet Archive (Chrono) / in-absentia-&#128293;</div>
+
+            <div class="preamble__entry preamble__entry--small">Or as Ghost calls it, &quot;Absent Children&quot;</div>
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">07-Nov-18 11:29 AM</span>
+
+            <div class="chatlog__message " data-message-id="509766299166179338" id="message-509766299166179338" title="Message sent: 07-Nov-18 11:29 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal&#39;s carefully laden plans had finally gone underway. 
+How long had he been waiting for the moment of revenge? When news got way of the soldier&#39;s affiliation- his <em>affection-</em> Regal was nearly ecstatic. All members of that wretched team were brought together in different ways, rounded up for the slaughter. Easy pickings. One by two by three-
+He couldn&#39;t get ahead of himself. He couldn&#39;t break character- not yet, anyway. There would be that freeing moment, that rise from the ashes, but not yet. Not yet.
+Panicked expression, fevered checking a subPET, it was clear he was late. Very unlike him- he knew those at Scilabs would be very confused. Concerned? Or maybe even closing in. He was very preoccupied now walking down the rush-hour sidewalk, mind reeling at how perfectly he had planned this how <em>skillfully</em> that soldier would <em>crumble-</em>
+&quot;Ah,&quot; a noise escaped him as he bumped into his target. Mechanical hand steadied himself against course fabric. Not enough shield, never enough. The needle snuck out anyway. 
+&quot;Excuse me,&quot; he said, and quickly rushed away. Not far, but a perfect actor. The pawns were in place. Time to play their game.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Nov-18 07:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="509890664327151619" id="message-509890664327151619" title="Message sent: 07-Nov-18 07:43 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika was walking at a brisk pace, keeping up with the trongs of people he had hoped to be caught in. Crowds were safety in moments like this. He could hide away in them with his hood and beanie on. 
+
+He was empty handed, two blocks away from the grocery Searchman had found. The list had been gone over several times already, yet Laika found himself repeating it again. It was a mantra to keep him steady. Rice, eggs, chicken, panko, oil, spices-
+
+The bump forced him to loose it. His hand flew up to catch where his arm was touched. Perhaps too much of a movement, he thought as it slid down. Was Enzan&#39;s borrowed paranoia too obvious? Laika kept double and triple checking himself, but in doing so failed to catch a glimpse of who he bumped into.
+
+Laika muttered an apology, then continued on his way. It was about five steps later that a sudden dizziness hit him. He swayed admist the crowd, trying to walk out of it. But it persisted, and even got worse.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">07-Nov-18 09:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="509910074173554688" id="message-509910074173554688" title="Message sent: 07-Nov-18 09:00 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Not too far...Not too far. Laika caught up with him and he felt the bump in his back again- turning to look at him. The crowd still moved. No one said anything. No one wanted to be the one to step in. 
+&quot;You don&#39;t look so good,&quot; a hand steadied on his side. &quot;Do you need assistance?&quot;
+It was almost hard to keep himself composed. The prize was in his sights, weakening, weakening...</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 07:29 AM</span>
+
+            <div class="chatlog__message " data-message-id="510068324562894858" id="message-510068324562894858" title="Message sent: 08-Nov-18 07:29 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The bump came from a stumble which was the result of Laika&#39;s attempts to keep pace. He looked up to apologize, only to have the world spin. &#39;Sorry&#39; got lost in a gag reflex, one that came up empty. What was this all the sudden? Food poisoning from the cans left at the safe house? 
+
+The touch brought him out of it, for a glimpse of a second. He quickly looked up again, to see who this help was. The palor skin and missing eye reached out to him, to grab him by the throat and lock him in place. 
+
+&quot;Gh-!&quot;
+
+Regal. 
+
+Laika&#39;s heart jumped in panic, and his hands fished in the air to try and break away. The dizziness hit harder, forcing him to look like nothing more than a drunkard. He couldn&#39;t break away, he couldn&#39;t speak.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 08:36 AM</span>
+
+            <div class="chatlog__message " data-message-id="510085097404235776" id="message-510085097404235776" title="Message sent: 08-Nov-18 08:36 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal had perfected his art, this art of an actor was long since his game and he would play Laika like a broken instrument. A smile flashed into concern on his face. Laika would know. The world wouldn&#39;t. 
+&quot;Don&#39;t struggle.&quot; He said quietly, then even quieter. &quot;I&#39;ll go to your safe house and make sure you find Enzan&#39;s blood on the walls.&quot;
+Mechanical hand slowly pressed around his arm. Another thin needle, another dose, another threat. It was just them in this marionette dance thaf Laika was leading- mob mentality prevented the world from stepping in to save him. It always did.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 12:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="510144133566955521" id="message-510144133566955521" title="Message sent: 08-Nov-18 12:30 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The pinch from before came back, and this time Laika knew what it was immediately. Regal&#39;s threat was the tightening links around his wrists. He was caught, too easily. Promises were being broken and there was nothing he could do!
+
+&quot;S-searchh...&quot; The navi&#39;s name fell heavily off Laika&#39;s tongue. He hoped, prayed, that it was enough to send him into action. 
+
+Laika didn&#39;t struggle, though he still posed himself to be against Regal&#39;s hold. The crowd around them was starting to thin as morning rush came to an end. His head started to hurt from the drugs. His eyes grew heavy.
+
+Enzan littered his thoughts more and more as his legs struggled to keep him standing. To be taken in broad daylight like this, with all these witnesses. He already knew that none of them were going to report it. There wasn&#39;t a crime being committed.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 10:16 AM</span>
+
+            <div class="chatlog__message " data-message-id="510472781184630786" id="message-510472781184630786" title="Message sent: 09-Nov-18 10:16 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">No one would even <em>remember</em> was the true beauty of it all. Regal&#39;s other arm slipped around his lower back and he whispered again, &quot;Your navi can&#39;t save you either. If he makes a single move, the same will happen to Enzan.&quot;
+His smile and his voice were that of a caring doctor. No one made a move. No one was there to save him. 
+&quot;Sleep.&quot; He commanded, and his hand tightened again around his arm. One last dose to knock him out.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 12:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="510503147706384384" id="message-510503147706384384" title="Message sent: 09-Nov-18 12:17 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;N... Nno...&quot;
+
+Laika&#39;s whole body relaxed, which scared him deeply. It was the opposite of what needed to happen. He needed to fight, scream, defend himself because he <em>could</em>. Except the drug forced him still, forced him into compliance. 
+
+The prick was felt again, and Laika tried desperately to ignore it. His eyes spelled out an almost <em>murderous</em> intent. They were cold, dark, and full of malice. 
+
+As the black took hold and pulled him under, Laika thought only of Enzan. He was safe, he was <em>safe</em>. Regal couldn&#39;t touch him now that he had this, now that Laika was under his spell.</span>
+
+                                <span class="chatlog__edited-timestamp" title="09-Nov-18 12:24 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 02:12 PM</span>
+
+            <div class="chatlog__message " data-message-id="510532071656128542" id="message-510532071656128542" title="Message sent: 09-Nov-18 02:12 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The pawns moved in. It was time to take their queen.
+--
+When Laika would later awake, he would find himself in a dark room. It was quiet, cold, and somewhat suffocating. The walls and the floor were made of a thick concrete no signals could punch through. No network, no...world. The rest of the world save for one was none the wiser that Laika no longer existed. 
+Laika...no longer existed. 
+The door scraped against the floor heavily. Footsteps were quiet. Regal adjusted the sleeves on a coat he had not worn in a long time- it was burned and tattered in places. But it was still his. He stood in front of Laika and stood very straight, in military fashion.
+
+&quot;Good morning, <em>soldier.</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 05:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="510585375194873868" id="message-510585375194873868" title="Message sent: 09-Nov-18 05:43 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Noise was what snapped Laika awake. His head jerked up from a dreamless sleep and he looked blindly into the dark. Questions about where or how he got here were quickly snuffed when he saw a figure coming closer. Teeth gritted as his abduction flashed through his mind. 
+
+Reckless, angered, he got up to his feet. The drug&#39;s lingering effects forced him to hug the wall. It didn&#39;t matter, he was still livid, and the roughness of the cement under his hand fed into it. Even if he couldn&#39;t completely see, Laika&#39;s eyes kept that same ferocity from before.
+
+&quot;Иди на <em>хуй</em>.&quot; He spat. Regal&#39;s outline could be seen now that his eyes began to dialate. From this spot, Laika could still move out of the way of any further drugging. At least, that&#39;s what he hoped.</span>
+
+                                <span class="chatlog__edited-timestamp" title="09-Nov-18 05:48 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 05:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="510589120066879499" id="message-510589120066879499" title="Message sent: 09-Nov-18 05:58 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Dirty language,&quot; he spat, a twisted grin on his fate. &quot;But I suppose its something we have in common.&quot;
+Regal held a hand up, &quot;I wouldn&#39;t move too much. Too much adrenaline and the poison I&#39;ve dosed you with will overwhelm you much too quickly.&quot;
+Then his hand dropped. &quot;And if you&#39;re dead, who will stop me from moving on to Enzan yet again? Your PET has given us much information...Like his location.&quot;
+Produced from his pocket was the device in question, the screen flashing a soft lockdown sequence. &quot;It&#39;s too bad your navi had to be...relocated. I could use his...Abilities.&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 09:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="510642760697511960" id="message-510642760697511960" title="Message sent: 09-Nov-18 09:32 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika growled. &quot;You&#39;re bluffing.&quot;
+
+Though he didn&#39;t move too much, just as Regal suggested. Just the threat was enough to have him full of doubt. Nothing about this man could be underestimated, especially now that he had revealed his hand. Just how long had he been holding it close to his chest?
+
+Seeing his PET had Laika force down a bit of panic. He prayed Searchman had the chance to follow proper procedure. There&#39;s no way Regal could&#39;ve gotten the location from there, yet, the doubt was big in his mind. After all, was Searchman even still with them?
+
+&quot;He would rather delete himself.&quot; Laika tacked on, crass. &quot;Not likely you&#39;d be allowed to anyways. Sharo knows.&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 01:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="510883987703726090" id="message-510883987703726090" title="Message sent: 10-Nov-18 01:30 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Am I?&quot; Mechanical hand raised and the needle he had jabbed Laika with so many times jutted out from his wrist. &quot;How can you be so sure? I don&#39;t value your life as much as you think I do. If you were to drop right now, it would matter not to me.&quot;
+It would be a shame to miss out on the fun they could have, but- no matter. 
+Then, he laughed. &quot;I chose this location in particular due to its build. If you haven&#39;t noticed, the building is made of thick concrete. There&#39;s no signal to be had here save for landlines. Your country lost track of you ages ago. If I were to pluck your navi from your PET and change him into something more suitable, they would be none the wiser.&quot;
+His hands returned to his sides, PET back in pocket. &quot;Or, if I were to take you from the streets of a foriegn country. But now that you mention it...&quot;
+Regal took two long strides in, and seized Laika against the wall. A thin, clean and very <em>sharp</em> scalpel was produced. &quot;I should take all the necessary <em>precautions.</em> &quot; 
+Mechanical hand crushing Laika&#39;s arms above his head, and real one tracing the scalpel down his sleeve, cutting it open, Regal intended to remove the tracking device all together.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 08:45 AM</span>
+
+            <div class="chatlog__message " data-message-id="511174740916830214" id="message-511174740916830214" title="Message sent: 11-Nov-18 08:45 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal&#39;s explainations hammered Laika in place. It bore down in an oppressive way. He gritted his teeth over how much sense they made. It was too much sense, damning sense. Laika was slowly becoming unnerved and unable to keep his teeth bared.
+
+&quot;Hh-!&quot; A cut of a gasp escaped him when Regal closed in. He moved too fast, proving that Laika&#39;s bark was far worse than his bite right now. The pain of having his arms forced up was trumped by the scapel. 
+
+Dread sank in, right then and there. Laika started to realize that he might not be getting out of this one. His eyes shook as his sleeve was sliced open. Too close, too close!
+
+&quot;Stop-&quot; Laika choked. He didn&#39;t know. &quot;What are you-?&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="11-Nov-18 08:49 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 12:45 PM</span>
+
+            <div class="chatlog__message " data-message-id="511597401190957059" id="message-511597401190957059" title="Message sent: 12-Nov-18 12:45 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">A flick of his arm and his sleeve slid down, revealing a scar winding down his arm. It wasn&#39;t fresh, but wasn&#39;t extremely old either. &quot;Your country tracks you, soldier. Just as mine did me.&quot;
+A force down, and the fabric of Laika&#39;s sleeve curled away. Fingers came to poke and prod. &quot;Ah.&quot; A noise was made when he found it. A small bump under Laika&#39;s skin.
+&quot;Here.&quot; The scalpel came down and teased over skin, then <em>press</em> and blossoms of blood bloomed over his skin. Press down, harder- he was so <em>careful</em> to avoid any veins.
+&quot;Don&#39;t struggle,&quot; his voice was metered, calm. &quot;I&#39;d hate to cut a vein and leave you-&quot;
+Suddenly, he wrenched <em>down</em> hard and quick, splitting Laika&#39;s arm. &quot;To bleed out.&quot;
+The device came out with some work, fingers working deftly at it. But it came, just as Regal wanted.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 01:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="511608726134980609" id="message-511608726134980609" title="Message sent: 12-Nov-18 01:30 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Stop- STOP-&quot; Laika yelled as Regal poked and prodded. The notion of a tracker being inside him all these years was didn&#39;t set in, not with harm that was about to occur. Heat gathered in Laika&#39;s head as he struggled. &quot;STOP!&quot;
+
+But no protests he mustered could stop the scapel from coming. Laika couldn&#39;t look away, his face was skewed in agony as it pushed into his skin. 
+
+&quot;GhAAH-!&quot; Laika yelped. Regal&#39;s words of warning were buried underneath it. The tearing of flesh came without delay, and was far worse than any knife. &quot;AAUHHH-!!&quot;
+
+He cried out, because he couldn&#39;t move. Tears were quick to bead and fall down Laika&#39;s cheeks. The pain brought convulsions in his legs. He could only stand because Regal held him there. It was a pain he could barely comprehend. 
+
+Laika&#39;s view was blurry as he looked to Regal&#39;s hand. A small device, no bigger than a die, covered in his blood. The tracker he had no knowledge of was real. The true last lines of being saved, extracted and in enemy hands.</span>
+
+                                <span class="chatlog__edited-timestamp" title="12-Nov-18 01:34 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">13-Nov-18 09:00 AM</span>
+
+            <div class="chatlog__message " data-message-id="511903137183956999" id="message-511903137183956999" title="Message sent: 13-Nov-18 09:00 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal tossed him to the ground- taking care to land him <em>on</em> his cut up arm. The tracker was crushed in his palm, and a breath of relief escaped him.
+&quot;Better.&quot; He said, then sneered, &quot;you have awful pain tolerance, <em>солдат.</em>&quot;
+He turned Laika over with his foot and then <em>leveled</em> it on his arm. Press.
+&quot;If you are in pain now, I&#39;m afraid you&#39;ll hardly last...And if you don&#39;t last very long...&quot; 
+A laugh.
+&quot;Then I&#39;ll have to turn my attention back to older toys. Understand?&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">13-Nov-18 05:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="512038535117799444" id="message-512038535117799444" title="Message sent: 13-Nov-18 05:58 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Nnh!&quot;
+
+Laika landed hard, and felt the sting of his palm grazing the concrete floor. It was nothing compared to the stabbing pain shooting up and down. Regal&#39;s words throbbed through him as he was rolled. His chest heaved to try and manage breath.
+
+His mouth snapped open at the press, but all that came out was the crackle of vocal chords frying. Laika kicked his legs again in protest, in hopes to get away. The threat of Enzan, Rockman, and Blues being visited again made him quickly grow still.
+
+Eyes looked up in understanding, though they were blurred with the tears of pain. If this meant they were <em>safe</em>, Laika would absolutely hold out.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">20-Nov-18 10:33 AM</span>
+
+            <div class="chatlog__message " data-message-id="514463377704353813" id="message-514463377704353813" title="Message sent: 20-Nov-18 10:33 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal inspected Laika as if he were a cut of meat at a butchery, then stepping over him he grabbed the soldier by his hair, and dragged him across the rough concrete floor. Flecks of dry blood would come up and cling to Laika&#39;d coat- who&#39;s blood it was, was an easy guess. He even <em>hummed,</em> some sick tune, as if he were taking out the trash. 
+Into the next room, it was clear surgical lights and a sterile table with metal clasps on each corner. Laika was tossed on top of it and made quick work of, spread out evenly across the table with the clasps done tight. 
+&quot;I&#39;ve done my research,&quot; Regal said as he paced away, &quot;On you, that is. On all of you. The net is a wonderful thing...But oh, it takes too.&quot;
+The sound of a manilla folder opening. &quot;You had a traumatic experience in your childhood. A fire, was it?&quot; 
+Something dangerous was on the edges of those words, something venomous waiting to strike.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">22-Nov-18 10:43 AM</span>
+
+            <div class="chatlog__message " data-message-id="515190652947136552" id="message-515190652947136552" title="Message sent: 22-Nov-18 10:43 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika could barely force a breath. The gripping and pulling made it feel like his hair would be ripped out in chunks. He dared not to resist such a dangerous hold. As they moved, it became obvious that he couldn&#39;t even if he wanted to. 
+
+So resistance to being tossed around and set into place was minimal. The light was blinding, and for a few moments Laika rolled his head with eyes clamped shut. He grimanced as Regal&#39;s voice kept on. 
+
+The mention of the fire, in this setting, was damning. Laika tried so hard to ignore it, but the lingering pain from the cut and pulling forced true emotions forward. Eyes shot open as he heaved a breath in. He was a minor then. Sharo kept their minors anonymous in the news. Not like that would keep Regal from what he wanted. Enzan&#39;s words of the threats given to him played out again.
+
+&quot;Ages- ago.&quot; Laika choked out. Why did he care enough to say something? &quot;Who cares.&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">23-Nov-18 02:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="515614418130698250" id="message-515614418130698250" title="Message sent: 23-Nov-18 02:47 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;I do.&quot; The folder snapped shut. The sound of it echoed in the room. Lights pulsed down on Laika, but aside from his halo there was only darkness. Regal paced this darkness, danced around the light.
+&quot;You see, I&#39;m very interested in trauma.&quot; There was a movement of objects, clatter of metal. Shift of paper.
+&quot;I hardly am able to...experiment with the facets of childhood trauma.&quot;
+Slosh of some liquid. The smell of chemicals in the air. 
+&quot;You are a necessary means to an end.&quot;  Laika&#39;s legs were doused in whatever chemical Regal had. The smell of it was intoxicating.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">23-Nov-18 07:11 PM</span>
+
+            <div class="chatlog__message " data-message-id="515680866182234114" id="message-515680866182234114" title="Message sent: 23-Nov-18 07:11 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The smell was strong enough to shove itself up Laika&#39;s nose. His eyes grew round, identifying it immediately with dread. Gasoline? Lifting his head to see was only met with searing pain from his arm.
+
+The scent was making things worse. Something in his system was making Laika nauseous with the smell. 
+
+&quot;Ggh...&quot; He grunted in response to all the pain. Regal&#39;s figure was starting to faze and warp. 
+
+Laika couldn&#39;t say anymore. He wouldn&#39;t say anymore. All this talk if trauma, gasoline and fire had him scared. It was obvious he was scared.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">24-Nov-18 02:23 AM</span>
+
+            <div class="chatlog__message " data-message-id="515789458700763147" id="message-515789458700763147" title="Message sent: 24-Nov-18 02:23 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;You look like him.&quot; Regal observed. &quot;Your eyes...They are full of fear.&quot;
+They all became afraid, eventually. Regal knew the exterior was so very easy to crack, to break. And they were all still scared children on the inside. 
+He stepped away. The sound of a match&#39;s <em>drag</em> and <em>strike</em> and <em>burn</em> was clear. 
+He stepped back over. 
+&quot;As you should be.&quot;
+The match was dropped.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Nov-18 09:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="515890620460564511" id="message-515890620460564511" title="Message sent: 24-Nov-18 09:05 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The sound was all that was needed. Laika bucked, trying to free himself of restraints. The damage didn&#39;t matter anymore. His slice arm felt like nothing even though it bled more and more. Struggle came back with the fire, doubling, tripling, as Regal got closer.
+
+Laika was in flight, pure terrified flight. 
+
+&quot;Nn- nno! No no no!&quot; He wimpered as he thrashed. Gone were the attempts to hide his irrational fear. Just the sight of the match forced him back to smoke-filled rooms, being dragged by his mother, hazy sights of walls flickering gold like the dreams he and his father shared. It all going away when that fire leap towards him and-
+
+&quot;NOO!&quot;
+
+Protests turned into blood curdling screams ripped from the Laika’s lungs. The match’s flame multiplied itself endlessly over his legs. He writhed as it burned, unable to help himself. The pain, the heat! It would only double as the flames ate up their given fuel, and sought out cloth and flesh.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">24-Nov-18 07:08 PM</span>
+
+            <div class="chatlog__message " data-message-id="516042383704588320" id="message-516042383704588320" title="Message sent: 24-Nov-18 07:08 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal did not react, but he relished in the fear. He let Laika burn a moment before spreading- very carefully- a dampening powder over his legs. Most of the rest of him was in tact, but what the fire had taken was already searing enough. 
+&quot;You see, soldier,&quot; he paced as he gathered up more gasoline. &quot;I really only desire Enzan. He is what interests me most. His father and I have...arrangements.&quot;
+A laugh. Regal reached out and straightened Laika&#39;s good arm. He dripped the gasoline down it slow, making sure the additional chemical burns <em>stung.</em>
+&quot;You are a pawn in my plans for him now. You will be so very integral to what I have in store...&quot;
+Drag, strike. 
+&quot;He will never be safe around you again.&quot;
+Drop, <em>burn.</em></span>
+
+                                <span class="chatlog__edited-timestamp" title="24-Nov-18 07:09 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Nov-18 08:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="516066023498055680" id="message-516066023498055680" title="Message sent: 24-Nov-18 08:42 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The screams stopped halfway through the burn. It took several seconds after the powder extinguished the flame for Laika to react again. He had already given up once the match has dropped, so to have cold air return was hard to believe.
+
+He didn&#39;t want to listen to Regal&#39;s words, but they were the only thing besides pain. There was so much pain from his arm and legs, yet somehow the shock dripping from Regal&#39;s lips  was distraction enough. Mentions of Enzan made it so.
+
+It was all so short lived. Laika gasped as more of the fuel was added. He had no words, what could he say? Anything or nothing, it would all be the same. Regal made it clear, he was useless as he was now.
+
+The fire showed again, and again Laika grew greatly upset. He snapped to, it triggering his fear to fully reignite.
+
+&quot;N-no! DON&#39;T!&quot; He screamed, he begged, in several different ways. Yet it came the same. Seering heat, now cutting straight into his skin. It took his voice as the pain went past what he could feel.</span>
+
+                                <span class="chatlog__edited-timestamp" title="25-Nov-18 11:33 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Dec-18 11:25 AM</span>
+
+            <div class="chatlog__message " data-message-id="521724240945348618" id="message-521724240945348618" title="Message sent: 10-Dec-18 11:25 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Again, Regal let it burn a moment before dampening it out. A mechanical hand creaked and it reached out, and gently brushed the hair from Laika&#39;s face, fingertips to his cheeks. It was a strange gesture- like father to son. 
+
+Or creation to monster. 
+
+&quot;I will take those pleas from your tongue soon enough,&quot; he said quietly, and then moved away again. Surely to gather up more gasoline and burn him, surely to continue this torture..
+
+Regal stood behind him, above his head and he craned his head back, both hands pressing into the pressure points there. Just to hurt, not to sedate. The cold yet burning liquid dripped across his neck and doused a bit of his hair. 
+
+&quot;Anything you&#39;d like to say?&quot; Regal asked. The question was said with some teasing nature- what could Laika really say to change the swing of fate? Nothing. And the soldier knew that.</span>
+
+                                <span class="chatlog__edited-timestamp" title="10-Dec-18 04:54 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Dec-18 04:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="521808177688477698" id="message-521808177688477698" title="Message sent: 10-Dec-18 04:59 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika whined as the fire died away. The pain and panic was so immense that his vision blurred. Tears raced down his face, sobbing without anyway to stop it. All his hardening done for torture like this crumbled over the flame. 
+
+His eyes found Regal&#39;s when the hand touched him. It was cold, all of it.  Laika&#39;s crying only doubled with the gesture.
+
+&quot;Pleaaase... no...&quot; Laika cried. &quot;No, no, no!&quot;
+
+He called out the whole time Regal stepped away. Pleads to stop it all continued well into his return. Laika&#39;s eyes shut when pressure pushed his chin up. He couldn&#39;t think to breathe anymore. Everything was too painful. 
+
+The small assaulted his nose, forcing him to jerk and try to get away. The clamps resisted him, kept him place as more burns were marked for creation. Laika sobbed harder and harder. There were no soldiers here.
+
+&quot;STOP THIS PLEASE! NO MORE!&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="10-Dec-18 05:00 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Dec-18 05:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="521809640682553384" id="message-521809640682553384" title="Message sent: 10-Dec-18 05:05 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal mumbled something in language unidentifiable, and his hands drew away. He felt a buzz in his palm and ignored it. He was working. The drag of the match dragged the world into slow motion and Laika with it, as he held it just over Laika&#39;s eyes.
+
+There were no soldiers here- and there would never walk another <em>again.</em>
+
+The match dropped, and Regal reveled in its bounce, and ignite.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Dec-18 05:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="521822031126462474" id="message-521822031126462474" title="Message sent: 10-Dec-18 05:54 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;NO--&quot;
+
+A blood curdling scream was ripped out of his throat, just one. The rest were fed to the flame, along with gasoline, tears, skin and hair. Laika&#39;s convulsions rattled the table, threatening it&#39;s integrity. 
+
+As the flames roared they started to slow. Laika couldn&#39;t see anything, feel anything. Soon he blacked out, unable to take it anymore.
+
+---
+
+Laika awoke to a god awful smell. His stomach lurched and he gagged, though nothing came up. Good thing too, for when he tried to sit up, he reminded himself exactly where he was. The pain helped to drive it home.
+
+&quot;Hh-!&quot; Laika shuddered. He wanted to scream, but just a breath brought about pangs of protests. &quot;HHhhh... nngh-&quot;
+
+None of it was a dream. All this dreadfulness was real. He was still alive, though he had obviously descented into hell. But was it worth it? If Enzan stayed safe... it was worth it.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Dec-18 12:24 PM</span>
+
+            <div class="chatlog__message " data-message-id="522101258673192962" id="message-522101258673192962" title="Message sent: 11-Dec-18 12:24 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The room had gone dimmer, darker. The surgical lights were facing away from Laika, and the sound of mechanical noise was becoming evident. 
+
+Regal sat at the far side of the room and watched Laika. &quot;Awake?&quot; He smiled, in that sickly way. &quot;I couldn&#39;t very well continue with you asleep. Perhaps you should have just played dead.&quot;
+He got up, and begun to walk over. He carried a strange device- it reflected the light, the chrome mechanics recently polished. The device rested on Regal&#39;s arm, and out from it produced a syringe which was placed very delicately into his vien. 
+&quot;In pain?&quot; He asked. &quot;Can you speak? I doubt it. If you can, your screaming was surely delightful.&quot;
+He held up the device in Laika&#39;s view. &quot;Do you know what this is? It&#39;s very special, you know. It would like to get to know you.&quot;
+Murky liquid sloshed around in a canister on the device. It resembled an insect, but uncomfortably large.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">11-Dec-18 03:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="522154964798275584" id="message-522154964798275584" title="Message sent: 11-Dec-18 03:57 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal&#39;s voice forced Laika to snap his head over to it. Eyes were round, full of fear. He was punished by a spike of pain in his neck, jabbing like a rod that was forcing him to turn back. He couldn&#39;t, he couldn&#39;t possibly think to. Instinct overruled it, he had to face his fear.
+
+&quot;H-aak--&quot; The sight of the contraption made his fried nerves crawl. It looked like a parasite, something conjured from the depths of the Undernet. Laika had no idea what it was.
+
+The threat Regal made just doubled down of Laika&#39;s fear. He trembled greatly, thrown straight back into panic and shock. The bug wasn&#39;t fire, but it looked painful in a different way. Those legs that sat above Regal&#39;s arm, they we&#39;re sharp. 
+
+&quot;Nn... No...&quot; Laika&#39;s voice was weak. It felt like the words were fire up his throat, burning.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">30-Dec-18 03:34 PM</span>
+
+            <div class="chatlog__message " data-message-id="529034527717457921" id="message-529034527717457921" title="Message sent: 30-Dec-18 03:34 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The legs of the device thrummed and it crawled down Regal&#39;s arm with a mechanical click and thwack. It dropped down onto Laika&#39;s chest, and the legs dug into his skin to prevent Laika from throwing it off.
+Regal reached out and brushed Laika&#39;s burned hair from his face. The smile on his face, everpresent. &quot;You will bring me what I want in due time...&quot; He hummed. &quot;All of my great creations must go through great pain to become stronger. Like Rockman before you, like all of them...The fire was only to break you-&quot; the bug began to crawl up to Laika, closer. &quot;Now it&#39;s time to shape you.&quot;
+The bug skittered over Laika&#39;s shoulder. 
+&quot;Any last words as Laika?&quot; Regal asked, and stepped away.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">30-Dec-18 05:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="529064190506434570" id="message-529064190506434570" title="Message sent: 30-Dec-18 05:32 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika lept against the restraints when the bug landed. His damaged body erupted in painful protest, forcing out a series of small yelps. It was all mixing together, the burns and new stabs. Laika couldn&#39;t tell what was causing the blood blossoming under the footsteps of the machine on his chest.
+
+Tears ran down into his hair, miraculously. The fires had spared a few. The saline stung, forcing flinches as it ran over fresh burns along his cheeks.
+
+&quot;Sto- ph...&quot; He sobbed weakly. Anything he could muster to say did nothing to represent running thoughts. 
+
+Even if Regal won, he wouldn&#39;t hold his word. Enzan wouldn&#39;t be safe, all of this was just another advance. Laika was saving no one, he was simply another victim. That failure ripped through him, like the fire and the mahine now parading over his shoulder.His tears kept falling, adding more pain, nothing eased. 
+
+&quot;M... ssh..orry- h-hh-&quot; His upset was just adding to it all. There was no escape.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">23-Jan-19 11:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="537851060866252802" id="message-537851060866252802" title="Message sent: 23-Jan-19 11:28 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Shame.&quot; 
+Ribbons of red wrapped around Laika&#39;s chest, encasing him. Regal watched with rapt attention as the bug wormed its way along his shoulder, searching for a suitable place to rest- ah, too much burned, it was growing difficult-
+A slip behind his neck. 
+&quot;You&#39;ve been relieved of your duties, soldier.&quot;
+A sickening <em>shhrk</em> as the needle plunged into the back of Laika&#39;s neck.
+<em>&quot;Goodnight.&quot;</em> 
+The doctor steped back, to watch. Some shuffle, pen and paper. <em>Click.</em> Was that a camera?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Jan-19 07:33 AM</span>
+
+            <div class="chatlog__message " data-message-id="537973174495739905" id="message-537973174495739905" title="Message sent: 24-Jan-19 07:33 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Hh! Ghah--! nNO-&quot; 
+
+Laika couldn&#39;t find any more protest than that, the needle silenced him before he could. The bug&#39;s thrashing along his back made his body quake. None of the movement was his own doing, just nerves misfiring as the bug took him over. His eyes just started blankly upward during the violation, unblinking, unresponsive.
+
+Soon it all stilled, the twitches and shudders. The body laid frozen as the bug settled in, snug and happy in it&#39;s new home. The sudden calm was errie, dark. It was only there because Laika was gone.
+
+From somewhere, a quiet roar of anguish came. It was compressed, fed through a speaker of the PET now without an owner. This whole time, Searchman had been forced to watch. Now he was beside himself, unable to comprehend why he could still see his operator, but not feel his presence.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">22-Feb-19 09:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="548505408487161873" id="message-548505408487161873" title="Message sent: 22-Feb-19 09:04 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Doctor Regal idly stared at the chill body. When would it wake again? He didn&#39;t know. When the devil came to take it, surely. His eyes were taken to the PET sitting on the desk, discarded. He wandered over and picked it up. 
+&quot;I suppose you&#39;re off duty now, as well.&quot; He mused, turning the device this way and that. He pointed it at his access point, and pressed the log in button. 
+&quot;To the trash with you. Where all the useless things go.&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="22-Feb-19 09:57 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Feb-19 08:15 AM</span>
+
+            <div class="chatlog__message " data-message-id="549217920757137410" id="message-549217920757137410" title="Message sent: 24-Feb-19 08:15 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Searchman had his hands pressed against his head. His eyes were wide, filled with shock. It felt like something had stabbed him straight through his core and kept twisting around to keep all the pain fresh. Fingers curled in to grip at his hair, to test his systems. His hearing receptors were misfiring, or maybe it was really true at what he was seeing. 
+
+Laika was too still. Too silent. There wasn&#39;t even the sound of his <em>breath.</em>
+
+The movement of the PET forced Searchman to lurch. His head whipped around, only to find evil. There was nothing to be said, nothing to do. He couldn&#39;t react when he was still in such <em>pain</em> and <em>disbelief</em>. 
+
+Regal&#39;s words didn&#39;t register, Searchman couldn&#39;t hear them. In the next second- he was gone. Searchman was forced out and away from everything he knew. He vanished without a trace.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-19 02:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="606004263797129216" id="message-606004263797129216" title="Message sent: 31-Jul-19 02:04 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The PET was discarded. Regal tossed it onto his desk, where it clattered loudly, breaking the suffocating silence of the place. Another moment Regal took to take stock in the situation. Perhaps it was the gravity of it all, or perhaps he was lost in the future. How long would it be until they were looking? Until his absence begun to sew suspicion?
+
+It didn&#39;t matter. It was time to work. 
+
+--
+
+&quot;Audio log,&quot; his voice was quiet. A small tone played to indicate it was recording. &quot;Subject has remained in a coma since first dose. Physical trauma served to disable the subject long enough to allow dose to work its way throughout its system. Moments of lucidity return when the dosage is upped, but only for a moment. It is too dangerous to continue upping the dosage for fear of overdosing the subject.&quot;
+
+A pause. 
+
+&quot;The subject seems to speak, occasionally. Nothing coherent, not yet. Hopefully...it will be ready for pulse testing soon.&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="09-Aug-19 02:35 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Aug-19 09:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="609559657455026176" id="message-609559657455026176" title="Message sent: 09-Aug-19 09:32 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The room where Laika&#39;s body laid was now spotless. The stench of disinfectant and isopropyl alcohol clung to the cold air, making it seem almost ethical in setup. Nothing was ethical about the charred mass lying there on the table. It&#39;s chest jutted upward in an abnormal fashion, telling of where the machine now burrowed. It&#39;s metallic limbs could be caught in the light if one looked at the right angle. 
+
+The room had been still for hours, but quite suddenly, a spark of life came. The body shuddered from head to toe, then, a deep breath stretched open the few wounds that had attempted to heal themselves. Fresh blood leaked unto the table as fingers curled. 
+
+&quot;Nnnmm...&quot; A groan leaked out of the body&#39;s mouth. Lips flinched in attempts to say more.
+
+Then, stillness again. Any muscle that had contracted during the display was now slack and still. It was like the body had never moved at all.</span>
+
+                                <span class="chatlog__edited-timestamp" title="09-Aug-19 09:33 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">21-Aug-19 12:29 AM</span>
+
+            <div class="chatlog__message " data-message-id="613590487823024128" id="message-613590487823024128" title="Message sent: 21-Aug-19 12:29 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal glanced from the log to watch. It was still recording. As if forgetting- or maybe not- he sighed and rose to tend to the blood without ending the log. 
+He dabbed at the wounds. They snaked up his body like he was a tree and lighting had struck him into two. Such a poor thing. Perhaps when the body made recovery would the ego resurface. 
+Alcohol was hastily dumped on the wound and dressing replaced. 
+&quot;You must be in such agony.&quot; He said somewhat disinterestedly. &quot;I hope you get over it soon. Research is slow...And I cannot hide you forever.&quot;
+His mechanical hand touched the subject&#39;s cheek, as if to caress. But, it was simply dabbing away at the blood pooling at the corners of its mouth.</span>
+
+                                <span class="chatlog__edited-timestamp" title="21-Aug-19 12:31 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">23-Aug-19 08:56 AM</span>
+
+            <div class="chatlog__message " data-message-id="614442882425946123" id="message-614442882425946123" title="Message sent: 23-Aug-19 08:56 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Nothing Regal did caused the body to react. Even after the sting of alcohol and dressing changes, it still laid lifeless. It was only when he touched it&#39;s cheek that it flinched. It&#39;s eyes went from bleary to focused. 
+
+In a blink, the body was up. An IV tube wrapped tight around Regal&#39;s neck. It was used to anchor the body as it pulled itself up, keeping him from reaching anything sharp. Blood ran new out onto the table, but it had little consequence. The body was surprisingly strong for a thing that should be dead. 
+
+Quivering lips worked themselves into a grin as they pulled tighter and tighter. The body labored to breathe, yet it almost sounded like a laugh. 
+
+&quot;<em>Thank</em> you...&quot; It whispered harshly. &quot;<em>Haaakase</em>.&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="23-Aug-19 08:59 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-19 11:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="649098400968474684" id="message-649098400968474684" title="Message sent: 26-Nov-19 11:05 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal didn&#39;t wheeze, didn&#39;t let on that it was choking him. His surprise was in the flick of his wrist, the door locking with electronic hum. This, a labyrinth of one, trapped within the Minotaur; the <em>monster.</em>
+<em>Doctor, Doctor, Hakase...</em> &quot;Is <em>доктор</em> not appropriate?&quot; 
+His voice was mildly strained, but otherwise he betrayed nothing. This, ohh, this was interesting. His wrist flicked again. Still recording. 
+&quot;Or is the one inside there that knew the native tongue dead now?&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="26-Nov-19 11:08 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">30-Nov-19 10:37 AM</span>
+
+            <div class="chatlog__message " data-message-id="650359805470310420" id="message-650359805470310420" title="Message sent: 30-Nov-19 10:37 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Heh... Heeh.&quot; 
+
+The body kept themselves anchored by Regal&#39;s neck. The IV line stretched and clouded as it&#39;s limits were tested. They had to keep readjusting to keep it in one piece. A messy kill. 
+
+&quot;Shouldn&#39;t worry-&quot; the body wheezed. &quot;You can find out- heeh... in a few seconds.&quot;
+
+The body shuddered as it&#39;s wounds tried to stop it. Burns and cuts cried out to keep still, but they went unheard. They kept up, watching Regal closely.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">24-Apr-20 04:35 PM</span>
+
+            <div class="chatlog__message " data-message-id="703343445670101052" id="message-703343445670101052" title="Message sent: 24-Apr-20 04:35 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal reached a hand up, slipping a mechanical finger between the cord and his neck. He grimaced at the pressure, but it bought him time. &quot;What do you gain by my death? Someone must heal you.&quot; He bargained. &quot;Someone has to keep you supplied. This facility is mine...You won&#39;t get far without me.&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-Apr-20 12:12 PM</span>
+
+            <div class="chatlog__message " data-message-id="704726857152593960" id="message-704726857152593960" title="Message sent: 28-Apr-20 12:12 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">A crackle emanated from the body during it&#39;s thoughts, it&#39;s voice creaking amidst the stresses it was forced to endure. The new dressings were already soaked red and a glint of light bounced off the machine gripping the body&#39;s back. It seemed disappointed in Regal&#39;s attempt to buy time. 
+
+&quot;This... body has plenty of skills, haah...&quot; It started to let it&#39;s fingers crawl up the line around Regal&#39;s neck. Fingers crusted in scabs dared to replace the IV line&#39;s hold. &quot;Heh-- you picked gooood. It knows- so much about <em>survival</em>.&quot; 
+
+&quot;So... so.&quot; A cough was forced up it&#39;s throat, splattering red onto Regal&#39;s back. Pressure from it&#39;s hands started around his neck. &quot;Either you-- let me use you. Or... or you lose it all.&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="28-Apr-20 12:18 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">27-May-20 01:12 PM</span>
+
+            <div class="chatlog__message " data-message-id="715251169731149854" id="message-715251169731149854" title="Message sent: 27-May-20 01:12 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal sighed out a shuttering breath. The red made him feel crawling across his back, but he gave nothing. &quot;F...Fine.&quot; He said, quietly. &quot;I cannot afford to lose it, after all...&quot;
+That, alone, was true. But, he could still go to plan. This would be just be another small snag. He pulled on the IV slightly, and it snapped. He didn&#39;t move beyond that. &quot;I have gifts for you. In my office. Can you walk?&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-May-20 01:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="715434657709293649" id="message-715434657709293649" title="Message sent: 28-May-20 01:21 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The body&#39;s hands snapped to grab Regal&#39;s shoulder to save itself from falling backwards. It&#39;s weapon fell into pieces on the ground, the liquid inside them dumping out onto the floor. It wheezed, lips curling into a smile. 
+
+&quot;Yes, <em>hakase</em>.&quot; It answered. It shifted it&#39;s weight, going from grabbing to pushing Regal away. The motion forced it off the table, to stand on it&#39;s burned soles. It teetered where it stood like a newborn animal. Pin-pricked eyes focused on Regal, wavering as the bug on it&#39;s back supplied another dose. Blood started to drip onto the floor and puddle around it&#39;s feet as they stared. The blood stuck in the body&#39;s hair, on any skin spared of burns. 
+
+Birth was a nasty business.
+
+&quot;Lead- lead the... way.&quot; It said.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Jun-20 12:14 PM</span>
+
+            <div class="chatlog__message " data-message-id="719947523728343180" id="message-719947523728343180" title="Message sent: 09-Jun-20 12:14 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Regal watched them, up and down. Making mental notes, about the blood, the eyes. Its birth was gruesome, but beautiful in its own way. By his own hands, Regal had created a real, tangible monster. Not something that only existed in the digital space. 
+He turned, gesturing for them to follow. He pulled open the heavy door, knowing it would be impossible for the body to do it in its state. &quot;My office is down the hall,&quot; he said, not turning back to assure the other was following him.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Jun-20 01:14 PM</span>
+
+            <div class="chatlog__message " data-message-id="719962517413167157" id="message-719962517413167157" title="Message sent: 09-Jun-20 01:14 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">It followed, letting it&#39;s hands graze the surfaces by the operating table. One of them always stuck out, and it kept near the walls to prevent any nasty falls. Following Regal left a trail of bloody footsteps. It wheezed in the effort it took to make it to the office. 
+
+Once the body arrived, however, it quieted down. It&#39;s eyes followed Regal&#39;s back and hands, watching him from the door frame. The office was clean like the rest of the space. At least, it was before the body decided to move. 
+
+&quot;You&#39;re- wondering, I bet.&quot; It choked out. &quot;&#39;What does it want...?&#39; If- not. I can tell you-&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="09-Jun-20 01:23 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Jun-20 01:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="719972682183213760" id="message-719972682183213760" title="Message sent: 09-Jun-20 01:54 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;I&#39;m not,&quot; Regal said bluntly. &quot;If I didn&#39;t understand your motives, I would not have used you.&quot; 
+He pushed the door open to his office, and the flood of computer light poured out. &quot;I have a PET ready for your use.&quot; He held up the device. A dark color, almost black. It was a Progress PET, a generation behind. As best as he could manage, admittedly. &quot;And a place for you to go.&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Jun-20 02:11 PM</span>
+
+            <div class="chatlog__message " data-message-id="719976944355115099" id="message-719976944355115099" title="Message sent: 09-Jun-20 02:11 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The body looked at the device, looking barely interested in it. It was the other pending gift that they reacted to. 
+
+&quot;A place.&quot; It repeated. &quot;Somewhere- were I can- heal up a bit. I hope.&quot; 
+
+It wandered closer, shifting it&#39;s weight so that only the balls of its feet appeared in blood on the linoleum. A hand stayed out, running along the tables and counters to keep steady. Soon Regal had a presence closer to him, keeping just outside his personal space. 
+
+&quot;Tell me.&quot; The body commanded. It was excited. &quot;Where- am I going?&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">15-Jun-20 11:44 AM</span>
+
+            <div class="chatlog__message " data-message-id="722114381630013442" id="message-722114381630013442" title="Message sent: 15-Jun-20 11:44 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;An island.&quot; Regal replied, simply. On the computer screen a map came up, showing a small island off the coast of Electopia. A shipping vessel was planning to make a stop there, marked with a red dot, and a line plotting its course. &quot;Yes, somewhere you can heal. You&#39;ll have supplies of...that, and food. There should be a medic on the boat I have planned for you. He can tend to your current situation.&quot; He was short, curt. Like he wasn&#39;t speaking to a person, but a thing, giving harsh instruction while he could. 
+&quot;Is that understood?&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">15-Jun-20 12:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="722120105135177840" id="message-722120105135177840" title="Message sent: 15-Jun-20 12:07 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Yes, <em>hakase</em>.&quot; 
+
+The body&#39;s dead eyes finally reflected light as they scanned over the map. It hovered a little closer to Regal to get a better look, leaning in from behind the man. Out of sight, it slipped something into it&#39;s fingers. A thin metallic blade, a scalpel, swiped when the body steadied itself on the way here. It rose up in the air, and the body&#39;s eyes flickered between in and the map in a final adjustment. 
+
+&quot;Thaank you...&quot; It breathed. &quot;You- have everything set up already--&quot; 
+
+The scalpel came down in a flash, plunging deep into Regal&#39;s back. It cut through fabric, skin, muscle and lung. The body staggered backwards after the stab, grinning. 
+
+&quot;Turns out- you&#39;re useless to me. So-- I&#39;ll be on my way...&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/fc81312fbd574217e8bfb2d941607546-7C6C2.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: rgb(52,152,219)">Hub</span>
+
+
+        <span class="chatlog__timestamp">15-Jun-20 08:31 PM</span>
+
+            <div class="chatlog__message " data-message-id="722246966939222086" id="message-722246966939222086" title="Message sent: 15-Jun-20 08:31 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Hhrk-&quot; The air was pushed from his lungs so fast, Regal didn&#39;t have a chance to react. His knees buckled, taking him to the ground. The only thing that kept him from tumbling completely down was his hold on the desk, which shuddered under the sudden weight. A moment&#39;s process, and he looked at the monster he had bred. 
+&quot;Bastard,&quot; he growled. &quot;No respect- hhrk- for what <em>created</em> you. Get, go then. You wretched <em>beast.</em> &quot;
+The damage was done. Regal could move from here without <em>it</em> under his thumb.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20in-absentia-%F0%9F%94%A5%20%5B505586238082777109%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">15-Jun-20 08:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="722253255396163604" id="message-722253255396163604" title="Message sent: 15-Jun-20 08:56 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The body mumbled quietly, it&#39;s grin becoming crooked and forced. In it&#39;s elation it held a grand shudder instead of a laugh. Pleasure quivered in it&#39;s eyes at the sight of the scalpel being forced deeper. It took a step forward to taunt. 
+
+&quot;I havee no- creator.&quot; It wheezed. &quot;I... <em>am</em> the creator-!&quot;
+
+A cough ripped through it&#39;s throat and forced it away. The body turned away from Regal, it&#39;s burned and bloodied hands marring up his desk space. The PET was taken, along with several other worldly goods. It&#39;s hands carried it all until a rain slicker hanging off the office door came into reach. Items were deposited into the pockets, and the body forced the article over it&#39;s wounds to hide them. It started to leave, but forced itself to revel in Regal painful state once more. 
+
+&quot;Thank you, <em>hakase</em>. Because of you... I-- will spread. To-- everythinngg.&quot; 
+
+The body bared it&#39;s teeth in a final grin, then disappeared from sight.</span>
+
+                                <span class="chatlog__edited-timestamp" title="15-Jun-20 08:56 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 56 message(s)</div>
+</div>
+
+</body>
+
+</html>
