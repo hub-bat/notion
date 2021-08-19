@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - deal_with_the_devil</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">deal_with_the_devil</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">01-Oct-18 07:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="496463406157660183" id="message-496463406157660183">
+                <div class="chatlog__content">
+                    <span class="markdown">The darkness of the hospital room contrasting with the moonlight of the windows cast shadows down each window, as silent footfalls rang not throughout the hallways. The blue accents of their ballroom coat almost glowed with their malicious intent.
+<em>I grow weary of this.</em>
+<em>Hush. It will be over soon.</em>
+The door was easily found and their hand slid over the cold, smooth handle. A pause was taken before the click of the lock was heard, and Leizer pushed their way into the room. A chill followed them and seeped into the room. A single eye glowed; bounced around the room like the heart monitor until it fell on their newest <strong>friend.</strong>
+&quot;Hello, Marcatto. Feeling any <em>better?</em> &quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">01-Oct-18 07:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="496468027810775041" id="message-496468027810775041">
+                <div class="chatlog__content">
+                    <span class="markdown">Marc sat up in bed, and folded his hands in his lap. He <em>was</em> feeling nearly good as new, aside from the newfound anxiety. He certainly didn&#39;t want to go <em>back</em> to being a screaming mess, without even the comfort of Enzan&#39;s arms...
+
+&quot;I am perfectly fine. Though I can&#39;t say the same for <em>you</em>. You&#39;re a suspect in what happened to me, and I&#39;m willing to testify.&quot; He reached for his PET.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">01-Oct-18 07:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="496470458774978562" id="message-496470458774978562">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Suspect?&quot; Leizer&#39;s teeth were shining in the dark when they grinned. &quot;Hardly. And you dare not reach for that PET, &#39;lest you miss out on the only way to get the object you want so dearly.&quot;
+Their hands closed behind their back. &quot;Of course, not a threat. Free to do as you like, <em>Marcatto.</em> &quot;
+Their voice <em>purred</em> his name, &quot;I only come to...make a deal, in the name of my absent benefactor.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">01-Oct-18 08:08 PM</span>
+
+            <div class="chatlog__message " data-message-id="496473456406429725" id="message-496473456406429725">
+                <div class="chatlog__content">
+                    <span class="markdown">Marc&#39;s head cocked to the side, and he let the PET be. 
+
+&quot;Only way? Hardly. I&#39;m doing fine in my... conquest.&quot; He grinned, &quot;though... if you think you can <em>expediate</em> the process.&quot; Then, he shrugged. &quot;I will hear you out Mr--?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">01-Oct-18 10:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="496514992607199232" id="message-496514992607199232">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;A monster&#39;s taken a hold of him.&quot; L&#233;izer&#39;s words were bitten with a snake&#39;s tongue, the way addicting drugs dolled themselves out into the bloodstream and numbed all. &quot;You&#39;ll hardly be able to get its horde the way you&#39;ve been going about it.&quot;
+&quot;Just L&#233;izer is fine.&quot; They advanced forward two steps, still far from his bed. &quot;We can&#39;t have an unequal exchange, here. I wonder what you have to offer.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">02-Oct-18 12:40 AM</span>
+
+            <div class="chatlog__message " data-message-id="496541886572527616" id="message-496541886572527616">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Hmm... you&#39;re not wrong there.&quot; Marc leaned in, watching L&#233;izer carefully. &quot;That broken man-- he&#39;s hardly <em>really</em> broken. He&#39;s a threat, and he has been for a long time.&quot; 
+
+&quot;We can speak perfectly well from there, L&#233;izer. Stay put please.&quot; He put up his hand calmly, but as if displaying a royal decree. 
+
+&quot;Well... I&#39;m sure you didn&#39;t come here to only offer. There has to be something you want above everything I could give you. It&#39;s such a <em>long</em> list.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">04-Oct-18 08:42 AM</span>
+
+            <div class="chatlog__message " data-message-id="497387990570500096" id="message-497387990570500096">
+                <div class="chatlog__content">
+                    <span class="markdown">L&#233;izer did not stay put. Not until they took another, defiant step forward. Their eye sharpened. They wanted to grab his PET and see what had become of the navi inside, given his...winnings. 
+<em>They&#39;ve already been here, haven&#39;t they? There&#39;s nothing to find.</em>
+&quot;Your loyalty.&quot; They finally said. &quot;I will give you what you desire. In exchange...You will follow my commands, do as I want you to. Give me information.&quot;
+Their arms folded over their chest. &quot;A simple task, really.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">04-Oct-18 09:59 AM</span>
+
+            <div class="chatlog__message " data-message-id="497407383908384769" id="message-497407383908384769">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;That doesn&#39;t seem very concrete.&quot; Marc scooped up his PET and set it in his lap. He wasn&#39;t having all the spooky behavior. There was no alert given out yet; no emergency calls put out. 
+
+&quot;I cannot provide you with an emotion. Nor am I about to make a deal with the devil for my eternal soul.&quot; It was spoken like a joke, but he meant it. &quot;Or, maybe I will. It depends what I&#39;m getting myself into. Clear terms.&quot;
+
+&quot;Giving information is one thing. That I can agree to.&quot; His fingers tapped his lap. He felt the danger eminating from this being. The temptation was too high. &quot;But servitude for however long you might need it? No.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Oct-18 02:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="499286908522987520" id="message-499286908522987520">
+                <div class="chatlog__content">
+                    <span class="markdown">Leizer laughed a little. &quot;My apologizes. This is not my first language.&quot; They made an apologetic gesture. &quot;I mean more, as...Ahh, a business deal. I require intel on IPC, and...the youngest Ijuuin, most of all. You give me the information I ask for,&quot; their fingers splayed out, tips touching each other. &quot;Then I&#39;ll give you what you desire.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">09-Oct-18 07:23 PM</span>
+
+            <div class="chatlog__message " data-message-id="499361208571265034" id="message-499361208571265034">
+                <div class="chatlog__content">
+                    <span class="markdown">Marc tapped his fingers. He didn&#39;t believe the translation excuse. He could feel the danger emanating from this person. He wished he could attribute it to his weakened state, but the feeling was not easily dismissed. 
+
+&quot;I know everything about Enzan.&quot; a brag, he couldn&#39;t resist blurting it out. 
+
+&quot;How do you think you can help me keep him?&quot; His head cocked to the side, greed and temptation overriding his fear.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 12:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="503246710999351307" id="message-503246710999351307">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;If I tell you,&quot; Leizer smiled in that way that was more creepy than kind, &quot;Then you&#39;ll have no reason to work with me. Not that I do not trust you...But there must be some protections in place. I have my ways, <em>we&#39;ll</em> put it like that.&quot;
+&quot;Oh, so does that mean you know what&#39;s <em>happened</em> to Enzan? Why he clings to that <em>monster?</em>&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 12:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="503250132536393738" id="message-503250132536393738">
+                <div class="chatlog__content">
+                    <span class="markdown">Marcatto nodded. He was familiar with the setup, and should have anticipated it. &quot;Fair enough.&quot; He could tell L&#233;izer had the <em>power</em> to deliver at least. 
+
+His eyes narrowed. 
+
+&quot;The monster is preying on his naivete. Enzan is too kind, just because they have a shared past. Just because they <em>worked</em> together and <em>fought</em> together in Enzan&#39;s other job, and got a little <em>banged up together</em>, it thinks it is <em>entitled to him!&quot;</em> Marc&#39;s voice rose, until he was shaking in his hospital bed. The heart moniter spiked. 
+
+He cleared his throat. &quot;That, I do know. Specifics have been hard to... glean.&quot; Declassify, more like.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 01:03 PM</span>
+
+            <div class="chatlog__message " data-message-id="503251854843707398" id="message-503251854843707398">
+                <div class="chatlog__content">
+                    <span class="markdown">A sore spot. <em>Use it. You know what the monster is like.</em>
+&quot;It&#39;s not so simple I&#39;m afraid...&quot; Leizer shook their head, &quot;That monster has a way of...deception. Enzan still thinks it&#39;s the partner he once had...But I&#39;m afraid I know better.&quot; 
+Their grin, hands folding behind their back. &quot;So, do we have a deal?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 01:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="503252641363656706" id="message-503252641363656706">
+                <div class="chatlog__content">
+                    <span class="markdown">Marcatto <em>knew</em> it. There was something horribly off about that monster, and he had to save Enzan from it. His eyes widened with <em>hunger</em>. 
+
+&quot;We do.&quot; Marc offered his right hand, leaning forward off the bed in his eagerness. &quot;Thank you for doing business with me.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">21-Oct-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="503417828406198273" id="message-503417828406198273">
+                <div class="chatlog__content">
+                    <span class="markdown">L&#232;izer&#39;s smile thinned, and they reached out and met Marc&#39;s hand. Their grip was firm- and evidently, mechanical.
+&quot;I look forward to what we will accomplish.&quot;
+<em>As do I.</em></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 15 message(s)</div>
+</div>
+
+</body>
+</html>

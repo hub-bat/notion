@@ -1,0 +1,2337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - purgatory</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">purgatory</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 02:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="498565872248553473" id="message-498565872248553473">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;It&#39;s going to be a long night.&quot; But then, when wasn&#39;t it? Wasn&#39;t it <em>absolutely</em> in character for them to pile up responsibilities until they were half out of their minds? 
+
+Enzan wheeled out his chair and folded up his cheaters. Two cups of coffee were already sitting empty on his desk, and only Enzan knew how many times he had refilled. 
+
+&quot;Sit down. Show me.&quot; He was all business. His old coldness crept up whenever Firebird&#39;s business came into the house. A shield, to defend against the hints of lingering darkness that kept worming its way out of the ground.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 02:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="498568748634996736" id="message-498568748634996736">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika ran his fingers through his hair, gripping at the scalp as he stared at the ground. Enzan&#39;s voice snapped him out of it, forcing him to come further into the apartment and settle in. His street persona was shed, all except for the blacked out PET that Firebird used. It was set down on the desk as he took a seat.
+
+God, this felt too close to a time when they were younger. He never thought they&#39;d have this experience again.
+
+A button was pressed on the PET, and a holographic screen showed the prize. Cosmoman, deep in stasis.
+
+&quot;{It was either this or his deletion.}&quot; Laika signed. &quot;{He acknowledged himself that this would be more useful.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 03:04 PM</span>
+
+            <div class="chatlog__message " data-message-id="498571246204878850" id="message-498571246204878850">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s nose crinkled at the sight. Disgusting. Layers of memory trailed along with this foul form, all coated in fear and strife. Nebula, Duo, and now all their lives were wrapped up in. Always this navi, and Regal. 
+
+Seeing Cosmoman helpless before them was a strange feeling. Could they truely have such an asset? Even when they had captured Desertman in the Nebula crisis, Regal had managed to spin things for the worse. 
+
+&quot;Feels like a trap.&quot; He folded his hands into his lap. &quot;We should comb the data for what Regal might have added. His synchro rates have to be artificially created.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 03:13 PM</span>
+
+            <div class="chatlog__message " data-message-id="498573608315256833" id="message-498573608315256833">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{This PET refuses any location requests automatically. To anyone else, this darkloid vanished somewhere in downtown.}&quot;
+
+Still, Laika nodded in agreement. He reached out and grabbed the stylus out of the PET. Buttons were pressed simultaneously as he hit options on the screen. It went black as code started to filter in.
+
+As it compiled, Laika&#39;s hands rose again. There wasn&#39;t a spot to tack in a quiet comment to the other Enzan. It wasn&#39;t a feeling he liked, especially when they were at <em>home</em>. This should&#39;ve been taken elsewhere, in hindsight. 
+
+&quot;{I don&#39;t like it. Tried looking at it on sight but some of the lines just didn&#39;t make sense. They seemed redundant or just... gibberish.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 03:22 PM</span>
+
+            <div class="chatlog__message " data-message-id="498575815643234324" id="message-498575815643234324">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Alien.&quot; Enzan corrected, &quot;I suspected as much. Blues learned about him. Back. Then.&quot; It didn&#39;t feel so painful, because it was so long ago now, but the words still came out as if through a word processor. 
+
+He leaned in to examine how the PET dealt with displaying foreign text and language. 
+
+&quot;There has to be something he left. That damned man can&#39;t keep his fingers out of anything.&quot; Enzan would know. Clearing Blues and Rockman&#39;s coding took ages. &quot;Search just for something common. Anything in human language or pictures.&quot; 
+
+He reached up, tender and suddenly overwhelmed with curiosity. When Cosmoman&#39;s body wasn&#39;t visibly, he could almost pretend it was a classroom lesson. Something new to learn; Doctor Hikari would faint at the prospect. All this data, never <em>truely</em> seen by current scientists. They would have to keep records of all of it.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 03:48 PM</span>
+
+            <div class="chatlog__message " data-message-id="498582496795951104" id="message-498582496795951104">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{Could it be that easy?}&quot;
+
+Just find the familiar things. Even if that&#39;s all they had to do, there was so much code that took up a navi. Darkloid or not, this could easily be a multi-day venture. He knew from his last go about combing through code. And that was all understood, for the most part.
+
+He watched Enzan&#39;s hand, distracted by the small change. Could it be that easy...?
+
+Suddenly something caught his eye. Laika pointed out as it scrolled. Sudden Kinglish in the sea of alien text. There was tampering like they expected.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 03:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="498583992501534731" id="message-498583992501534731">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Maybe with a team of liguists and a year or two we could parce together something about the rest of it. But.&quot; He stopped and read through the Kinglish. &quot;Clearly what we need will be hamfisted in. Even if he decoded all this... Cosmoman is under the impression he couldn&#39;t use it well.&quot; Though, Regal could have coded that thought in. The idea made Enzan&#39;s head spin.
+
+Enzan read through it as quickly as he could. His Kinglish was rusty. 
+
+&quot;I don&#39;t think this is important. A distraction to make this more of a haystack. Maybe a test to see his programming work. Let&#39;s save it in case.&quot; He made the PET tag the spot and moved on. 
+
+&quot;You know what they say about haystacks. Burn the hay to find the needle.&quot; The saying was butchered bitterly.</span>
+
+                        <span class="chatlog__edited-timestamp" title="07-Oct-18 04:04 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 04:18 PM</span>
+
+            <div class="chatlog__message " data-message-id="498589909532147733" id="message-498589909532147733">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{Comprehension and writing are two entirely different skills. You could excel at one and be completely daft at the other.}&quot;
+
+Laika winced at the rest of Enzan&#39;s words. That was a personal jab, he knew it. It was well deserved though. He had done this to Enzan too many times.
+
+He paused the scroll, and signaled Enzan to look over.
+
+&quot;{We need to split this up. It&#39;ll go faster that way. I can&#39;t read Kinglish fully, but I can spot it.}&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="07-Oct-18 04:37 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 04:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="498592319499403264" id="message-498592319499403264">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Fine.&quot; Enzan reached up, opening up duel screens and getting them situated. He paused, pensive for a second as weight settled in his chest over what he&#39;d said. Stupid.
+
+&quot;Here.&quot; He flipped his own screen and rolled around so they were much closer. Maybe he could make a small repair. This wasn&#39;t Laika&#39;s fault-- they had to fully take care of this before it escalated again. &quot;Just tag everything for now unless it seems very important.&quot; 
+
+Enzan&#39;s arm came up and around Laika&#39;s shoulders. No apology, but this was as close as he could come without a choke. He set his side of the data on a quick scroll so he could lean on Laika and comfortably watch.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 05:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="498601676979044362" id="message-498601676979044362">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika stayed quiet during the change. The proximity made this more comfortable, despite the fact that Enzan&#39;s bite could be felt. He didn&#39;t want to be upset, just like how Laika didn&#39;t want to have taken Cosmoman in the first place. It was all nessecary evils.
+
+The knowledge gained from this was far better than simply deleting an eyesore.
+
+After Enzan settled, Laika reached back and grasped the fingers lingering there. They could do this. This was nothing.
+
+&quot;I&#39;ll start- from the bottom. Meet you halfway.&quot; He whispered.</span>
+
+                        <span class="chatlog__edited-timestamp" title="07-Oct-18 05:09 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 05:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="498606974976655380" id="message-498606974976655380">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan squeezed Laika&#39;s hand and nodded. &quot;Easy.&quot; He was already scrolling through, and reached out twice to mark off spots of interest. 
+
+About a quarter of the way through his half, his eyes were starting to burn. He powered through like he had many times before, but it only got worse. About halfway through, he nodded off. 
+
+He jerked himself awake and sat up. A short clearing of the throat broke the silence, and he reached to pause his side&#39;s scrolling.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 06:03 PM</span>
+
+            <div class="chatlog__message " data-message-id="498616425905127425" id="message-498616425905127425">
+                <div class="chatlog__content">
+                    <span class="markdown">The process was mind numbing after just a few minutes. Laika kept tapping away, his section having whole sections of code added in Kinglish. He didn&#39;t have the energy to read them now, that would be after this tight ball of anxiety he had growing was settled.
+
+The scroll was paused when Laika felt Enzan jolt. Laika looked away, his eyes relishing the break.
+
+&quot;{There&#39;s no way we can comb through it all tonight.}&quot; Laika gestured lowly. &quot;{It&#39;s isolated, completely. It&#39;ll be exactly how we left it.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 07:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="498644491234967564" id="message-498644491234967564">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan nodded and stretched out his limbs.
+
+&quot;We can discuss over dinner. Do some more before bed, and resume tomorrow.&quot; Enzan wasn&#39;t going to put this down. He stood up and offered to help Laika along with him. 
+
+&quot;You&#39;ve done a good job. You&#39;re working hard.&quot; he suddenly felt the weight of ignoring the new knowledge of Regal&#39;s freedom. Like there should have been some fanfare or greater drama to the nausea floating around.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 09:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="498660870205865984" id="message-498660870205865984">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika failed to find sincerity in those praises. He stood up and nodded along, but failed to emote. Enzan was still shut down, and he was too. They had to be. It was safer, just like back then. They had both been shoved back into old habits because of this development.
+
+It hurt. It hurt like hell. Not because of what he was doing to himself, but how they kept speaking to each other.
+
+&quot;{Am I?}&quot; Laika asked. He paused this waved his hands. A request to ignore it. &quot;{What should we get for dinner? I&#39;m not all that hungry.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Oct-18 10:18 PM</span>
+
+            <div class="chatlog__message " data-message-id="498680474483425301" id="message-498680474483425301">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan hated this. He ignored the self-deprication as requested, but it made him feel more sick. As much as he wished he meant his words, maybe it was as empty as Laika seemed to think. 
+
+&quot;I don&#39;t know. I&#39;m not either. Blues can take care of it.&quot; He sighed, listless. Cold was creeping into his chest like it always did when they were distant. 
+
+Enzan felt the weight of responsibility fall to him. He was the one with the hangups about what Laika was doing, so <em>he</em> had to be active in finding a way to have less of them.
+
+&quot;...Laika,&quot; his eyebrows creased. &quot;I should bring all this in to HeadQuarters. Cosmoman... it&#39;s different than Countershade. I don&#39;t know that we can-- do this alone.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 09:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="498847637794062338" id="message-498847637794062338">
+                <div class="chatlog__content">
+                    <span class="markdown">The floor was like pond ice, and Laika felt like any step would send him falling through. He cautiously made his way to the couch, hoping Enzan would follow. Distance from their work was needed now.
+
+&quot;{No.}&quot; Laika couldn&#39;t catch his hand before it moved. A sudden flare of heat came up from his chest. His breath held.
+
+He couldn&#39;t loose this power, what little it was. Cosmoman was a <em>key</em> to unlocking their path to true peace. A time and place were Regal was truly gone.
+
+&quot;{If we hand him over, we lose.}&quot; Laika didn&#39;t choose his words well. He spoke straight from the flames stoking his heart. &quot;{They&#39;ll drag their feet and keep us out if it. You know that. They&#39;re already trying to be hands off with Firebird. They have never received any sort of intelligence back from all that information sold.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 02:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="498932494390001665" id="message-498932494390001665">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan watched him, and his expression fell farther with every word. 
+
+&quot;... and I thought I was jaded.&quot; He didn&#39;t sit down. He stood in front of Laika and began to pace. He took away Laika&#39;s voice for a momemt, not looking. Not until he had gathered his thoughts. 
+
+&quot;Every time we have beaten him before. It was as a team. It was by the book. Whenever we are caught alone, he does more damage to us.&quot; He finally looked back at him, pain etched from his eyebrows to chin. &quot;What am I supposed to do if you die?&quot; 
+
+&quot;You knew they couldn&#39;t give Firebird anything back when you started this.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 04:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="498949643535908864" id="message-498949643535908864">
+                <div class="chatlog__content">
+                    <span class="markdown">The statement came as a surprise. Did Enzan truly say that? Laika looked up, expression incredulous. Jaded? Is that was he thought? Did he seriously think Laika <em>enjoyed</em> these dives into the dark?
+
+&quot;{Cosmoman won&#39;t cooperate then. He&#39;s made a deal with us. Just us.}&quot; Laika argued. &quot;{We can still do this together.}&quot;
+
+He sighed, audibly. &quot;{I understand... I know. We can tell them, that I have no problem with. Just, <em>please.</em> I&#39;m not about to sit by and let them control this. That&#39;s what he wants. Cosmoman has to stay.}&quot;
+
+The tone and statements bugged him deeply though. It stirred anger, but Laika tried to keep that at bay. Surely Enzan realized that this was eating away at his security too! All this news had him on edge, constantly looking over his shoulder.</span>
+
+                        <span class="chatlog__edited-timestamp" title="08-Oct-18 04:16 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 04:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="498962593659092993" id="message-498962593659092993">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Just. We can keep Cosmoman for now. Fine. He made a deal with you. Okay.&quot; He waved his hand, feeling the mistakes spilling out of him like he was ten years younger. He felt the time slip by, making it impossible to fix. &quot;But I can&#39;t-- we need people in our lane. As many as possible. I&#39;m so--&quot; 
+
+He gritted his teeth, and felt the pain of tears automatically blocked off. 
+
+&quot;I <em>hate</em> this I&#39;m sorry I&#39;m still so hung up on this I <em>trust</em> you I do--&quot; he looked to the ceiling briefly. Some days, it felt like Laika was more put together than <em>him</em> with his systems and networking to take action. Enzan was left behind in the dust, pushing papers. 
+
+&quot;They don&#39;t have to control us. Just. Regulation...&quot; His hands dropped. It sounded so naive once he said it. He needed to believe in something though. Trusting at least a few of his coworkers after <em>everything</em> they had been through kept him sane. 
+
+There was a gentle knock at the wall between the kitchen and the sitting room. Blues stood holding a small pan of pot-pie.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 05:51 PM</span>
+
+            <div class="chatlog__message " data-message-id="498975628004032533" id="message-498975628004032533">
+                <div class="chatlog__content">
+                    <span class="markdown">The hiccups and staggered words were wearing quick on Laika&#39;s cover. He started to mirror Enzan&#39;s faces, allowing the stress of their situation to crack through the surface. Laika had been trying so hard to wait until <em>after</em>, like a good <em>soldier</em>. But he wasn&#39;t that anymore, and the reminder was like a dagger through the heart.
+
+His head hung. Just as he tried to say more on the matter, Blues knocked them out of focus.
+
+Food. Laika stared at the offered dish, then let his eyes wandered back to Enzan. They were done. Laika stood up, and turned to go to the kitchen.
+
+&quot;{We need to eat. Rest.}&quot; He signed. &quot;{I can&#39;t work anymore. Not today. It&#39;s been a lot.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 06:03 PM</span>
+
+            <div class="chatlog__message " data-message-id="498978783907414036" id="message-498978783907414036">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s shoulders fell. 
+
+&quot;Okay.&quot; 
+
+He didn&#39;t feel like that resolved it. He didn&#39;t want the last word. He didn&#39;t want to be the loud, irrational one because that would just <em>prove</em> he wasn&#39;t a leader anymore. 
+
+&quot;Too much.&quot; he finally agreed, and walked to loop his arm around the small of Laika&#39;s back. &quot;I&#39;m sorry I raised my voice.&quot; 
+
+Blues set the table, feeling very out of place while wearing Enzan&#39;s pink apron. &quot;If you need anything more sirs, let me know.&quot; 
+
+&quot;And if I may add. I trust you both.&quot; he reached up and patted both of their heads. &quot;Sleep early tonight. Please.&quot; 
+
+Enzan glanced at him, trying for a pointed glare but just looking annoyed.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 07:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="498993040547905546" id="message-498993040547905546">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika returned the touch readily, thankful for it and the return to calm. It wasn&#39;t steady, but it was better than the threat they just left behind. Anything was better than them being against each other.
+
+The pat helped to diffuse the situation further, though Laika blinked at the words Enzan said.
+
+&quot;{You&#39;ll be sleeping too...}&quot; He signed. &quot;{I was... kinda hoping we could talk more then.}&quot;
+
+He didn&#39;t like eating while things were unsteady, let alone try to sleep. Laika sat down at the table anyways, and looked down. Blues had done good, despite their bickering in the background.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 08:08 PM</span>
+
+            <div class="chatlog__message " data-message-id="499010254915371008" id="message-499010254915371008">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;We can.&quot; Enzan nodded. He felt exhausted at the idea of sleep. It was tempting. His determination to finish what they&#39;d started might take over. The night was yet to be determined. 
+
+He sat down as well, and picked up his fork. 
+
+Blues left them, saving the copyroid&#39;s energy for later if they needed it. 
+
+The pie was just the right tempurature and prepared the ameroupian way. Just how Enzan liked it. He ate slowly, saying nothing.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Oct-18 08:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="499018830966685697" id="message-499018830966685697">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika ate along side him, quiet. He couldn&#39;t think of anything to say, other than to compliment the chef that wasn&#39;t present. The silence was probably for the best anyways, despite being a little oppressive. 
+
+When he was done, Laika rose to take his plate to the kitchen sink. He looked to Enzan, to try and gauge how much he had left. 
+
+He wasn&#39;t sure, so he stuck out his hand. An offer to take the plate up for him.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">09-Oct-18 06:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="499342226074370073" id="message-499342226074370073">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan took a final bite and handed off his pecked-at-plate. He at least had the decency to look apologetic. 
+
+He stood up, intending to help somehow-- even though he was sure Blues would pick up the job of cleaning dishes. 
+
+He lingered awkwardly in the doorway leading to their bedroom, waiting for Laika to take initiative.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Oct-18 06:38 PM</span>
+
+            <div class="chatlog__message " data-message-id="499349913986007040" id="message-499349913986007040">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika took it to the sink, giving no hint at his usual pet peeve. The waste was taken care of, and the plates were put down to be washed at another time. He wouldn&#39;t be so lazy on a usual night.
+
+Seeing Enzan near the bedroom was a good sight. On his way over, he stopped by the desk. The black PET screens shut off, and locked. It took less than a second, and Laika was soon standing in the door with his partner.
+
+&quot;It was- enough?&quot; Laika mumbled. He walked in to sit on the edge of the bed. Enzan was welcomed, of course.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 02:23 AM</span>
+
+            <div class="chatlog__message " data-message-id="499467008916717578" id="message-499467008916717578">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Yeah. Yeah I ate enough. Thanks. Did you?&quot; He sat down beside Laika and wrapped his arm around him. Enzan was layed low. That level of upset and emotional control on top of it was exhausting. Ideas of getting up after settling Laika were tossed aside-- asking for the PET code would be too much right now.
+
+Enzan leaned against Laika, trying to convey his care and that he was on his <em>side</em>. 
+
+He was just so fucking scared. 
+
+He wiggled his socks off, and stared down at his feet. He didn&#39;t want to talk more, but they had to. Maybe if Laika layed out more of a plan, he would feel better.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 05:54 AM</span>
+
+            <div class="chatlog__message " data-message-id="499519974692618250" id="message-499519974692618250">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika nodded. He had ate his portion, though the later half of it was forced. It was enough to keep hunger from being a distraction.
+
+He sighed, took up Enzan&#39;s other hand, then fell. They were caught by comfort, though a grand shudder hit Laika soon after. He was letting go of an exhausting control.
+
+&quot;I-m sorry.&quot; He whispered. A turn to face Enzan revealed true expression. Pain.
+
+&quot;Hi-s control will be heav-ier than Countershade&#39;s, I promise.&quot; Laika explained in a broken voice. His hands held Enzan&#39;s tightly. &quot;He won&#39;t come out of stasis unless we-re absolutely sure he&#39;s been severed.&quot;
+
+&quot;Just-- I&#39;m sorry- everythin-g seemed to be calmer recently...&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="10-Oct-18 06:24 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 12:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="499616406443261981" id="message-499616406443261981">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan brought Laika&#39;s hand to his cheek while he spoke. He felt sorrow and fear still careening inside him, but he could keep it together for Laika&#39;s sake now. 
+
+&quot;...Not your fault. It&#39;s really important we figure this stuff out.&quot; it was horrifying, how close he had gotten again. Enzan felt dirty looking back on the memory of it. 
+
+&quot;You&#39;ve been doing so well. Not your fault we never get-- a break.&quot; his head hung a little. &quot;I&#39;ll-- use Scilabs resources to investigate all the ways to stop what he&#39;s doing through his navis. We&#39;ll only tell enough to have everyone on high alert. No evidence given up.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 05:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="499692833717092393" id="message-499692833717092393">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika nodded along despite his shuddering breath. Everything from the day was suddenly coming down on him. From Cosmoman being discover to learning of Regal&#39;s true fate, to making a deal and taking the darkloid in... Laika&#39;s face was red as he rolled to his back.
+
+Breathe, he had to breathe. Why did it all have to hit <em>now</em>? Enzan didn&#39;t need this!
+
+&quot;Should you tell NetPolice or- should Firebird?&quot; he asked on the whisps of breathe that he could manage. He cherished the touch, any touch Enzan could offer. &quot;They still do not- realize who they are- They&#39;ll ask how you know.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 05:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="499699899882012693" id="message-499699899882012693">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan breathed slowly, exaggerated, to help guide Laika. He laid back with him, and draped his free arm over Laika&#39;s stomach. His hand rose and fell with Laika&#39;s breathing. 
+
+&quot;I guess, Firebird. That makes sense.&quot; His fingers curled into Laika&#39;s shirt. The shaking and sobs were starting to reverberate into his body. He&#39;d hoped exhaustion from his previous outburst would keep him calm.
+
+&quot;For now, let&#39;s concentrate on our security, and telling them. Anything else we can put on hold.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="10-Oct-18 05:49 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 06:11 PM</span>
+
+            <div class="chatlog__message " data-message-id="499705643008000000" id="message-499705643008000000">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;They will do it then- tomorrow.&quot;
+
+Tomorrow night, or right in the afternoon. Manabe or Pen were easy to catch around that time. Easy to pass information off to. Kifune was lenient with payments too, though that wasn&#39;t a concern this time.
+
+Laika closed his eyes tight and <em>truly</em> focused on breathing. Back to the calm he had before, he begged. It wasn&#39;t coming, even after minutes of struggling to breathe. There was something more on his chest, the heaviest of all the issues.
+
+&quot;Enzan...&quot; Laika whispered. He opened his eyes to find his partner&#39;s. &quot;I- I- had hoped he was gone. That he was rotting. I&#39;m- I want to make sure of it this time. Scared--of how far- I am willing to go-&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 06:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="499709917112958986" id="message-499709917112958986">
+                <div class="chatlog__content">
+                    <span class="markdown">Clawed, metal fingers clasped around Enzan&#39;s ribcage. His breathing became restricted until he was frozen in time. 
+
+Enzan blinked back the memory, clenching his teeth. 
+
+&quot;I thought he was dead too. He should be.&quot; Enzan curled closer. This was <em>Laika</em> they were safe. This was a normal thing to think. &quot;You-- don&#39;t have to take that on yourself.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 06:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="499716042462068736" id="message-499716042462068736">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I don-t. I don&#39;t.&quot;
+
+Laika repeated the affirmation. He failed to say anything more. The fragility of his throat wouldn&#39;t allow it. It begged him to also stop and breathe.
+
+But the voiced thought felt like a weight on his shoulders. It was scary to admit something so grave, especially given their past experiences with his body wanting blood.
+
+Laika tugged at Enzan, to bid him even closer. He nuzzled, tried to, as he breathed. A closed fist ran across his chest. Apologizes circled over and over.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 08:02 PM</span>
+
+            <div class="chatlog__message " data-message-id="499733522580373504" id="message-499733522580373504">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Thank you for telling me.&quot; Enzan&#39;s voice took on a calm quality. As much as it hurt him, Laika being upset was validating of their existence. He didn&#39;t feel afraid of Laika. 
+
+&quot;Breath. Keep it up. Keep going slow.&quot; He turned to face Laika and wrap both arms around him. 
+
+He hated that he wasn&#39;t surprised. The news of Regal still being after them was scary, but not surprising. Enzan knew he would never feel free of him. Not even if he died. His creations were still there; they didn&#39;t know how many he had. 
+
+&quot;We&#39;ll figure this out together. Whatever happens, I won&#39;t leave your side.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 08:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="499741950442995722" id="message-499741950442995722">
+                <div class="chatlog__content">
+                    <span class="markdown">A gulp of air managed to shove itself down into Laika&#39;s lungs. The sigh was pulled out, forcefully, as he tried to slow himself down. Too many times they&#39;d gone through this together. Just when he thought the need would stop, Enzan was there again, guiding him through.
+
+The words were comfortable to hear, even if they contradicted what he assumed earlier. A false divide.
+
+Laika was able to take another gasp, easier this time. Easier became more and more common, enough for him to respond and hug Enzan back.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 08:45 PM</span>
+
+            <div class="chatlog__message " data-message-id="499744246119792660" id="message-499744246119792660">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan started to rub Laika&#39;s lower back. Once they were together, he offered whatever he could. Small, light circles danced over his spine and back. 
+
+&quot;We can... deal with these feelings together, too.&quot; He whispered, muffling his voice against Laika&#39;s shoulder. &quot;Blues.. he wants the same thing. He <em>feels</em> the same rage. So I. Understand.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 08:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="499746787368763423" id="message-499746787368763423">
+                <div class="chatlog__content">
+                    <span class="markdown">More sighs rolled out as Laika gathered himself. The attack was smaller than what he expected earlier. That success was given to Enzan. Laika snuggled closer, turning to his side.
+
+&quot;You-re upset-&quot; He whispered. &quot;Please- don&#39;t hide it. It-s not good.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 09:03 PM</span>
+
+            <div class="chatlog__message " data-message-id="499748877092519949" id="message-499748877092519949">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I don&#39;t-&quot; Enzan bit his tongue and buried his face into the bed and Laika. &quot;I&#39;m-- it&#39;s hard. I&#39;m. Scared. I don&#39;t want to be like this.&quot; 
+
+Showing Laika how scared he was wasn&#39;t something he ever wanted to admit. He wanted to reassure their safety and make sure it was <em>kept</em>. 
+
+&quot;I. I can&#39;t let him hurt us anymore.&quot; His voice caught. There was something he wanted so <em>badly</em> here but he couldn&#39;t say it.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 09:19 PM</span>
+
+            <div class="chatlog__message " data-message-id="499752948201685014" id="message-499752948201685014">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Scared- yes.&quot; Laika looked up, tried to find Enzan&#39;s eyes. &quot;Me too. I&#39;m scared.&quot;
+
+He felt sick having to remind himself of the paranoia. Constant reminders to check his back on the street, the needless security that only ever saw action during tests of doubt; Laika felt disturbed each time he indguled himself with the layers. But it was a comfort. One well needed.
+
+&quot;This place-&quot; Laika mumbled. &quot;Our fortress. Safety is- always here. Nothing can come in except- what we allow.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Oct-18 09:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="499755245627375616" id="message-499755245627375616">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I&#39;m so <em>fucking</em> scared. It&#39;s not fair. Why can&#39;t we just <em>have</em> this. He already got what he wanted from us.&quot; He hiccuped. His tears immediately fell into the bed, until his nose started to run too and he had to face out of the sheets to breath. 
+
+&quot;I just want to live. With you. That&#39;s all. I just want to have a <em>life</em>.&quot; Not this huddled, cowering thing, afraid to walk home alone or go to the store. 
+
+&quot;We were just f-feeling be-etter.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">11-Oct-18 05:52 AM</span>
+
+            <div class="chatlog__message " data-message-id="499881976870993921" id="message-499881976870993921">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika&#39;s heart was squeezed by the sight. It brought forth his own bubble of tears, but after what just happened he was too exhausted to get fully upset again. His hand came up to find Enzan&#39;s cheek, to help dab tears away.
+
+&quot;I k-now.&quot; He sniffed. &quot;I want this too- so much.&quot;
+
+Firebird should&#39;ve only been for the information gathering they were designed for in the first place. Laika shuddered at the thought of how they&#39;ve evolved into this. They, too, were scary now. He wasn&#39;t sure what could happen now if they saw L&#233;izer on the streets.
+
+He was scared like Enzan, scared to go out without the helmet on.
+
+&quot;You- are so brave-&quot; Laika tried to find positive, little things to keep them afloat. &quot;We have to keep- it up. Can&#39;t--let him win.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Oct-18 06:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="500066586925858816" id="message-500066586925858816">
+                <div class="chatlog__content">
+                    <span class="markdown">The image of L&#232;izer touching Laika, <em>shoving</em> him, was unbearable in that moment. It popped up, unbidden, making Enzan&#39;s arms ache from holding Laika too tight. 
+
+&quot;I won&#39;t. I won&#39;t let them touch you. Never again.&quot; Enzan puffed with anger, his cheeks turning red. &quot;I swear. I&#39;ll do everything. Anything.&quot; His hands released. 
+
+His gaze grew delicate, and he reached up to carefully clean Laika&#39;s face as well. &quot;Somehow. I&#39;m going to make us safe.&quot; He whispered, before a fresh batch of warm tears rolled down his face. 
+
+&quot;We- hhah...&quot; he gulped down a burning hiccup. &quot;Trackers. On each other. I-- I think we should. And ahm. Pen too.&quot; Enzan searched Laika&#39;s face for reservation. He hated, <em>hated</em> how paranoid this was.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-18 08:42 AM</span>
+
+            <div class="chatlog__message " data-message-id="500287062239477780" id="message-500287062239477780">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika&#39;s brow furrowed. Even in his hopes for safety, the thought of being tracked again never crossed his mind. Enzan was looked at with worry as Laika&#39;s mouth opened.
+
+&quot;No...&quot; He whispered. &quot;No, I- a tracker didn&#39;t help last time. He found it-- first thing-- and took it out. Sharo could-t find me...&quot;
+
+The recall made Laika shuddered. Past a year later and everything relating to those hours was still fear inducing. He clinged to Enzan&#39;s shirt, and shook his head.
+
+&quot;I- can&#39;t think. The security we have now should be good... should be.&quot; He hushed. &quot;Just have to t-ell. Pen and Manabe...&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-18 12:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="500343718096666638" id="message-500343718096666638">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I-I&#39;m sorry. I didn&#39;t think--&quot; The look in Laika&#39;s eyes was precisely what Enzan had feared, and it sent a jolt through his chest. A harder hiccup burned him. &quot;M just. Ugh--&quot; Laika knew. Or if he didn&#39;t, Enzan couldn&#39;t summon the words to explain; how the moment Laika left to go anywhere, Enzan counted the minutes until he was back. 
+
+&quot;Thank you. I- hh. They need to know.&quot; Finding Regal guilty after everything stacked against them was a feat the two of them deserved to know over.</span>
+
+                        <span class="chatlog__edited-timestamp" title="13-Oct-18 05:03 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-18 01:13 PM</span>
+
+            <div class="chatlog__message " data-message-id="500355286125641738" id="message-500355286125641738">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;It&#39;ll be done tomorrow.&quot; Laika promised.
+
+He couldn&#39;t fault Enzan for thinking of such drastic measures. Had his tracker not been touched, things would&#39;ve been different. They wouldn&#39;t even be in this state.
+
+Laika tried to ignore what-ifs. He drew a shaky breath and tried to sit up. They needed to be better situated for bed, so they could at least try to sleep. He tried to pull Enzan up along with him, into the pillows and under the covers.</span>
+
+                        <span class="chatlog__edited-timestamp" title="12-Oct-18 01:13 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-18 04:29 PM</span>
+
+            <div class="chatlog__message " data-message-id="500404778917036050" id="message-500404778917036050">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan was as helpful as he could be. All his fire and drive to go back and work more tonight had fizzled out. 
+
+&quot;I... Can&#39;t sleep with this.&quot; he curled up under the covers. &quot;On my mind, I mean.&quot; 
+
+Enzan reached and guided Laika down until his head rested against Enzan&#39;s chest. His arms wrapped around him, trembling, but representative of the shields Enzan wanted up.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">14-Oct-18 09:37 AM</span>
+
+            <div class="chatlog__message " data-message-id="501025761554333696" id="message-501025761554333696">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Me either.&quot;
+
+The quiet admittance was paired with Laika&#39;s arms reaching up and setting themselves around Enzan&#39;s back. He took easily to being surrounded by Enzan&#39;s warmth, but the scent that usually calmed him had little effect. All that could be smelt was the bitter notes of coffee, none of it&#39;s roast.
+
+Laika ignored it, pulling himself up a little to be under Enzan&#39;s chin. His jut barely peaked from under the covers.
+
+&quot;I like this, though. The way you&#39;re holding-- me.&quot; He continued, barely even making the effort to whisper.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">14-Oct-18 06:01 PM</span>
+
+            <div class="chatlog__message " data-message-id="501152711497089024" id="message-501152711497089024">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Good.&quot; Enzan liked it too. He liked being hidden away in Laika&#39;s arms, but right now what felt most secure was being in the protective pose. 
+
+&quot;Me too. Safe,&quot; he mumbled into Laika&#39;s hair. &quot;You&#39;re safe here.&quot; 
+
+Enzan&#39;s eyes closed. He felt stale peppermint strike his pallet, so he scrunched up tighter. He couldn&#39;t seem to relax with the imagined hard candies triggering memories of death talks. 
+
+He breathed deeper, searching for something else to focus on. His hands slowly flexed back and forth in Laika&#39;s hair.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">14-Oct-18 06:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="501159426611347506" id="message-501159426611347506">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika nuzzled in closer, breathing in scents even if they didn&#39;t bring him peace. The words did, however, just a small amount.
+
+&quot;You&#39;re safe- too.&quot; Laika assured.
+
+The passes through his hair were like a switch. Tension in this neck faded, letting his head drop against Enzan&#39;s arm. A sigh was released, as his hands played small circles between Enzan&#39;s shoulders.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">14-Oct-18 08:41 PM</span>
+
+            <div class="chatlog__message " data-message-id="501192987372421140" id="message-501192987372421140">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s shuddering body remained coiled around Laika until the sound of his partner&#39;s breathing carried him off to sleep in the small hours of the morning. 
+
+Pen woke up late that day. She shuffled from her bed and flopped around the counter until a cup of tea was steeping. Morning nausea had an unusual hold on her, and she wondered if she was getting sick. 
+
+Investigating Marcatto&#39;s sudden illness at the Ijuuin ball was taking up extra time she needed to use for larger missions. The amount of crossfusion she was doing made her feel like more of a workaholic than Enzan.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">14-Oct-18 09:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="501202006438969345" id="message-501202006438969345">
+                <div class="chatlog__content">
+                    <span class="markdown">An email came to Pen&#39;s PET moments after her bustle in the kitchen stopped. It was from an unknown address, the letters and numbers having little meaning beyond being random. However, the message was clear:
+
+&gt;Penelope Novella,
+&gt;It is my understanding that you are a NetSavior critical to some of the more sensitive NetPolice missions. You serve directly under Manabe and the Commissioner. Your navi is Role, and you both possess powers that go far beyond public knowledge. 
+&gt;I am the Firebird. I can be both a blessing and a bringer of doom. My eyes see the future and my feathers record their sights. Such treasures are invaluable to your trade. Your superiors know this.
+&gt;This particular knowledge that I now possess is vital to the case that is especially close to your heart. I have seen you work tirelessly over it. Should you wish to accept it on behalf of the NetPolice, come to the location below at 16:21.
+&gt;I will require compensation. Kifune is aware. Attempts to trick me will not be tolerated.</span>
+
+                        <span class="chatlog__edited-timestamp" title="14-Oct-18 09:20 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">15-Oct-18 05:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="501504789805400064" id="message-501504789805400064">
+                <div class="chatlog__content">
+                    <span class="markdown">If this email had come to Role a year ago, the two women would have been <em>scared</em>. They had been HeadQuarters and Scilab&#39;s best kept secret for the majority of their time working with the NetPolice and NetSaviors. 
+
+Now, however, she was unimpressed. All the public work she had been doing made her a replacement for Enzan. People knew she was around-- most UnderNet work had to stop in the last month. 
+
+Role was, however, interested in the information they might gain. None of their UnderNet contacts had ever wanted an offline meet-up, unless it was a trap. 
+
+&quot;Pen. New email. It&#39;s important.&quot; 
+
+Pen set down her tea and rubbed her face. &quot;Read it to me.&quot; 
+
+Role relayed the entire thing, and Pen slumped over on the table. 
+
+&quot;Hhh... okaaay. Let&#39;s get ready. Let Manabe know where I am. The Firebird has finally come to me. They must have been impressed with how you handled Countershade.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">15-Oct-18 06:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="501528313534349323" id="message-501528313534349323">
+                <div class="chatlog__content">
+                    <span class="markdown">The day came and went, and soon it was the afternoon. Firebird&#39;s requested location was a fish market near the edge of Densan Bay. By the boats, where they were coming in to dock for the night.
+
+They idled around a stack of unused crates, staring out at a specific boat as it loomed closer to the docks. It struck a chord with them, like deja vu. This scene had played out for them once before somehow. 
+
+Those who passed near them were merely fishers. No one else would have a purpose to be here. Which is why when Pen would show, they would notice immediately.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">15-Oct-18 10:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="501586832954490881" id="message-501586832954490881">
+                <div class="chatlog__content">
+                    <span class="markdown">Penelope adjusted her beanie, feeling very exposed. Both of them would stand out like this. She knew it must have been intentional. 
+
+&quot;Role, it&#39;s the next right?&quot; she pulled her hands from her pockets and scanned around. 
+
+&quot;Yes. Be careful.&quot; 
+
+Pen nodded, hand hovering near her bo staff while she walked over. The black of firebird&#39;s helmet was spotted, but she kept her eyes peeled even as she approached. 
+
+&quot;Hey, doom bringer.&quot; it sounded cooler in her head to throw their words back. She should have added some more sarcasm.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">16-Oct-18 07:28 AM</span>
+
+            <div class="chatlog__message " data-message-id="501718135708057611" id="message-501718135708057611">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird watched her approach, and lifted their head back at the name. It was appropriate, given the intel they were going to hand over. Though from another&#39;s lips it seemed kind of cheesy.
+
+&quot;Hello.&quot; They greeted. &quot;Pull out your PET.&quot;
+
+They already had theirs out, and were fiddling with the stylus. Popping it in and out of where it was held. The device was blacked-out, matching its owner.
+
+&quot;After that, you will transfer compensation. Use the numbers Role just received.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="16-Oct-18 05:20 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">17-Oct-18 11:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="502134036743979011" id="message-502134036743979011">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen&#39;s eyes locked onto the small fidget as she pulled her PET from her arm. What an almost... <em>cute</em> thing to do. Unless it was perhaps indicative of another habit they were restraining themselves from. 
+
+&quot;I have a secure channel open. Transfer the data,&quot; Role reported from inside. She recorded the conveyed numbers and waited. 
+
+&quot;Hold on. I&#39;m the first member of the Net Police to see you. Why?&quot; Pen kept her voice low, and stepped closer. &quot;It can&#39;t be just because our navis have met.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">17-Oct-18 05:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="502228738596143104" id="message-502228738596143104">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird giggled.
+
+&quot;You&#39;re not the first. But your reason is still sound.&quot; They glanced down at their PET as the payment came through. Off to the dummy account, to sit until needed.
+
+Firebird spoke more. &quot;Our navis being acquainted makes things easier, surely. I chose you mostly because Manabe seemed to be busy this  afternoon.&quot;
+
+&quot;But, the payment is complete. Business now.&quot; The stood up straight and lifted their head. &quot;This information pertains to the cases concerning Ijuuin Enzan and Laika Biryukov.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">18-Oct-18 05:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="502597599388499978" id="message-502597599388499978">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen listened, shifting on her feet a little. She took in their height, their size, their slightly digitized voice... she figured she was dealing with a navi one minute, then the next she thought the human voice creeping out sounded <em>familiar</em>. 
+
+The true business made her eyebrows raise. 
+
+&quot;Mm. I see.&quot; That was a closed case. One she had worked very hard to get that way. They were still finding remnants of the damage that had been done, but most everything about the case had dried up months ago. 
+
+She became acutely aware of how pale she&#39;d gone. Her hand clenched her PET. Firebird was helping the NetPolice. So had Regal, at one point. 
+
+&quot;I&#39;d like to hear as soon as possible. But this area seems a bit. Quiet for that.&quot; Thankfully the fishermen around here seemed to ignore them, but with <em>this</em> case paranoia had aided them more than not.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-Oct-18 07:04 PM</span>
+
+            <div class="chatlog__message " data-message-id="502618037887827988" id="message-502618037887827988">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird nodded in agreement. They didn&#39;t want to stay in chance. Any second taken too long would be a risk of their identity being exposed.
+
+&quot;The cases were both closed when their assailant was found guilty and sent back to his home country for proper punishment.&quot; They stated as their PET was lifted. Buttons and menus were pressed and tapped as the talked. &quot;And knowing that nation was Nation Z,pst assumed that punishment would be harsh and swift.&quot;
+
+&quot;However, that is not the case it seems.&quot;
+
+A picture was sent through the connection Role had opened. It was security footage of a formal affair. In the middle was a man who stood out. Gaunt features, piercing eyes, and long hair tied in the back.
+
+&quot;That is L&#233;izer, you know of him already. What you do not know is that he is a facade. The human appearance covers copyroid.&quot;
+
+Firebird sent out the next file. An audio clip.
+
+&quot;I assume you have earbuds.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">19-Oct-18 10:16 PM</span>
+
+            <div class="chatlog__message " data-message-id="503028681879453707" id="message-503028681879453707">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen obserbed L&#233;izer carefully, and how Enzan&#39;s hair peeked out of the crowd in front of him. Her body swayed, and her palor grew more sickly. The true answer to why there were no records on L&#233;izer; it had been a theory, but to confirm it made her dizzy. 
+
+Perhaps this would tie into the Marcatto case, and bring some sort of closer to that as well. Some days, she&#39;d like to kick her optimism to the curb. 
+
+&quot;I do.&quot; She snapped out her PET&#39;s earbuds and selected to switch the synch to Firebird&#39;s PET.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 01:44 PM</span>
+
+            <div class="chatlog__message " data-message-id="503262345741598730" id="message-503262345741598730">
+                <div class="chatlog__content">
+                    <span class="markdown">For a moment, Firebird watched Pen, scared that her teetering was more than just a reaction to the information. If this was just for the first part of their gift, then the rest would inevitably sit her down. Firebird breathed at the thought, hoping they wouldn&#39;t end up in a similar state. Just stating this fact had made their knees a little weak. 
+
+&quot;A short time ago, we encountered a darkloid who is closely tied to both Leizer and the previously mentioned cases. They were pressed for questions, and gave a variety of answers. This audio is of that interview. It is for the NetPolice to use.&quot;
+-</span>
+
+                        <span class="chatlog__edited-timestamp" title="20-Oct-18 01:45 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="503262361705250827" id="message-503262361705250827">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;... With that in mind, tell me more about Leizer, the form your shadow took earlier.&quot; It was Firebird&#39;s voice first. 
+
+What followed was a darker voice, deep with the synthetic qualities that most navis held. 
+
+&quot;<em>Leizer? Is that what they are calling themselves? That is... incorrect. That is a recreation of Laserman. Regal recreated them after my failure. They have become Regal&#39;s lapdog... But not with Laserman&#39;s consent. Laserman did not want to continue serving Regal as Nebula did not exist. Regal did not give them a choice... They did not give me a choice.</em>&quot; 
+
+&quot;<em>Funny how &#39;consent&#39; don&#39;t really exist for our kind.</em>&quot; Countershade&#39;s voice chimed in for a moment. 
+
+Firebird&#39;s voice quickly followed. &quot;We strongly suspected that they were not human, and that they had ties to the fugitive. However, the true identity is a small surprise. I was assuming that he had regained control of another Nebula leader.&quot; 
+
+&quot;<em>They are- it is complicated. Regal has... done something to us-- Laserman in particular. One day Laserman was Laserman, and Regal was Regal, but... Now they are the same. Regal uses Laserman as a puppet. It is older technology. P... Pulse transmission.</em>&quot;  
+
+The tracker on the PET&#39;s UI reached it&#39;s end, and the audio clip was finished. Firebird silently watched Pen for any reactions.</span>
+
+                        <span class="chatlog__edited-timestamp" title="20-Oct-18 01:47 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 02:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="503267880796815382" id="message-503267880796815382">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen remained frozen through most of the information, trying to ignore the flipping in her stomach. She&#39;d been hardened over the years from seeing case after case, but this was too personal. Never had a case gone on <em>this</em> long. This old, sickly man was still the ultimate rival to the Netsaviors. 
+
+&quot;He could be anywhere. Still.&quot; She raised a hand to her mouth, as if thinking. Really, it was to hold in how ill she felt. Pen was sure her face was turning green. She couldn&#39;t show this stranger that. 
+
+&quot;I need a copy of this audio.&quot; She&#39;d never heard this Darkloid, but maybe someone could identify.
+
+&quot;That was within the files transfered, Pen.&quot; Role informed quietly, &quot;I think I have everything.&quot; 
+
+ &quot;How trustworthy is this information, in your opinion?&quot; Her thoughts on Firebird&#39;s identity were tossed away. This mattered so much more.</span>
+
+                        <span class="chatlog__edited-timestamp" title="20-Oct-18 05:48 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 08:01 PM</span>
+
+            <div class="chatlog__message " data-message-id="503357241898827777" id="message-503357241898827777">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I didn&#39;t trust it at first.&quot; Firebird answered. &quot;But my further questions with the Darkloid changed that verdict. They showed no attempts in hostilities.&quot;
+
+Firebird tapped on their PET once more, sending over several more shots from the gala discussed beforehand. They were simple more fodder, but they only had L&#233;izer in the crowd. L&#233;izer and another person of interest.
+
+&quot; I believe there is a case involving one named Marcatto. Use these as you see fit.&quot; They informed.
+
+With that, they closed the connection between their PET and Pen&#39;s. It was stowed away in their jacket.
+
+&quot;Last chance for questions.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 08:11 PM</span>
+
+            <div class="chatlog__message " data-message-id="503359701757591552" id="message-503359701757591552">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen&#39;s eyes grew wide again. The exact moment of the attack wasn&#39;t here, but it was clearly minutes beforehand, just as described by witnesses. 
+
+She closed down her PET as well. Everything else could be gone over later, right now she had an opportunity she couldn&#39;t miss. 
+
+&quot;I didn&#39;t know the princess had anyone she liked well enough to put all this effort in.&quot; Pen folded her arms over her chest. All this talk had given her the identity, but she knew it couldn&#39;t be Pride. This wasn&#39;t her kind of fun. &quot;How did you find this Darkloid? If there are any spaces of the net we aren&#39;t covering, I need to know about it. Any clues on location, or access points from Nation Z it can provide will assist us.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 08:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="503369196663603200" id="message-503369196663603200">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird tilted their head at the comment. &quot;I don&#39;t understand.&quot; 
+
+Nevertheless, it was brushed off as an actual request came up. They stayed silent for a moment, mulling over just how to answer everything. Pen&#39;s folded arms were met with hands into pockets. 
+
+&quot;Your guess is as good as mine.&quot; They replied. &quot;But perhaps such knowledge can be gained if the incentive presented it self.&quot; 
+
+They looked up. &quot; Mind you, I am rarely commissioned.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Oct-18 11:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="503416360102264842" id="message-503416360102264842">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Let me rephrase. If I, personally, purchase any and all information on this case, will you be forthright with it, and only do business with us on this matter. You name the price.&quot; Her jaw twitched as she clenched her teeth and measured their reactions. 
+
+&quot;This is important. I know you have a conscience. If you can use your resources in some way we can&#39;t... I don&#39;t object to that. Not with this case.&quot; The end was measured, showing where her morals lie. It was a gamble, but one that had served her well in the past.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">21-Oct-18 12:20 AM</span>
+
+            <div class="chatlog__message " data-message-id="503422349236895745" id="message-503422349236895745">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird held a short laugh.
+
+&quot;It is bold of you to assume I have anything <em>more</em> just lying around, going unused.&quot; They scoffed. &quot;And I can&#39;t believe you have the personal funds to cover my hourly services. The NetPolice certainly don&#39;t.&quot;
+
+&quot;You&#39;re also in this game of information gathering, are you not?&quot; They continued. &quot;It would be a shame to have to express my concerns to you superiors. That you&#39;re too lazy to do the footwork on your own.&quot;
+
+Firebird then turned away and started walking. They were done with this.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">21-Oct-18 09:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="503745277274882052" id="message-503745277274882052">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen&#39;s arms fell as she watched them leave. How horribly twisted, to hear the voice of someone she cared for say something so cruel. She held her head high, even as upset threatened to double her over. 
+
+They had no idea the <em>lengths</em> she had gone, and <em>would</em> go for this case. How dare they underestimate her. How <em>dare</em> a common criminal assume they knew anything about her. 
+
+In that moment, she slated Firebird as a tool, and nothing more. Never an alli. 
+
+She wondered how Enzan and Laika were doing. She picked them up a new variety of tea on the way home. 
+
+&quot;Prepare the files to share with Manabe.&quot; Pen muttered quietly. &quot;She can help us verify authenticity.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 70 message(s)</div>
+</div>
+
+</body>
+</html>

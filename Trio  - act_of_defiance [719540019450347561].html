@@ -1,0 +1,1705 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - act_of_defiance</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+            font-weight: 300;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+            font-weight: 600;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+            font-weight: 700;
+        }
+
+        body {
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .preserve-whitespace {
+            white-space: pre-wrap;
+        }
+
+        .spoiler-text {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .spoiler-text--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .spoiler-text--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .spoiler-text--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .quote {
+            display: flex;
+            margin: 0.05em 0;
+        }
+
+        .quote::before {
+            content: "";
+            margin-right: 0.5em;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .pre--multiline {
+            margin-top: 0.25em;
+            padding: 0.5em;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .pre--multiline.hljs {
+            background-color: #2f3136;
+            color: #b9bbbe;
+        }
+
+        .pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+
+        .mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #7289da;
+            background-color: rgba(114, 137, 218, .1);
+            font-weight: 500;
+        }
+
+        .timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .emoji {
+            width: 1.325em;
+            height: 1.325em;
+            margin: 0 0.06em;
+            vertical-align: -0.4em;
+        }
+
+        .emoji--small {
+            width: 1em;
+            height: 1em;
+        }
+
+        .emoji--large {
+            width: 2.8em;
+            height: 2.8em;
+        }
+
+        .preamble {
+            display: grid;
+            margin: 0 0.3em 0.6em 0.3em;
+            max-width: 100%;
+            grid-template-columns: auto 1fr;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 0.6em;
+        }
+
+        .preamble__entry {
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+
+        .preamble__entry--small {
+            font-size: 1em;
+        }
+
+        .chatlog {
+            max-width: 100%;
+        }
+
+        .chatlog__message-group {
+            display: grid;
+            margin: 0 0.6em;
+            padding: 0.9em 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            grid-template-columns: auto 1fr;
+        }
+
+        .chatlog__reference-symbol {
+            grid-column: 1;
+            margin: 8px 4px 4px 18px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            grid-column: 2;
+            margin-bottom: 0.25em;
+            font-size: 0.875em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            align-items: center;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-avatar {
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25em;
+        }
+
+        .chatlog__reference-name {
+            margin-right: 0.3em;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-content a:hover {
+            text-decoration: none;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.spoiler-text) {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25em;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__author-avatar-container {
+            grid-column: 1;
+            width: 40px;
+            height: 40px;
+            margin-right: 16px;
+        }
+
+        .chatlog__author-avatar {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatlog__messages {
+            grid-column: 2;
+            min-width: 50%;
+        }
+
+        .chatlog__author-name {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3em;
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__message {
+            padding: 0.1em 0.3em;
+            margin: 0 -0.3em;
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__content {
+            font-size: 0.95em;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15em;
+            font-size: 0.8em;
+        }
+
+        .chatlog__attachment {
+            display: inline-block;
+            position: relative;
+            margin-top: 0.3em;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            z-index: 999;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.4em 0.8em;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            color: #dcddde;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            width: 100%;
+            max-width: 520px;
+            height: 40px;
+            padding: 10px;
+            background-color: #2f3136;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__edited-timestamp {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3em;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25em;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5em 0.6em;
+            background-color: rgba(46, 48, 54, 0.3);
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author {
+            display: flex;
+            margin-bottom: 0.3em;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            margin-right: 0.5em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author-name {
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff
+        }
+
+        .chatlog__embed-author-name-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.2em;
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-description {
+            font-weight: 500;
+            font-size: 0.85em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5em;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6em;
+            font-size: 0.875em;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 150px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-field-value {
+            font-weight: 500;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            margin-left: 1.2em;
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            margin-right: 0.2em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            align-items: center;
+            margin: 0.35em 0.1em 0.1em 0.1em;
+            padding: 0.2em 0.35em;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35em;
+            font-size: 0.875em;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .chatlog__bot-tag {
+            position: relative;
+            top: -.1em;
+            margin-left: 0.3em;
+            padding: 0.05em 0.3em;
+            border-radius: 3px;
+            line-height: 1.3;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625em;
+            font-weight: 500;
+        }
+
+        .postamble {
+            margin: 1.4em 0.3em 0.6em 0.3em;
+            padding: 1em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+
+        function showSpoiler(event, element) {
+            if (element && element.classList.contains('spoiler-text--hidden')) {
+                event.preventDefault();
+                element.classList.remove('spoiler-text--hidden');
+            }
+            if (element && element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="icon-attachment" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z" />
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z" />
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z" />
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z" />
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/cc89a94880f4abdfeade2fb82f1919a2-4FB72.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">Keep Quiet Archive (Chrono) / act_of_defiance</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Jun-20 06:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="719673419947311195" id="message-719673419947311195" title="Message sent: 08-Jun-20 06:05 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Seven days had come and gone. Nothing came of them but bad news in various ways. The promises Izabella made to Enzan and Pen were ignored. She never returned with snacks and good conversation after the first few visits. Searchman sent a blunt email in the middle of the week regarding the matter. As long as Regal was also residing in the hospital, Izabella could not be on the same floor as him. Just scrolling past it on the elevator brought dark thoughts to her head. Calculations of what she could do to him, how much leniency the law would give her if she followed through, and if it was all even worth the jail time. She had these thoughts everyday of this grim week, and each time she would stop herself from acting on them. Her son still had a chance at life. After the act of defiance that happened yesterday, she couldn&#39;t give up on him. She had to give him every second of time that he had given her. 
+
+But today was the last day. 
+If today ended in despair, Izabella would have nothing left to keep her from killing Regal. 
+
+&quot;Доброе утро, Лайка…&quot; Izabella murmured as she opened the glass door to Laika&#39;s room. She had grabbed a paper cup filled with tap water from the hall, and carried it over to the counter where flowers had been sent to wish health. She chattered to the body in the bed, speaking about the night before and how she spoke to her husband. Anything she could do to drown out the machines, she did it. But eventually her chore ran out, as did her kind words.</span>
+
+                                <span class="chatlog__edited-timestamp" title="08-Jun-20 06:08 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="719673753914835066" id="message-719673753914835066" title="Message sent: 08-Jun-20 06:06 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">.
+With nothing else to keep her busy, Izabella turned to return to her daily post. She looked up from the empty cup to get a proper look at the body she&#39;d be next to on this final day. From it&#39;s feet, to it&#39;s legs, it&#39;s hands, arms, and chest... Izabella dreaded going further, but willed herself to do it. To look at it&#39;s neck, it&#39;s chin, lips, nose and-
+
+&quot;Oh...&quot; Izabella whispered in her shock. 
+
+The cup in her hands tumbled to the floor, barely making a sound. Emotion overtook her as she lunged to her seat. She stared in disbelief, tearing up as two dark blue eyes half stared back at her. It felt like it had been ages since she had last seen them. 
+
+Enzan and Pen&#39;s PET would alert to a new email shortly after. The subject was blank because it was sent in such a hurry. It was from Searchman, and the body of the email only held three words. 
+
+&quot;<em>He is awake.</em>&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="08-Jun-20 07:10 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">23-Jun-20 12:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="725024101424693369" id="message-725024101424693369" title="Message sent: 23-Jun-20 12:26 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Penelope!&quot; Role tried to keep her exclamation to a minimum. Her PET volume was maxed out for this exact reason. Though, perhaps, they were anticipating something more frightening. Pen sat down her book and stared up at Enzan&#39;s sleeping body. He&#39;d fallen asleep in a haze of grief, unable to take the mounting anticipation of the worst. 
+
+&quot;What is it, Role?&quot; Pen said, voice thin with fear. 
+
+Blues&#39; hologram appeared on Enzan&#39;s bedside. Suddenly, both navis were talking at once, their illuminated frames moving quickly, like pixies. It wasn&#39;t the mournfulness Pen had been expecting, no, this was a joyous sound. Pen was overwhelmed by them, but could glean one thing as Enzan stirred. 
+
+Laika. The final day of waiting, and he wasn&#39;t dead. The navis grew quiet, and everyone in the room stared at Enzan. He sat up straight, staring at the door. His breathing was heavy. 
+
+&quot;Get me a wheelchair,&quot; he commanded Pen. The tone of a superior officer rang from his chest.
+
+&quot;Enzan- you shouldn&#39;t be sitting. I- I&#39;ll video call you in-&quot; 
+
+&quot;No. Get me a wheelchair,&quot; he said again, fists clenched into the hospital sheets. All his wounds were burning from the movement, but he didn&#39;t care. 
+
+&quot;Okay, don&#39;t get up on your own.&quot; Pen stood up. She grabbed her PET and raced out of the room. But, she didn&#39;t head for the resource station on this floor first. Instead, she raced to Laika&#39;s room. Enzan would forgive her someday, just for these brief moments. She had to know more before he made a mistake that cost him weeks of healing.</span>
+
+                                <span class="chatlog__edited-timestamp" title="23-Jun-20 01:03 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Jun-20 10:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="725355187413188679" id="message-725355187413188679" title="Message sent: 24-Jun-20 10:22 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Izabella stood by the glass outside the room, watching as a medical team stood around Laika&#39;s bed. She could barely see anything with all the tears clouding her eyes. Dabbing them away was a futile effort, and keeping them back was only successful if she clenched her apron in her fists. As each assessment was taken, each test scored, she watched intently. The curtain of doctors and nurses only pulled away when they started to keep time and watch the machines. 
+
+Laika&#39;s eyes were still open, but it looked like they had done nothing to him. Every tube and wire was still in place. Maybe there were even more now. 
+
+Searchman appeared on Izabella&#39;s shoulder, dutifully informing her on what he could hear from inside the room. Once the update was complete, he looked down the hall to find Pen approaching. His expression remained the same as it ever was. He noted the approaching ally to Izabella, but she only nodded in response. She couldn&#39;t take her eyes off the room. 
+
+&quot;<em>Penelope,</em>&quot; Searchman greeted once she was close enough. &quot;<em>They have asked us to wait out here until they are finished.</em>&quot; 
+
+Izabella&#39;s lips opened, but all she managed was a strangled mess of words in her native tongue. A familiar name was twisted up in them. 
+
+Searchman translated. &quot;<em>She is asking how Enzan took the news, and... apologizing for not coming to say it in person.</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">24-Jun-20 10:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="725363376393289801" id="message-725363376393289801" title="Message sent: 24-Jun-20 10:55 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Penelope looked through the glass, first, not really processing what was said to her. Role hopped off Pen&#39;s shoulder to be close to Searchman. Nervous, hopeful energy ran through both girls. 
+
+Role lifted her helmet to rub her eyes. She looked at Searchman, but only hesitated a second. Her arms wrapped around him in a tight, tight hug. She didn&#39;t linger, for his comfort. 
+
+She placed her hands to the glass, and brushed away where her breath fogged it. Pen could see his eyes. Life. She blinked away from the glass and stared at Izabella.
+
+&quot;He, uhh- he wants to come here. Now. I can&#39;t be away from him for long. He might hurt himself.&quot; She finally looked at Searchman, for he was the one really talking now. It was a small change, but a welcome one.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Jun-20 11:38 AM</span>
+
+            <div class="chatlog__message " data-message-id="725374426019004426" id="message-725374426019004426" title="Message sent: 24-Jun-20 11:38 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Searchman stood firm through Role&#39;s emotional act, waiting until she was finished to continue his job. He translated the response to Izabella, who shook her head in turn. 
+
+&quot;<em>&#39;Now is not a good time.&#39; She says. And I am inclined to agree.</em>&quot; Searchman&#39;s lack of emotive gesture made his words fall flat. &quot;<em>Should all trails go well, it will still be a minimum of 4 hours before they begin to wean him off the ventilator.</em>&quot; 
+
+Izabella spoke more. &quot;<em>&#39;He isn&#39;t responding to much, either. He kept looking at me, but nothing else.&#39;</em>&quot; 
+
+Searchman allowed a pause as the doctors started speaking to each other in the room. They gave directions to a nurse, who immediately complied and walked out of the room. She didn&#39;t stop to speak with the two women at the windows, but her serious look had a tinge of hope pulling at the corner of her lips. 
+
+&quot;<em>I have gathered that they will attempt weaning in a few hours once the proper drug has taken effect. If you can, have Enzan wait until then.</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">10-Jul-20 12:35 AM</span>
+
+            <div class="chatlog__message " data-message-id="731005618969903114" id="message-731005618969903114" title="Message sent: 10-Jul-20 12:35 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Pen shivered. He wasn&#39;t responding at all still. She took off her glasses and set them in her hair to rub at her eyes, just like Role had. 
+
+&quot;...I&#39;m not sure I can stop him. No. That&#39;s not right. I can, but...&quot; She sighed and rested her forehead on her hand, leaning against the glass. &quot;... he&#39;s not going to take no for an answer.&quot;
+
+She paused, watching the doctors scurry around. It was so hard to remind herself that this could still end badly. Every time she did, the hurt doubled down in her chest. She turned to Izabella. 
+
+Her arms opened, quietly offering her an embrace. 
+
+&quot;I should go back to him. He&#39;s waiting. I&#39;ll... I&#39;ll try to get him to sleep a little. He&#39;s tired enough for it.&quot; She smiled, apologetic and teary.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-Jul-20 09:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="734039714809774140" id="message-734039714809774140" title="Message sent: 18-Jul-20 09:31 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;<em>All he needs to do is wait.</em>&quot; Searchman reiterated. &quot;<em>At least until the ventilator is removed. Enzan does not need to see that.</em>&quot; 
+
+Izabella finally looked away from the glass to see Pen&#39;s offer. She blinked, lips parting to say more but ultimately deciding against it. Her hands relaxed, and with them came a sniffle. Tears started to flow as she took the offer and hugged Penelope tight.
+
+A warbled mess of Sharonian came as she cried into her hair. It was the same phrase repeated a few times. Then thank yous, so many thank yous. 
+
+Searchman, now forced closer to Role, blinked. He stuck to his job while his mother cried.
+
+&quot;<em>She is... Thankful. &#39;I don&#39;t have to choose for him. I don&#39;t have to choose for him.&#39;</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">18-Jul-20 01:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="734093770458398771" id="message-734093770458398771" title="Message sent: 18-Jul-20 01:06 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Penelope rubbed Izabella&#39;s back. Enzan was forgotten, just for this moment. One person at a time, one tragedy to hold on her back at once. 
+
+&quot;It&#39;s going to be alright, now,&quot; Penelope promised on a leaden tongue. Who was she to promise that? But she needed to hear the words too. She hiccuped and cried along with her. &quot;He will be alright.&quot; Quiet hushes and soothing noises hissed from Penelope when she lost her own string of words. 
+
+Role stood close to Searchman, with her head down. She hugged her arms around her chest to avoid touching him again. She glanced over, offering the emotions on her face instead. 
+
+Finally, after a long moment, long after Penelope felt her back ache from leaning down to embrace her, Penelope pulled away. 
+
+&quot;I&#39;ll keep Enzan occupied a while longer,&quot; Pen rubbed her eyes. She reached in her pocket and offered Izabella a packet of tissues.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-Jul-20 07:22 PM</span>
+
+            <div class="chatlog__message " data-message-id="734188266630414338" id="message-734188266630414338" title="Message sent: 18-Jul-20 07:22 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Izabella took the offering, stopping herself from pulling out the headscarf that she had taken off while watching. Through her tears was a wobbly smile. Searchman had translated what Pen had said, and she nodded to them. 
+
+&quot;<em>We will give you important updates.</em>&quot; Searchman stated. &quot;<em>Thank you.</em>&quot; 
+
+&quot;Thank you.&quot; Izabella repeated. She dabbed her eyes with a tissue. The nurse that had left before walked back in, carrying a tray with a syringe and the medicine the doctor requested earlier.
+
+While one of the doctors administered, another walked towards the glass and gestured Izabella to enter. She blinked in mild shock, then stepped away from Pen hesitantly. Another wobbly smile was given to her before she walked in. The doctor looked at her kindly, speaking just out of earshot. The rest left after their job was done, leaving the two alone in the room. 
+
+Behind her, Laika&#39;s head shifted slightly. His eyes did a slow blink, but they were still bleary and unfocused. Izabella looked to him while Searchman translated before closing her eyes and taking a deep breath. She moved to sit down on the stool that was always there, taking up her usual position by Laika&#39;s side. The doctor continued on as she gently put her hand in his. When he was done, he bowed and left, leaving Izabella alone with her son. 
+
+She squeezed Laika&#39;s hand a little bit, and started to talk slow. Nothing in particular, just things to give him a time and place. That he was safe, that his friends were safe too, and that no matter what, everything would be okay.</span>
+
+                                <span class="chatlog__edited-timestamp" title="18-Jul-20 09:50 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">19-Jul-20 03:41 PM</span>
+
+            <div class="chatlog__message " data-message-id="734495258808942652" id="message-734495258808942652" title="Message sent: 19-Jul-20 03:41 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Penelope left after one last long look at Laika. Anxiety lept back into her throat in jolts, every two steps. Hope and fear was reminded with every sound. 
+
+Should she bring the chair like she promised? Would that just prolong his upset? She decided to wheel a chair to the outside of his room so Enzan wouldn&#39;t have to look at it. Then she came back in. 
+
+&quot;What took so long?&quot; Enzan said. &quot;Where&#39;s the chair?&quot;
+
+&quot;I. Ran into Izabella. She said you need to wait. Four hours. They&#39;re taking him off the ventilator and no one else should come until it&#39;s over.&quot; Pen sputtered out the poorly rehearsed words she&#39;d come up with in the hallway and felt them fall flat. Enzan looked away from her. 
+
+&quot;I have to be there,&quot; Enzan said firmly. &quot;Izabella shouldn&#39;t be alone with him.&quot; 
+
+&quot;Enzan, he&#39;s strapped down. She&#39;s safe. He&#39;s safe. You need to rest.&quot; Penelope sat down beside him. He glared at her with all the malice he had left. 
+
+But it wasn&#39;t much. He laid back down. Everything ached. 
+
+&quot;Blues. Set a timer for four hours from now. Penelope. You&#39;d damn well better distract me enough to wait.&quot; 
+
+Pen nodded, brushing her hair from her face. &quot;Yeah... I&#39;ll read to you until then, okay?&quot; 
+
+Enzan didn&#39;t respond, but closed his eyes. Under Penelope&#39;s words, he eventually calmed enough to at least wait. Pen waited for a message from Searchman, and bidded Blues to hold off on his timer.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-20 07:36 AM</span>
+
+            <div class="chatlog__message " data-message-id="734735459422306334" id="message-734735459422306334" title="Message sent: 20-Jul-20 07:36 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The day dragged on, though the concept was lost to the person in ICU. Laika saw the world in hazy vingettes. People and things were merely blotches of color moving about the blur of space he could see. Every time his eyes closed, the scene would be different. 
+
+One color was a constant beyond the others, a mint. It stayed close despite his fading in and out, providing another sensation: touch. Laika could feel warmth in his hand, and it was good. Even if it faded to blue and white and discomfort, the touch came back. Soft, warm, soothing. 
+
+During one fade, Laika&#39;s ventilator was removed. An oxygen mask replaced it, to ensure he was taking enough of the element in. He woke up again to find the mint color more refined: a familiar woman. She looked at him in a way he couldn&#39;t describe, speaking soft nonsense. She came in close enough to cover his sight. With blindness, a soft touch pressed to his head. It was nice. 
+
+Then she left, and the lights went dim. Laika looked around where he could, finding no one. His heart rate went up a tick before the medicines brought him back to calm. He was alone.
+
+His sight finally got to the point where he could see the far wall clearly. The nurse&#39;s communication board was chocked full of scrawled notes too complex for him to decipher. He could finally understand someone soon after that, a nurse who had come in to check vitals. They didn&#39;t say much besides hello, but hello was enough. The world was getting clearer, but because of that, he failed to rest. Laika stared up at the ceiling long after the last nurse left, trying to piece things together.</span>
+
+                                <span class="chatlog__edited-timestamp" title="20-Jul-20 07:07 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-20 08:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="734747017733210183" id="message-734747017733210183" title="Message sent: 20-Jul-20 08:22 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Finally, too much time had passed. Enzan jolted awake from the very beginnings of sleep. Pen followed suit, gripping her chest when the surprise was too much. 
+
+&quot;Penelope,&quot; Enzan snapped. His hand came out to grip her arm. She blinked, trying to find calm in the familiar face, but finding none. Her dreams had been just as filled with anxiety as this was. 
+
+&quot;Pen! Get me the wheelchair. Now!&quot; Enzan&#39;s voice was only low enough not to carry outside the room. 
+
+&quot;O-okay. I&#39;m sorry,&quot; Pen hushed. She stood up quickly and pulled her arm free from his grip. Enzan&#39;s eyebrows creased when she reached up and held the spot. Too much. 
+
+Out in the hallway, Pen held her PET in her lap and sunk to the floor next to the wheelchair. Updates. The ventilator came off without trouble. He wasn&#39;t responding to much. He was still awake... Izabella had to leave for the night. Pen sighed and rested her forehead on the cool plastic. After two slow breaths, she wobbled to her feet and pushed the chair into Enzan&#39;s room. 
+
+Enzan had tossed his blankets to the floor and hoisted his legs over the side of the bed. Pen honestly didn&#39;t know how he was sitting up like that with all the bandages still around his head and chest. 
+
+&quot;Help me down.&quot; He ordered. Pen nodded and very gently worked her arm under his thighs. She lifted him, and he leaned into her shoulder to avoid shouting his pain. And down into the chair he went. 
+
+&quot;They might keep me from seeing you after this,&quot; Pen warned. 
+
+&quot;Let&#39;s just go. Please,&quot; Enzan said. He looked at her without the snarl. His deep blue eyes reflected the only light in the room. Her feet started tapping along the linoleum, and soon they were at the elevator. ICU.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="734747035286241421" id="message-734747035286241421" title="Message sent: 20-Jul-20 08:22 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">.
+Pen moved quickly to avoid getting in anyone&#39;s way. No one was guarding Laika&#39;s room now that he was stable. Enzan gripped the arm rests of his chair and stared intensely at the door until it opened. 
+
+Blue met blue. Laika was alive. Enzan&#39;s heart lept out of his chest and into his mouth, holding his tongue hostage because how could this be real? Pen rolled him closer to the bedside. Enzan reached out before tears blinded him. A shaky hand took Laika&#39;s.</span>
+
+                                <span class="chatlog__edited-timestamp" title="20-Jul-20 08:22 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-20 08:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="734926911813451788" id="message-734926911813451788" title="Message sent: 20-Jul-20 08:17 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika&#39;s gaze went to the glass wall that separated his room from the hallway. There were two figures just beyond what he could focus on, and he couldn&#39;t move his neck to fix that issue. The door slid opened, allowing them in. As they came closer, Laika could put them into view. Tall girl, boy with white and black hair. Very familiar, just like the woman. But... names couldn&#39;t be drawn to mind. 
+
+The oxygen mask over Laika&#39;s nose and mouth fogged with each puff of breath his produced. Most of his gaunt features were covered by gauze and tape, hiding away the barely healing wounds underneath. A brace kept his neck in place and his hair was gone. It was the same story for the rest of him. There wasn&#39;t even a blanket to keep him covered.
+
+Laika&#39;s eyes fluttered at the return of touch. It was different than before. The boy held his hand tight, almost painfully. Still, he found it nice. Laika found himself staring at the one holding his hand, just like he had done before. He knew these people, closely like the woman, it just wasn&#39;t clear how yet.
+
+&quot;<em>Mr. Ijuuin, Penelope.</em>&quot; Searchman appeared on the table where Laika&#39;s PET laid. &quot;<em>It is past visiting hours. Know that I cannot guarantee any length of stay because of that.</em>&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="20-Jul-20 08:38 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-20 09:01 PM</span>
+
+            <div class="chatlog__message " data-message-id="734938017424211999" id="message-734938017424211999" title="Message sent: 20-Jul-20 09:01 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;I know, I-&quot; Penelope started, and Enzan finished. 
+
+&quot;I knew the risk,&quot; Enzan said. His wide eyes remained locked to Laika&#39;s, trying so hard to remind himself of reality. This was him, right? Not the imposter. Not The Other. Sight, blue. Touch, not as warm as it should be. Hearing, beeps, beeps- tears rolled down Enzan&#39;s cheeks. Sight, touch-
+
+&quot;Laika-&quot; he choked. Pen placed her hand to Enzan&#39;s better shoulder. &quot;Laika, Laika, Laika-&quot; his voice warbled quietly in the room. &quot;We made it. We&#39;re okay. Laika- we&#39;re alive.&quot; 
+
+Pen changed her hold to touch Enzan&#39;s hair and offer soothing touches. He did a good job keeping his crying quiet. He lowered his head to Laika&#39;s hand, just the small part without bandages covering them. He kissed his last knuckle.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">03-Aug-20 10:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="740039712877576247" id="message-740039712877576247" title="Message sent: 03-Aug-20 10:53 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika blinked slow, staring at whatever part of the boy was still in view. The name he said on repeat was his own, and hearing it brought a little more clarity. His pinky and ring finger curled in a bit at the kiss. The pulse monitor saw a slight uptick in activity. 
+
+Searchman turned his head to check it, but said nothing. 
+
+Not much else happened for a long moment. Laika&#39;s focused waned occasionally, his eyes coming close to shutting as he looked at different spots in the room. Pieces were coming into place at an awkward rate. He drew in a slightly deeper breath than the shallow rhythm he had been keeping, and his gaze went back to the white he could see near his hand. These were friends and... loved ones. A very specific someone. 
+
+Laika&#39;s eyes grew a little wider, as did his mouth. Nothing came of it but more fog on the inside of his oxygen mask. Not even a strangled sound, just a puff to exchange gases from the system. He tried to move his fingers again, trying to find something to respond to Enzan.</span>
+
+                                <span class="chatlog__edited-timestamp" title="04-Aug-20 12:01 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">15-Aug-20 02:41 PM</span>
+
+            <div class="chatlog__message " data-message-id="744264436373520405" id="message-744264436373520405" title="Message sent: 15-Aug-20 02:41 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Penelope squeezed Enzan&#39;s shoulder. 
+
+&quot;Enzan. Look,&quot; she hushed. Enzan bit back his hiccups and rubbed his eyes clear. He shifted his hand under Laika&#39;s, so he could just feel the small movement there. 
+
+&quot;L-laika-&quot; Enzan pushed a wobbly smile onto his face. Laika should wake up to his joy, not misery. He was alive, really, truely alive. &quot;Don&#39;t... Don&#39;t hurt yourself. I feel you, this is real. You can rest now.&quot; 
+
+Pen rubbed Enzan&#39;s back for another moment, and very gently petted Laika&#39;s head, where there was no wound. 
+
+&quot;I&#39;m going to watch the door. I&#39;ll keep an eye in here. Take your time,&quot; Pen said. Enzan nodded, not taking his eyes off of Laika&#39;s. He had to keep looking into his soul to hold him there. Pen left his side to go stand in the hallway.</span>
+
+                                <span class="chatlog__edited-timestamp" title="15-Aug-20 11:46 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Aug-20 12:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="747492940418383963" id="message-747492940418383963" title="Message sent: 24-Aug-20 12:30 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Pen&#39;s movement drew Laika&#39;s attention until she was out of sight. He blinked and came back to Enzan, calmer, but fighting against the urge to return to rest. Against Enzan&#39;s hand, Laika continued to shift his fingers, whichever ones weren&#39;t damaged enough to move. Enzan&#39;s skin was felt underneath them. It was warm with an occasional callous along his palm. A deep breath fogged Laika&#39;s mask. 
+
+&quot;<em>Mr. Ijuuin.</em>&quot; Searchman spoke up, softer. His eyes were trained on Laika&#39;s fingers. &quot;<em>Izabella tasked me with telling you pertinent information about my operator&#39;s health. She believes that you should be involved, should she or Laika&#39;s father not be present.</em>&quot; 
+
+&quot;<em>You should know that the medical staff believe that Laika... will not be able to speak. With the injuries present, they cannot be certain when he will regain the ability to do so, or if he ever will.</em>&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="13-Sep-20 09:05 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">03-Sep-20 03:38 PM</span>
+
+            <div class="chatlog__message " data-message-id="751164266941513919" id="message-751164266941513919" title="Message sent: 03-Sep-20 03:38 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Enzan&#39;s heart sank to his stomach. He squeezed the wheelchair&#39;s arm, tearing into the vinyl cushion. His head nodded, but the reassuring smile he offered was unable to be sustained. 
+
+&quot;I... See,&quot; he said. The shock of the news just barely staved off more tears. &quot;Th-thank you, Searchman.&quot; He was teetering with each new strike- he wasn&#39;t sure his body could take it. The world was shifting with unreality through his glassy eyes. 
+
+Sight, sound, touch... A million thoughts and plans raced through his mind, all too much to vocalize yet. 
+
+&quot;We&#39;ll help him,&quot; he promised. &quot;We&#39;ll help, Laika. We&#39;ll- we&#39;ll- take care of you. I promise. Never leaving you again. Never.&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">13-Sep-20 09:22 PM</span>
+
+            <div class="chatlog__message " data-message-id="754874632036941830" id="message-754874632036941830" title="Message sent: 13-Sep-20 09:22 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Searchman stared at Enzan&#39;s reaction unblinking. He turned away once talking started again. His expression remained unchanged despite the heavy news, yet his right fist clenched tight. 
+
+Laika was slow to process it all. Searchman&#39;s words threaded though syllable by syllable. The struggle to decipher his complex sentences played out as Laika&#39;s brow mildly twitched and scrunched. The main point was understood, eventually. 
+
+By then, a minute or so had passed since Enzan&#39;s assurances. 
+
+Another attempt was made, just to see if it was true. Laika opened his mouth as wide as he could. Beeping from the monitors covered up the eerie silence. His eyes closed and squeezed in upset, but no tears came. His fingers curled into more against Enzan&#39;s hand. They brushed and tapped after a beat, slowly but steadily.</span>
+
+                                <span class="chatlog__edited-timestamp" title="15-Sep-20 09:06 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">21-Sep-20 10:44 AM</span>
+
+            <div class="chatlog__message " data-message-id="757613313478754397" id="message-757613313478754397" title="Message sent: 21-Sep-20 10:44 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Enzan watched Laika&#39;s reaction, swallowing down more sobs. It hurt so much. Sorrow and guilt for him mixed so harshly with the joy of his survival. He desperately wanted to embrace Laika fully, gather him up in his arms and take away all this pain. God, he couldn&#39;t imagine how much he was hurting. 
+
+He flattened his palm a little, trying to make sense of Laika&#39;s movements. There was a rhythm, not like what they&#39;d done for comfort before. 
+
+&quot;I can get you a stylus, soon,&quot; Enzan finally whispered. &quot;I- I&#39;m sorry. I can&#39;t make it out.&quot; 
+
+He waited, trying to understand. It was so familiar, almost like-
+
+&quot;Blues- no, S-Searchman.&quot; He looked around for the green PET. He was too jumbled to piece together the slow letters, it was just different enough. &quot;It&#39;s morse code.&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="21-Sep-20 03:28 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Sep-20 12:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="759451939405824030" id="message-759451939405824030" title="Message sent: 26-Sep-20 12:30 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Searchman lifted his head, returning focus to Enzan. His focus shifted from there to the held hands in question. His eyes narrowed, almost a grimace, but the look was corrected and stuffed away. 
+
+&quot;<em>Place my PET under his hand. Be gentle.</em>&quot; Searchman requested. 
+
+A beat past while the motion was carried out. Searchman&#39;s hologram shifted from standing on the equipment to being near the hands. He looked up at Laika while he waited. The shifting started up again, and he listened. 
+
+&quot;<em>... &#39;R U OK.&#39; He is asking about your health.</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">26-Sep-20 03:09 PM</span>
+
+            <div class="chatlog__message " data-message-id="759491838036934707" id="message-759491838036934707" title="Message sent: 26-Sep-20 03:09 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Enzan smiled his watery smile and rubbed his eyes. Still worrying about him. A bubble of sadness pushed again on his throat. 
+
+&quot;Yeah, yeah. I&#39;m okay. I-&quot; he looked down at his body, the body he could barely move properly. He had to give honesty, or it would just upset him more. &quot;Just some flesh wounds. Doctors said a month of recovery. As long as I don&#39;t bust the stitches.&quot; 
+
+Enzan smiled, still. He&#39;d busted enough stitches in the past working too hard too fast back on the job. He&#39;d heard enough jokes about it. 
+
+&quot;I&#39;m going to take time off. A lot of it. I&#39;m going to stay with you,&quot; he promised.</span>
+
+                                <span class="chatlog__edited-timestamp" title="26-Sep-20 03:17 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Sep-20 04:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="759509709236863046" id="message-759509709236863046" title="Message sent: 26-Sep-20 04:20 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika, more relaxed now, watched and listened. A few moments after Enzan&#39;s words, his pinky shifted. 
+
+&quot;<em>&#39;OK. GOOD.&#39;</em>&quot;
+
+His brow creased as the focus on Enzan lingered. Laika could see the details now, the bandages, casts, and tape. Mostly white save for some small blotches of color from the ride up. He had to look away before his fingers started shifting again. His heart rate had another uptick, higher now than before. The system sent a silent alert to the ICU station. Thankfully, no one responded immediately, leaving Laika the time to complete his tapping. 
+
+&quot;<em>&#39;SORRY. I LEFT. SORRY. I HURT.&#39;</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">26-Sep-20 07:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="759562219742035968" id="message-759562219742035968" title="Message sent: 26-Sep-20 07:49 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Enzan shook his head as the first apology came. He squeezed the bedside sheets, as substitute for what he really wanted to hold. 
+
+&quot;Not- your fault,&quot; he croaked. He rubbed his eyes again, even as he heard Pen&#39;s voice outside in the hallway. &quot;It&#39;s not your fault.&quot; 
+
+Despite his crying, he felt a wash of relief that he hadn&#39;t upset Laika more. It was hard to promise to care for himself. But he would. 
+
+&quot;They probably won&#39;t let me back in for a few days. I wasn&#39;t supposed to move. I&#39;ll videochat. Every minute if you want. Pen will come in. She has books.&quot; He pushed out all the words in a rush, quiet. He could hear Pen failing to stall the nurse. &quot;Your mother- Izabella. She&#39;ll be here.&quot; He brushed his finger over the uninjured part of Laika&#39;s hand.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Sep-20 10:01 PM</span>
+
+            <div class="chatlog__message " data-message-id="759595436217598012" id="message-759595436217598012" title="Message sent: 26-Sep-20 10:01 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">The promises of contact both near and far pulled Laika back to staring at what was close. His lips parted to breathe more, to try and calm himself and buy more time. A brief twitch made it look like smile. His fingers started to move again. They were slow despite Enzan&#39;s rushed promises. Searchman disappeared for a moment to try and help Pen. 
+
+It was just Enzan and Laika for that moment. A reunion just started, now ending. 
+
+Even Searchman couldn&#39;t convince the nurses to wait for long. He was back to relay Laika&#39;s words just as he finished. He looked up to Enzan, expression unchanged. 
+
+&quot;<em>&#39;GO REST. I&#39;LL REST. LOVE U.&#39;</em>&quot; Searchman stated. He then moved on from being his operator&#39;s voice. &quot;<em>Notify me directly in the future. To avoid conflicts.</em>&quot;</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/dec3642b1e7668e020cebd87724be6ae-627D8.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Penelope &#128012;&#127812;Novella#4675" data-user-id="254710729934897153" style="color: rgb(255,0,0)">Anna</span>
+
+
+        <span class="chatlog__timestamp">27-Sep-20 01:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="759648242823725107" id="message-759648242823725107" title="Message sent: 27-Sep-20 01:30 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">&quot;Yeah. Blues will, I&#39;m sorry. Thank you, Searchman,&quot; Enzan said. He glanced back at the door as the nurse came in. His face screwed up into a grimace instead of a sob. 
+
+He leaned in, despite the pain it caused him, and kissed Laika&#39;s last knuckle again. 
+
+He did the movement quickly- it wasn&#39;t for the newcomer. He glared up at the woman in the doorway. And Penelope. 
+
+&quot;Penelope will take me back- to my room,&quot; he said. He clutched to the bedsheet for a moment longer. Pen peeked in through the door, as the nurse moved in to check on Laika&#39;s vitals. Enzan nodded, so she slinked in, apologized under her breathe, and moved to man his wheelchair. Enzan held in a groan of pain as he was moved. He leaned back against her arm, looking back at Laika. 
+
+He couldn&#39;t leave him. They couldn&#39;t part again. But the wheels were already rolling out the door. He gripped the armrest of his chair. No, no, just a few more minutes- 
+
+&quot;I love you,&quot; he called back into the room. &quot;Make sure he heard me, Pen. Make sure he knows. I love him.&quot;</span>
+
+                                <span class="chatlog__edited-timestamp" title="27-Sep-20 11:17 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Trio%20-%20Keep%20Quiet%20Archive%20%28Chrono%29%20-%20act_of_defiance%20%5B719540019450347561%5D.html_Files/aa37ddc307bd402af1c962e06e140093-81610.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: rgb(26,188,156)">chloe</span>
+
+
+        <span class="chatlog__timestamp">27-Sep-20 10:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="759781687239901204" id="message-759781687239901204" title="Message sent: 27-Sep-20 10:21 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Laika&#39;s eyes followed, watching Pen and Enzan until he couldn&#39;t. He had heard it, Pen didn&#39;t have to check. Not that she even could, anyways. The other nurses on the floor had come to see what the disruption was, and guided the pair to the elevator. Laika&#39;s eyes closed when he couldn&#39;t hear the muffled upset anymore. The vignette came to a close with him drifting off again. 
+
+The nurse above him gently moved his PET back to the bedside. Then she stepped back, sticking her hands in scrub pockets and sighing. She didn&#39;t even have to dose him with anything extra. Muttering came from her as she walked out of the room, leaving Laika undisturbed. He was back to being stable, quiet, healing, and alone in the dark.
+
+Searchman relaxed, the space now threat-less. He watched his operator like a hawk, forgoing his own rest to keep Laika secured.  As a navi, he had the luxury of simply ignoring it. He could go without if it meant that the same mistakes wouldn&#39;t be repeated again. There he sat in the night, quiet and alone in the dark.</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 29 message(s)</div>
+</div>
+
+</body>
+
+</html>

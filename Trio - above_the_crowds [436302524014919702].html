@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - above_the_crowds</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">above_the_crowds</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-Apr-18 07:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="436304172296568843" id="message-436304172296568843">
+                <div class="chatlog__content">
+                    <span class="markdown">The constant flashes on a corner near the street drew their attention. The Firebird saw a crowd around a young man, who they had seen plenty on advertising and magazines fronts.
+
+Enzan Ijuuin. Horded by paparazzi.
+
+They switched lanes and rolled to a stop by the curb. Their motorcycle was silent, so they had to speak up to divert attention.
+
+&quot;Are they bothering you?&quot; A feminine voice asked. &quot;Do you need a lift?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">18-Apr-18 08:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="436325633212284937" id="message-436325633212284937">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s body tensed even more when an only vagely familar voice broke through the small crowd of cameras. He smiled a bit disarmingly and stepped towards them.
+
+&quot;I would love a lift.&quot; He gave a little wave to the paparazzi and offered the newcomer the same hand for help onto the bike. 
+
+Cries for his return was deafened by the sound of camera flashes. Who was this mystery cyclist??</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-Apr-18 08:51 PM</span>
+
+            <div class="chatlog__message " data-message-id="436328059390394368" id="message-436328059390394368">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird helped Enzan on, but said nothing more towards the crowd as they silently pulled away. Shouts faded behind them, only turning into murmurs as they accelerated.
+
+&quot;Back to IPC, I assume.&quot; They looked to chat. &quot;Or if you have somewhere else to go, that is fine. The toll is information.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">19-Apr-18 08:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="436496650622599169" id="message-436496650622599169">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s arms held tight as their speed picked up. He breathed deeply, now that the wind whipping around them made it a conscious effort. &quot;Mn.&quot; A small sound of agreement. &quot;IPC is fine.&quot; 
+
+&quot;Hah, fair enough. What do you want to know?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-Apr-18 06:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="436651651596681226" id="message-436651651596681226">
+                <div class="chatlog__content">
+                    <span class="markdown">Hearing confirmation, Firebird made a turn onto a side street. They would take the long way to avoid noise, crowds, and traffic. Down by the river. 
+
+&quot;Daisuke Hito.&quot; They started with a name. &quot;I predict that he will be a nuisance to you and the community soon. Or he already is.&quot; 
+
+They stopped at a traffic light, which was enough time to flash a picture of a scruffy looking man in custodial uniform. 
+
+&quot;He is familiar?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">22-Apr-18 07:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="437757918893309958" id="message-437757918893309958">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I&#39;ve never seen him.&quot; Enzan squinted to see the uniform clearly. &quot;Works on the first three levels of IPC by the looks of his uniform. Access to the offices below room four hundred.&quot;
+
+&quot;I can pull up his resume and file when we get there, but I doubt it will be anything you haven&#39;t already seen. Any further access would need to be done in my office.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="22-Apr-18 07:35 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">22-Apr-18 08:23 PM</span>
+
+            <div class="chatlog__message " data-message-id="437770493626417162" id="message-437770493626417162">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;None of that would be helpful.&quot;
+
+Firebird closed the picture and slid their black PET out of sight. Shortly after, the light turned green, setting them into motion.
+
+&quot;I have already done so, as you said.&quot; They explained, &quot;But there is a surprise, one that the NetPolice will struggle with. So I will need to explain it to them.&quot;
+
+A turn left, away from the river and back into the forest of skyscrapers. The motorcycle did it so smoothly.
+
+&quot;I need to make sure they don&#39;t arrest the wrong man. I need a copy of the posted schedule. Paper.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="22-Apr-18 08:24 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">22-Apr-18 08:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="437776612784865280" id="message-437776612784865280">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I will get it to you. The same way as last time. We should just call it the usual way. I don&#39;t see it changing.&quot; There were probably easier ways to get information to each other, rather than semi-ubduction. 
+
+He watched the river fly by, getting distracted by memories for a moment. 
+
+&quot;Tell me what we need, you know I&#39;ll make it happen. Problem with the paper schedule is that lower level employees sometimes switch their shifts without telling management. The best person to talk to is the floor manager.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="22-Apr-18 08:50 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">22-Apr-18 08:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="437779076766498817" id="message-437779076766498817">
+                <div class="chatlog__content">
+                    <span class="markdown">A giggle.
+
+&quot;You are getting ahead of me, Mr. Ijuuin.&quot; Firebird hummed. &quot;That&#39;s exactly why I need the schedule tonight. Hito has been switching shifts, making him hard to observe. Tomorrow will be when the NetPolice can act. So I need it--!!&quot;
+
+The motorcycle came to a halt, just short of a pedestrian jaywalking. No one could see Firebird&#39;s glare, but their frustration was obvious in other ways.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">24-Apr-18 08:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="438496230864060416" id="message-438496230864060416">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Got it.&quot; Enzan agreed, &quot;I will-- shit.&quot; He looked up when they slowed down, and <em>recognized</em> the offender. 
+
+&quot;Is that <em>you</em> Enzan?&quot; Marcatto swirved a little while he walked to avoid being hit if they continued, but otherwise seemed unbothered. 
+
+&quot;Get out of the road! You almost got hit!&quot; Enzan remained firmly on the bike, his arms tightly around his driver. 
+
+&quot;Who&#39;s this?&quot; Marcatto smiled, touched by Enzan&#39;s concern.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">24-Apr-18 08:35 PM</span>
+
+            <div class="chatlog__message " data-message-id="438498296139612162" id="message-438498296139612162">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird listened in silence until they were addressed. This Marcatto... his placement in the street wasn&#39;t entirely by chance. Why did he lack the shock of others in the same situation?
+
+Enzan didn&#39;t seem to enjoy the fact that he was here. The bind was tight. 
+
+&quot;I am the person who almost killed you.&quot; Firebird answered. &quot;Be thankful your clothes had some brightness to them.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">24-Apr-18 10:09 PM</span>
+
+            <div class="chatlog__message " data-message-id="438521795897720842" id="message-438521795897720842">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;You wouldn&#39;t have hit me.&quot; Marcatto assured them, &quot;not with Enzan on board!&quot; 
+
+Enzan was positively nauseated by the casual use of his name. &quot;Did you know I was coming this way? Why are you even here?&quot; 
+
+&quot;Of course not! I was heading to IPC for our meeting! I just thought I&#39;d take the leasurely way, since it&#39;s not for a few hours. Now we can walk together!&quot; 
+
+&quot;I&#39;m busy,&quot; Enzan said flatly.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">25-Apr-18 06:13 AM</span>
+
+            <div class="chatlog__message " data-message-id="438643687044677633" id="message-438643687044677633">
+                <div class="chatlog__content">
+                    <span class="markdown">The way this guy talked was annoying! Firebird had heard about him from other intelligence ventures, but they never imagined that he&#39;d be just as others described. Pushy, clingy, especially when Enzan was involved.
+
+&quot;By few hours, I suppose you mean in the morning.&quot; Firebird looked up into the night sky. It was far too late to have a business meeting. &quot;Just what makes you think that it&#39;s important enough to warrant an all night vigil?&quot;
+
+Firebird settled back into the seat of their motorcycle. They were holding up traffic because of this guy. In the moment they wished their motorcycle was a little louder. 
+
+&quot;Whatever it is, it&#39;s not as important as mine. Mr. Ijuuin will see you tomorrow.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="25-Apr-18 06:13 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">25-Apr-18 07:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="438841012648149053" id="message-438841012648149053">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Why are you hanging around with a woman like this anyways Enzan? Motorcycles are dangerous.&quot; Marcatto walked around to offer Enzan his hand, like he didn&#39;t even hear Firebird&#39;s logic.
+
+&quot;I&#39;ll see you tomorrow.&quot; Enzan repeated, &quot;now get out of the damn road before someone else hits you.&quot; 
+
+Instead of hopping onto the nearest curb, Marcatto moved to jaywalk farther to continue to the other side, despite oncoming traffic. The dude didn&#39;t even react when a car honked at him, and was coming too fast. 
+
+Enzan swore and jumped off the bike to sprint over and tackle Marcatto out of the way.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">25-Apr-18 07:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="438844763685388298" id="message-438844763685388298">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Hey--!!&quot; Firebird tried to snatch Enzan before he could leap, but just missed the tail of his vest. They froze as the two barely missed the oncoming car. 
+
+That was enough. Firebird hastily pulled off the road, and stormed across. They rushed the two before they had a chance to get up. Enzan was pulled aside, but Marcatto was lifted up. A swift and heavy fist found his face. Twice. 
+
+&quot;Get the <em>fuck</em> out of here.&quot; Firebird growled as they tightened their grip. &quot;Unless you want to deal with a company crisis tomorrow instead.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">25-Apr-18 08:19 PM</span>
+
+            <div class="chatlog__message " data-message-id="438856505983238156" id="message-438856505983238156">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;H-hey!&quot; Enzan scrambled to his shaky feet and reached up to seperate them. He grabbed Marcatto and freed him from Firebird&#39;s grip.
+
+&quot;What the <em>hell</em>?!&quot; Marcattos voice cracked. He pulled away, cradling a split lip. His eyes shone bright on the dark street, wide with fear. 
+
+&quot;Enough!&quot; Enzan hissed, and grabbed Firebird&#39;s arm. &quot;Let&#39;s just go. Let&#39;s get out of here.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">25-Apr-18 08:29 PM</span>
+
+            <div class="chatlog__message " data-message-id="438859134666932235" id="message-438859134666932235">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird allowed themself to be pulled away easily. They loomed. For a moment, the light from the cars cut through the tint of their helmet&#39;s visor, and allowed Marcatto to see what glared back at him.
+
+Enzan&#39;s pull made them turn, and head back to their ride. They didn&#39;t allow for him to keep a hold. They were stiff with lingering anger. 
+
+&quot;I just need the schedule.&quot; Firebird reminded as their motorcycle blinked on. &quot;That is all I need for tonight.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="25-Apr-18 08:32 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">25-Apr-18 09:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="438868705158496267" id="message-438868705158496267">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan fell in line behind Firebird. He deliberately ignored Marcatto, so he was oblivious to Marcatto&#39;s fearful gaze turning to hatred. 
+
+&quot;You cannot just <em>do</em> that! He&#39;s just some civilian! He will <em>never</em> let this go. God... dammit.&quot; Enzan approached the bike and stood there for a second. 
+
+&quot;...you know what? I&#39;ll meet you there.&quot; He ran his hand through his hair, &quot;I just almost got hit by a car. I&#39;m going to walk. I&#39;ll get the thing for you as soon as I can.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="25-Apr-18 09:08 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 04:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="438985232822304768" id="message-438985232822304768">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird looked to Enzan, standing silent until he was done. They settled into their seat and turned the front wheel. At first they weren&#39;t going to respond, but as they looked to traffic that decision changed.
+
+&quot;I am also just a civilian.&quot; Firebird stated as they took off, leaving Enzan on a sidewalk similar to where they picked him up.</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Apr-18 04:51 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 05:20 AM</span>
+
+            <div class="chatlog__message " data-message-id="438992781872988160" id="message-438992781872988160">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;But I&#39;m <em>not!</em>...Dammit.&quot; Enzan scowled and turned on his heel.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 05:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="439000191652069376" id="message-439000191652069376">
+                <div class="chatlog__content">
+                    <span class="markdown">His sour expression held, as he kicked the curb. Asshole. He scuffed along the sidewalk with his hands in his pockets and a slight hunch. That absolute... unhelpable... creep... His chest was finally starting to feel heavy when an unwelcome voice called out. 
+
+&quot;Enzaaan.&quot; Marcatto yelled, tears in his eyes. &quot;I&#39;m so glad you&#39;re alright! Let&#39;s get back together.&quot; 
+
+&quot;I&#39;m really not in the mood for company Marc,&quot; Enzan grumbled. It seemed like he was stuck with him anyways, since they were going the same way. &quot;I&#39;ll get you something for your lip at the office though. And for the bruise.&quot; 
+
+Enzan couldn&#39;t help but think... How shitty he had been at his job tonight.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 05:58 AM</span>
+
+            <div class="chatlog__message " data-message-id="439002262774480905" id="message-439002262774480905">
+                <div class="chatlog__content">
+                    <span class="markdown">Firebird waited in the lobby of IPC, having gone straight there to wait and think about the encounter that just happened. Their motorcycle was parked somewhere else, out of sight and out of mind.
+
+They were almost forced to think on their actions as they looked up and spotted an advertisement with Enzan&#39;s face on it. 
+
+The punch was unessscary, probably, but what else do you do with an idiot who almost kills your source? Enzan wouldn&#39;t have had to risk himself had that <em>leech</em> thought properly.</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Apr-18 06:47 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 02:49 PM</span>
+
+            <div class="chatlog__message " data-message-id="439135999025610752" id="message-439135999025610752">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan brushed past Marcatto when he entered the front door of IPC. The walk really hadn&#39;t cooled him off at all, because Marc&#39;s incessant yammering had followed. 
+
+The vice-president shouldered his way to the bathroom, ignoring his body guards as well. God, he was still <em>shaking</em>. Enzan washed his bloodied hands, finally giving them a look. Gravel and blood had scuffed them up from the harsh landing against the curbside. He swore to himself over how the water stung. At least he still looked semi-presentable. He looked up and straightened his collar in the mirror. He should really do something about the bags under his eyes. 
+
+He splashed water on his face, dryed, and left to instruct someone else to deal with Marcatto and keep him occupied. Once that was dealt with, he met Firebird in the lobby. 
+
+&quot;This way.&quot; He nodded to the elevator, but didn&#39;t wait up for them to join him. His arms folded.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 07:11 PM</span>
+
+            <div class="chatlog__message " data-message-id="439201929781051392" id="message-439201929781051392">
+                <div class="chatlog__content">
+                    <span class="markdown">When the others walked in, Firebird stayed still. They watched as Enzan vanished into the bathroom, and Marcatto was left alone. Anger still urged them to do more, but doing so now would be of no benefit.
+
+Finally they moved to the elevator, and joined a brooding Enzan. They continued to say nothing until the elevator started to rise. 
+
+&quot;I realize it was impulse.&quot; they stated. &quot;However, he was baiting you.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 07:21 PM</span>
+
+            <div class="chatlog__message " data-message-id="439204405745811472" id="message-439204405745811472">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Does it <em>matter</em>? If that&#39;s the case, he&#39;s... suicidal or something. A rational person doesn&#39;t do things like that. He&#39;s annoying, but you don&#39;t have to...do whatever that was.&quot; He leaned against the side of the elevator and examined the ground. 
+
+&quot;You can&#39;t do stuff like that. Not when the netpolice don&#39;t even trust you yet.&quot; He pulled his hand out from their cross to examine the injury again. He swore. &quot;Don&#39;t do anything stupid. I&#39;ll have to arrest you. You know that job comes first for me.&quot;
+
+The elevator dinged, and Enzan pushed off the wall with his hips and started walking. He lead to the third floor lobby.</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Apr-18 07:26 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 07:38 PM</span>
+
+            <div class="chatlog__message " data-message-id="439208738851913755" id="message-439208738851913755">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Noted.&quot; Firebird replied. &quot;Either way, he is going to jeopardize you at some point, and it will be more than just paparazzi hordes.&quot;
+
+They followed Enzan, and looked for any employee areas. A small corkboard was posted by the custodial closet, away from public eyes. Firebird went on their own to inspect it.
+
+Sure enough, Daisuke Hito had switched shifts so that he could work tomorrow.
+
+&quot;Without going into details...&quot; Firebird took out their PET, and opened the camera app. &quot;This man is planning to go beyond the fourth floor tomorrow.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 07:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="439213077947351040" id="message-439213077947351040">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;...&quot; Enzan leaned against the wall, similar to his elevator stance. &quot;I hate that I believe you. I think we&#39;re both paranoid assholes. He&#39;s stupid, but he&#39;s more normal than either of us.&quot; 
+
+&quot;Going to catch him in the act? I could place more guards or something.&quot; That guy didn&#39;t seem all too intimidating. Enzan was pretty sure he could destroy his life with a word. But maybe that was the problem.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 08:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="439215982515453963" id="message-439215982515453963">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;You acting would be very bad.&quot; Firebird stated as they snapped various pictures of the scheduled. &quot;It would not have the needed affect.&quot;
+
+They figured that was enough, and pocketed the PET.
+
+&quot;Hito is not the primary target. Rather, he is the beginning of a bread crumb trail. One that the NetPolice can&#39;t refuse.&quot;
+
+They stopped at the elevator, and looked to Enzan. &quot;I am leaving now. I will not bother Marcatto on my way out. I am only sorry that you had to act.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 08:16 PM</span>
+
+            <div class="chatlog__message " data-message-id="439218267954085897" id="message-439218267954085897">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan nodded, &quot;fair. Let me know if there&#39;s anything else I can do. Or anything I should watch out for.&quot; 
+
+&quot;Drive safe.&quot; Enzan was definitely going to take a nap before dealing with Marcatto again. He&#39;d grab some coffee here, and take the elevator when it was on the way back up.</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Apr-18 08:18 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Apr-18 08:24 PM</span>
+
+            <div class="chatlog__message " data-message-id="439220177851252747" id="message-439220177851252747">
+                <div class="chatlog__content">
+                    <span class="markdown">With a nod, Firebird took the elevator on their own. The elevator stopped a floor above the main lobby, just for a moment, then continued down. Small glitches weren&#39;t uncommon to encounter, even at IPC&#39;s headquarters. 
+
+Firebird walked through the main lobby, silent. They barely noticed Marcatto as they exited through the front doors. It was back into the night, to go to the next task.</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Apr-18 08:48 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 30 message(s)</div>
+</div>
+
+</body>
+</html>

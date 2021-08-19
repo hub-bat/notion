@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - someone-call-a-doctor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">someone-call-a-doctor</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 04:15 PM</span>
+
+            <div class="chatlog__message " data-message-id="450753918197039106" id="message-450753918197039106">
+                <div class="chatlog__content">
+                    <span class="markdown">Shuuseki closed up his work and stood up from Enzan&#39;s bedside. He straightened his coat and looked down once to make sure his son was sleeping. That settled, he went to the door and walked down the hallway. 
+
+It wasn&#39;t far from here, according to the map his navi was showing. He checked it once and never again. He watched the numbers on the doors go by, as his guards found him and walked on either side. 
+
+There. The criminal&#39;s room.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 04:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="450759291285012490" id="message-450759291285012490">
+                <div class="chatlog__content">
+                    <span class="markdown">A quiet chat could be heard inside the room, calm and somewhat pleasant. From the Doctor&#39;s hand, Cosmoman bowed and glanced at the door. <em>&quot;It sounds as if you have a visitor, doctor.&quot;</em>
+&quot;Mm?&quot; Regal didn&#39;t hear any footsteps, but assumed he was just getting old. A glance was cast to the door as he pushed himself up to a sitting position. &quot;Hello?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 04:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="450763991732584449" id="message-450763991732584449">
+                <div class="chatlog__content">
+                    <span class="markdown">There was a light rap at the door before it opened. Shuuseki’s presence darkened the doorway. 
+
+&quot;Hello, Doctor.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 05:02 PM</span>
+
+            <div class="chatlog__message " data-message-id="450765875415613450" id="message-450765875415613450">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Rare that I get interrupted.&quot; a voice hummed. It was less corroded than Regal&#39;s, yet still had a similar tone.
+
+Something murky lurked in the corner of the room. They lounged on the stool there, where a nurse usually sat to take notes while the other doctors were in the room. Shadow cast over their features, making it hard to see anything beyond some human features.
+
+A glint of tooth caught the light as they grinned towards Shuuseki.
+
+&quot;It&#39;s a shame you can&#39;t bow, hahaha~&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 05:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="450767147594154010" id="message-450767147594154010">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal looked at the corner for a brief moment, chalked up the vision to fatigue and drugs, and redirected to Shuuseki.
+&quot;Good evening.&quot; He said, folding his hands in his lap. Eyes glanced to the guards who now monitored his door. &quot;To what matter do I owe this pleasure?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 05:13 PM</span>
+
+            <div class="chatlog__message " data-message-id="450768712346238996" id="message-450768712346238996">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I heard you were in the same hospital. I wanted to see with my own eyes the... snake that has put me in such a position.&quot; He raised his chin, walking a bit farther in. His guards were close behind. 
+
+&quot;Reputation, ruined. PR in a tailspin... because you could not keep your urges under control.&quot; If he had the emotional capacity, he would be furious to the point of ripping out those <em>damn</em> I.V.s.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 05:16 PM</span>
+
+            <div class="chatlog__message " data-message-id="450769384152236032" id="message-450769384152236032">
+                <div class="chatlog__content">
+                    <span class="markdown">The figure in the corner stifled a laugh. Their hands could barely contain the childish peals.
+
+&quot;Oh he&#39;s angry at you!!! Lemme guess, because of one of those boys you fucked up.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 05:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="450769735110361107" id="message-450769735110361107">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Urges? Whatever do you mean?&quot;
+Regal feigned ignorance, and even managed a head tilt. Yes, it probably was due to his shenanigans. But right now he was playing the confused amnesiac, as he had been. 
+Eyes glanced to the corner again, but only a moment. Curious...</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 05:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="450779464964505610" id="message-450779464964505610">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I suppose I should blame members of my staff. Your... underlings have all been fired. I know it is ludicrous to say, but I hope my lawyer will be quick.&quot; And that Regal wouldn&#39;t put up much fight.
+
+&quot;You will be deported quickly and your name wiped from our image... I am disappointed. You could have done more great work for us.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-May-18 09:05 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:14 PM</span>
+
+            <div class="chatlog__message " data-message-id="450829167773089795" id="message-450829167773089795">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal smiled, &quot;You may wipe me from your image, but your son will never forget my face.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:14 PM</span>
+
+            <div class="chatlog__message " data-message-id="450829270315696139" id="message-450829270315696139">
+                <div class="chatlog__content">
+                    <span class="markdown">The kid hopped up, and dashed over to where Shuuseki stood. Their murky limbs shot up as the danced around him, laughing.
+
+&quot;Ahahahaha!&quot; They were right! &quot;You got too excited! You took too much! Now you get nothing!&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:15 PM</span>
+
+            <div class="chatlog__message " data-message-id="450829501501407233" id="message-450829501501407233">
+                <div class="chatlog__content">
+                    <span class="markdown">His eyes followed the figure dancing around Shuuseki. &quot;I get to go home.&quot; He said simply, somewhat randomly. He damned himself for speaking to it at all, given he figured it was a hallucination.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="450830058312040448" id="message-450830058312040448">
+                <div class="chatlog__content">
+                    <span class="markdown">The figure stopped, and craned their head backwards.
+
+&quot;Home?&quot; They mumbled. &quot;You mean a gulag, right? Our wondrous nation always buries those who fail. Even the smallest failures.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:18 PM</span>
+
+            <div class="chatlog__message " data-message-id="450830336717488128" id="message-450830336717488128">
+                <div class="chatlog__content">
+                    <span class="markdown"><em>Death is more likely.</em> Regal thought, but didn&#39;t say. He already looked strange enough. <em>I&#39;d rather rot in a prison in Nation Z than here.</em></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:24 PM</span>
+
+            <div class="chatlog__message " data-message-id="450831708376399874" id="message-450831708376399874">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Shame that they&#39;ll find the worst punishment for you.&quot;
+
+Suddenly the child was on the far side of Regal&#39;s bed, gripping at the sheets. They read his thoughts. 
+
+&quot;Forced labor... for a man who&#39;s decaying from the inside out. To dig holes until his his dying day.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-May-18 09:24 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">28-May-18 09:27 PM</span>
+
+            <div class="chatlog__message " data-message-id="450832546767568906" id="message-450832546767568906">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Home...&quot; Shuuseki cursed internally. Leniant punishment, in his eyes. Regal deserved to be wiped off the map.
+
+He didn&#39;t react to the mention of his son, but <em>oh</em> how it twisted his insides.</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-May-18 09:28 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">29-May-18 01:24 PM</span>
+
+            <div class="chatlog__message " data-message-id="451073482940219403" id="message-451073482940219403">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal flexed his false hand, which creaked and protested the movement. &quot;If you&#39;re dissapointed by that outcome, you shouldn&#39;t be. I assume I will be brought into the public square and executed swiftly.&quot;
+He finally returned to looking at Shuuseki. &quot;We do not take kindly to failures.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">29-May-18 03:37 PM</span>
+
+            <div class="chatlog__message " data-message-id="451106884901011456" id="message-451106884901011456">
+                <div class="chatlog__content">
+                    <span class="markdown">The kid hid their mouth behind the edge of the bed. Cold, beady eyes stared through Regal.
+
+&quot;That&#39;s not what you&#39;re thinking.&quot; They said. Their tone was happy.
+
+&quot;You hope they kill you, because you cannot bear to keep living.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="29-May-18 03:37 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">29-May-18 04:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="451114070381428756" id="message-451114070381428756">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Nor do I. Though somehow, I doubt you failed at what your true goal was.&quot; His left hand curled into a fist, and his right gripped his ornate walking stick. His body guards hung a little closer to him. They took up too much space in the tiny hospital room. 
+
+&quot;I hardly care where you end up. My only want is for the legal proceedings to go quickly and <em>quietly.&quot;</em></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">30-May-18 11:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="451594272290897950" id="message-451594272290897950">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Quietly?&quot; Regal blinked, &quot;My own admittance to this hospital was televised. It would be remiss of you to think anything with my name on it will be quiet.&quot; 
+The vision was absolutely correct, but that had been a constant, forever. He had learned to deal with it, take part in living, take part in this disgusting puppet show. There was some good, like the yelling down the hall during the night and the vague death threats that flooded whoever could locate his inbox. 
+The self was unimportant. The effect the self had on the rest of the world- yes, that was important.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">31-May-18 11:44 AM</span>
+
+            <div class="chatlog__message " data-message-id="451772863847071764" id="message-451772863847071764">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Quickly then.&quot; Perhaps the quiet part could be swept up by IPC&#39;s influence. He would have to deliberate with the board to see if it was better to lie low until he was gone, take up a public fight against Regal, or attempt his initial, more shady thought. 
+
+&quot;You hardly deserve the attention.&quot; His son was the one that should have spotlight. Not that he wanted the public to see him like that.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">04-Jun-18 06:56 AM</span>
+
+            <div class="chatlog__message " data-message-id="453150006929653760" id="message-453150006929653760">
+                <div class="chatlog__content">
+                    <span class="markdown">The child simply watched for now. Eyes rimmed with dark circles darted back and forth between the speakers. Their eyebrows kept rising and falling, as if what was being said was of some great interest.
+
+&quot;Wow...&quot; They whispered. &quot;This is getting boring...&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">18-Jun-18 10:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="458457618076401666" id="message-458457618076401666">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I agree,&quot; Regal muttered as a hand dragged down his face. It was unclear who he was agreeing with. 
+&quot;If you have nothing else, Shuuseki, I grow tired in your presence.&quot; He waved his hand. &quot;I will likely be deported and justice will be served upon you, yes, so go.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Jun-18 10:14 AM</span>
+
+            <div class="chatlog__message " data-message-id="458998135210115075" id="message-458998135210115075">
+                <div class="chatlog__content">
+                    <span class="markdown">Shuuseki’s lip curled over the disrespectful address. 
+
+&quot;We could have done fine work together.&quot; And Shuuseki said this to hold back something more thuggish. He couldn&#39;t help but think, if this were another time or he another person, the doctor would be ordered dead months ago, and the deed would have been swift.
+
+&quot;My parting message is that all your research and properties will be absorbed by IPC and put to good use.&quot; With that, his hand came up to signal his guards, and they left.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-18 09:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="470043908718592010" id="message-470043908718592010">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal grinned a sharp toothed grin, hands folding in his lap and <em>tightening,</em> holding together.
+&quot;I do not need your flowery language to say you will destroy what I have worked on.&quot; He said, voice level but some emotion flaring, flickering, as he watched Shuuseki leave. Thoughts of murder crossed his mind. He found some comfort in them.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-18 10:02 PM</span>
+
+            <div class="chatlog__message " data-message-id="470047974181961758" id="message-470047974181961758">
+                <div class="chatlog__content">
+                    <span class="markdown">The child was now by the door, intently watching how it&#39;s weight made it close by itself. The grin they showed match Regal&#39;s now, and it grew once the lock clicked. 
+
+&quot;Too bad you&#39;ll never have that strength again.&quot; they hummed as small feet bounced back to the bedside. Fingers came up and grabbed at the railing, helping themselves pull closer then push themselves away. Over and over and over. 
+
+&quot;Still nice to think about though. That man would probably die best falling off the pinnacle of his success......... or a fancy pen s͠h̢o͞ved̷ ͢th̷ro͟ug҉ḩ his͠ ̢heart̶.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="20-Jul-18 10:03 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-18 10:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="470059212865667083" id="message-470059212865667083">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal laughed, soft and <em>warm.</em> He watched the child move, content in entertaining this delusion for a moment. 
+&quot;Certainly. Though, I&#39;m not interested in a fitting death. Just simply, a death. I would be content doing to him what I have done to his son. Or throwing him from the top of his office, whichever was easier at the moment.&quot;
+He shrugged his shoulders. &quot;I suppose those days are, in fact, done now as you say.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-18 10:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="470061089531363328" id="message-470061089531363328">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Could always choke him with these tubes.&quot; 
+
+The child prodded the bags that dripped liquid into Regal&#39;s veins. They even demonstrated, their small hands taking the length and wrapping it around their throat. 
+
+&quot;The poor man~&quot; They giggled. In the next blink they were on the other side of the bed. &quot;All these poor men that I&#39;m forced to be with.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-18 11:16 PM</span>
+
+            <div class="chatlog__message " data-message-id="470066545695916042" id="message-470066545695916042">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Forced? Interesting. I wonder who else I&#39;ve imagined you with.&quot; 
+Regal hummed, smiling at the child. He had an inkling where this was coming from, but no concrete evidence.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="470066633562521601" id="message-470066633562521601">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Perhaps my victims?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">20-Jul-18 11:21 PM</span>
+
+            <div class="chatlog__message " data-message-id="470067688119599135" id="message-470067688119599135">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Aaah~&quot; 
+
+They laughed, just a little. As their chest shook in the moment, their eyes rose upwards. Staring at the ceiling, burning holes through it. 
+
+&quot;My kin got far further than me. I am the failure that will be pruned.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">28-Jul-18 01:10 AM</span>
+
+            <div class="chatlog__message " data-message-id="472631891367952384" id="message-472631891367952384">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Interesting.&quot; Regal hummed. He had an inkling who this kin could be, who he was linking this little thing to. &quot;Could it be the soldier? Laika?&quot;
+
+The name was...wrong, in his mouth. He nearly said it incorrectly, it felt so strange to say it. Had he ever called him by first name? Or was it only the <em>monster</em> now?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">28-Jul-18 09:25 AM</span>
+
+            <div class="chatlog__message " data-message-id="472756542350032897" id="message-472756542350032897">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;The one who turned on you. Quite literally a backstabber! Hehehe!&quot;
+
+They stopped staring upwards, and found themselves laughing for a few seconds more. The facts were so hilarious, it seemed. To be cut down by their junior, to have everything taken because of them.
+
+&quot;Hehehehe~! It&#39;s just too bad that they&#39;ve failed too.&quot; They settled. &quot;It would&#39;ve been so nice to see myself, <em>everywhere.</em>&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">18-Aug-18 02:17 AM</span>
+
+            <div class="chatlog__message " data-message-id="480258936121851914" id="message-480258936121851914">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal felt the wound that never quite properly healed crawl up his back. He nodded, slowly, watching the small...thing, laugh. 
+&quot;Mmm. Best laid plans.&quot; He said, his mind wandering back to his own plans. SoulNet. 
+&quot;They&#39;ve failed? Interesting.&quot; He came back around. &quot;Not unexpected. A useless host.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">30-Aug-18 05:52 PM</span>
+
+            <div class="chatlog__message " data-message-id="484842921275817986" id="message-484842921275817986">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Useless?&quot; 
+
+They seemed confused. Their small head tilted, inky black hair falling to the side. 
+
+&quot;If the soldier was so useless, why did you choose him? Surely he had more use than that scrawny son of the man who was just here.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">30-Aug-18 06:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="484856837200674816" id="message-484856837200674816">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Mm,&quot; Regal hummed, head drifting to the side, glancing at the figment. &quot;I mean that to say, his usefulness ran out quickly. Certainly more use...But I have better plans, now. The data I&#39;ve gathered from them will serve me well.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Sep-18 09:19 PM</span>
+
+            <div class="chatlog__message " data-message-id="488156552750956545" id="message-488156552750956545">
+                <div class="chatlog__content">
+                    <span class="markdown">The little one&#39;s eyes slimmed. &quot;You are just saying that in hopes that it will go well.&quot; 
+
+&quot;Scared to admit that things went beyond your control. Are beyond your control?&quot; They asked as they moved around. They just never seemed to be able to sit still. A very very busy child. 
+
+&quot;Your little plans are just little careless things, you know it. You already know that they won&#39;t last long.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">12-Oct-18 10:53 AM</span>
+
+            <div class="chatlog__message " data-message-id="500319997273440258" id="message-500319997273440258">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;No, they won&#39;t last long,&quot; he agreed, nodding his heavy head. &quot;But they&#39;ll have the effect I want them to nonetheless. The monster? Yes, beyond my control. But that doesn&#39;t mean it was a failure. In fact, it went very well. Just not as I planned. Plans are frivolous things, sometimes...&quot;
+Regal knew speaking more to this thing would only drive it further, but what more did he have to do in this moment? Poor, poor Shuuseki had already left...There was no one else here to converse with. To taunt.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">14-Oct-18 02:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="501105312460308491" id="message-501105312460308491">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;That&#39;s right.&quot;
+
+The child kicked their heels against the side of the bed. If they had any effect, Regal&#39;s bed would&#39;ve surely jostled. But it was still, eerily still.
+
+&quot;That monster you set free... if it were me, I would hunt you down.&quot; They mumbled. &quot;Plans are frivolous, sure, but don&#39;t you have a plan for when that happens? You&#39;re just going to bow to it?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">22-Oct-18 12:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="503785113801195540" id="message-503785113801195540">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Bow? No...&quot; Regal thought over it, rolling it over in his mind a few beats. &quot;I gladly accept death. I care not what it does with me...&quot;
+An intrusive thought entered, and said <em>it would be better if you died before it had the chance to kill you,</em> but Regal simply ignored it. 
+&quot;Perhaps, after all of this, I will allow them one satisfaction...&quot; Yet knowing that satisfaction was strings attached made a small grin appear. It would take much to cover up his murder, make it look like an accident, if they so chose to do so.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">06-Nov-18 04:16 PM</span>
+
+            <div class="chatlog__message " data-message-id="509476159759712266" id="message-509476159759712266">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;They are so lawful.&quot; The child mused. &quot;Surely saying such a thing will knock the wind out of them.&quot;
+
+They grinned and pulled their legs up. A hug around the knees kept their giggles from overwhelming the silent space built up in the room.
+
+&quot;You must admit it! You would love to continue giving them hell. Both the son and the monster. If they knew you wouldn&#39;t care, would they be satisfied?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 10:18 AM</span>
+
+            <div class="chatlog__message " data-message-id="510473220823187468" id="message-510473220823187468">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I would, sure.&quot; Regal gestured to his chest, &quot;but this body hardly allows it. I grow older and sicker as the days go on.&quot; 
+He smiled then again at the suggestion; if they knew he didn&#39;t care, maybe it would distress them. &quot;Of course. I wouldn&#39;t allow them to harm me as I have them. I care not what those weaklings attempt.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 11:24 AM</span>
+
+            <div class="chatlog__message " data-message-id="511214526855643136" id="message-511214526855643136">
+                <div class="chatlog__content">
+                    <span class="markdown">The child reared back, swinging their whole body in a moment of joy. When they came back a held breath was released. A moment&#39;s laugh was had.
+
+&quot;A wonderful response.&quot; They sighed. &quot;Surely, even in weakness, you&#39;ll come though.&quot;
+
+Their eyes stared through Regal, dull and pitch black. Life borrowed swirled through them. Sucking Regal dry.
+
+&quot;Besides, its not like your plans have failed before. You are always such a <em>success.</em>&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">05-Dec-18 10:18 AM</span>
+
+            <div class="chatlog__message " data-message-id="519895275033067520" id="message-519895275033067520">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;You attempt my hubris,&quot; Regal smiled almost <em>fondly.</em> It was...unsettling. He was clearly tired, right? Clearly. The pitch didn&#39;t faze him. It was what he was used to. 
+&quot;I&#39;ve had plenty failures before. But they&#39;re just setbacks, you know...Different paths...Hm,&quot; he nodded, as if agreeing with himself. He didn&#39;t very well remember all of it right now.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">30-Dec-18 09:38 PM</span>
+
+            <div class="chatlog__message " data-message-id="529126046402871296" id="message-529126046402871296">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Attempted suicide is a different path indeed~&quot; 
+
+A blink and the child was gone. Gone from sitting on the bed with him. Yet while they were gone from sight, something else remained. An edge, their edge. Like the glint of the end of a scapel before coming down onto skin.
+
+&quot;Perhaps death is also just, a different path for you.&quot; An older voice chimed in. Still young compared to reality, but oddly similar. Same, even, like that era that ended by falling backwards, eyes cast to the sky.
+
+&quot;Maybe only then will you find success.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="30-Dec-18 09:40 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">30-Dec-18 09:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="529129912238604288" id="message-529129912238604288">
+                <div class="chatlog__content">
+                    <span class="markdown">The smile faded. Regal sighed and leaned back against the bed, shutting his eye. &quot;Yes,&quot; he said quietly. &quot;As it always has been. It was not our first time.&quot; 
+But he had not found success yet. Still somewhat out of his grasp. 
+&quot;Ah, but...Perhaps, we will be like the phoenix. Rise from the ashes, once more..&quot; 
+A buzz at his hand. <em>Sir, who are you speaking to?</em></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">31-Dec-18 01:44 AM</span>
+
+            <div class="chatlog__message " data-message-id="529187991852154881" id="message-529187991852154881">
+                <div class="chatlog__content">
+                    <span class="markdown">A movement in the shadows near the door, and a glint caught by the amber of the street lights outside. A metallic eye, ever round, ever watching. The same, the very same as that which laid in the bed.
+
+&quot;One of us will be.&quot; Regal grinned. &quot;Perhaps.&quot;
+
+He moved to the door, and a soft click of an exit rang out. Seconds later, a loud thump hit the window. Something had dropped down from the higher levels of the hospital, into the bushes a floor below.</span>
+
+                        <span class="chatlog__edited-timestamp" title="31-Dec-18 01:55 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Jan-19 12:22 AM</span>
+
+            <div class="chatlog__message " data-message-id="533153661216358401" id="message-533153661216358401">
+                <div class="chatlog__content">
+                    <span class="markdown">A glance to the window. Some level of knowing washing over, as a grin cracked across Regal&#39;s face. 
+&quot;No,&quot; he said quietly. &quot;I know who it will be.&quot;
+His hand buzzed again. He finally looked down at it, and the visions dispelled.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 48 message(s)</div>
+</div>
+
+</body>
+</html>
