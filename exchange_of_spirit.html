@@ -1,0 +1,2247 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>KaibaCorp InterDUEL™ Service - exchange-of-spirit</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+            font-family: Whitney;
+            font-weight: 300;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+            font-family: Whitney;
+            font-weight: 400;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+            font-family: Whitney;
+            font-weight: 500;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+            font-family: Whitney;
+            font-weight: 600;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+            font-family: Whitney;
+            font-weight: 700;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+            image-rendering: high-quality;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .preamble {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            max-width: 100%;
+            padding: 1rem;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 1rem;
+        }
+
+        .preamble__entry {
+            margin-bottom: 0.15rem;
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .preamble__entry--small {
+            font-size: 1rem;
+        }
+
+        .chatlog {
+            padding: 1rem 0;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chatlog__message-group {
+            margin-bottom: 1rem;
+        }
+
+        .chatlog__message-container {
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message-container--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message-container--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__message {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            padding: 0.15rem 0;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__message:hover {
+            background-color: #32353b;
+        }
+
+        .chatlog__message:hover .chatlog__short-timestamp {
+            display: block;
+        }
+
+        .chatlog__message-aside {
+            grid-column: 1;
+            width: 72px;
+            padding: 0.15rem 0.15rem 0 0.15rem;
+            text-align: center;
+        }
+
+        .chatlog__reference-symbol {
+            height: 10px;
+            margin: 6px 4px 4px 36px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .chatlog__short-timestamp {
+            display: none;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__message-primary {
+            grid-column: 2;
+            min-width: 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            margin-bottom: 0.15rem;
+            align-items: center;
+            color: #b5b6b8;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-avatar {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25rem;
+            border-radius: 50%;
+        }
+
+        .chatlog__reference-author {
+            margin-right: 0.3rem;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link .hljs {
+            display: inline;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.chatlog__markdown-spoiler) {
+            color: inherit;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__header {
+            margin-bottom: 0.1rem;
+        }
+
+        .chatlog__author {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__bot-label {
+            position: relative;
+            top: -0.1rem;
+            margin-left: 0.3rem;
+            padding: 0.05rem 0.3rem;
+            border-radius: 3px;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__content {
+            padding-right: 1rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .chatlog__attachment {
+            position: relative;
+            width: fit-content;
+            margin-top: 0.3rem;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 999;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #dcddde;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.05rem;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            max-width: 45vw;
+            max-height: 500px;
+            vertical-align: top;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            max-width: 520px;
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            background-color: #2f3136;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3rem;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25rem;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0.6rem;
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            background-color: rgba(46, 48, 54, 0.3);
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author-container {
+            display: flex;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author {
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__embed-author-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .chatlog__embed-description {
+            color: #dcddde;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5rem;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6rem;
+            font-size: 0.875rem;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 50px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .chatlog__embed-field-value {
+            color: #dcddde;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            max-width: 80px;
+            max-height: 80px;
+            margin-left: 1.2rem;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6rem;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6rem;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.2rem;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            max-width: 45vw;
+            max-height: 500px;
+            vertical-align: top;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6rem;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__sticker {
+            width: 180px;
+            height: 180px;
+        }
+
+        .chatlog__sticker--media {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            margin: 0.35rem 0.1rem 0.1rem 0;
+            padding: 0.125rem 0.375rem;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background-color: #2f3136;
+            align-items: center;
+        }
+
+        .chatlog__reaction:hover {
+            border: 1px solid hsla(0,0%,100%,.2);
+            background-color: transparent;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35rem;
+            color: #b9bbbe;
+            font-size: 0.875rem;
+        }
+
+        .chatlog__reaction:hover .chatlog__reaction-count {
+            color: #dcddde;
+        }
+
+        .chatlog__markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .chatlog__markdown-preserve {
+            white-space: pre-wrap;
+        }
+
+        .chatlog__markdown-spoiler {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chatlog__markdown-spoiler--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .chatlog__markdown-spoiler--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .chatlog__markdown-spoiler--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .chatlog__markdown-quote {
+            display: flex;
+            margin: 0.05rem 0;
+        }
+
+        .chatlog__markdown-quote-border {
+            margin-right: 0.5rem;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .chatlog__markdown-pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .chatlog__markdown-pre--multiline {
+            margin-top: 0.25rem;
+            padding: 0.5rem;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .chatlog__markdown-pre--multiline.hljs {
+            background-color: inherit;
+            color: inherit;
+        }
+
+        .chatlog__markdown-pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .chatlog__markdown-mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(88, 101, 242, .3);
+            color: #dee0fc;
+            font-weight: 500;
+        }
+
+        .chatlog__markdown-mention:hover {
+            background-color: #5865f2;
+            color: #ffffff
+        }
+
+        .chatlog__markdown-timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #a3a6aa;
+        }
+
+        .chatlog__emoji {
+            width: 1.325rem;
+            height: 1.325rem;
+            margin: 0 0.06rem;
+            vertical-align: -0.4rem;
+        }
+
+        .chatlog__emoji--small {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .chatlog__emoji--large {
+            width: 2.8rem;
+            height: 2.8rem;
+        }
+
+        .postamble {
+            padding: 1.25rem;
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chatlog__markdown-pre--multiline').forEach(e => hljs.highlightBlock(e));
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.8.1/lottie.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chatlog__sticker--media[data-source]').forEach(e => {
+                const imageDataUrl = e.getAttribute('data-source');
+
+                const anim = lottie.loadAnimation({
+                  container: e,
+                  renderer: 'svg',
+                  loop: true,
+                  autoplay: true,
+                  path: imageDataUrl
+                });
+
+                anim.addEventListener('data_failed', () =>
+                    e.innerHTML = '<strong>[Sticker cannot be rendered]</strong>'
+                );
+            });
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('chatlog__message-container-' + id);
+            if (!element)
+                return;
+
+            event.preventDefault();
+            element.classList.add('chatlog__message-container--highlighted');
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                behavior: 'smooth'
+            });
+
+            window.setTimeout(function() {
+                element.classList.remove('chatlog__message-container--highlighted');
+            }, 2000);
+        }
+
+        function showSpoiler(event, element) {
+            if (!element)
+                return;
+
+            if (element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+
+            if (element.classList.contains('chatlog__markdown-spoiler--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__markdown-spoiler--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="attachment-icon" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z"/>
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z"/>
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z"/>
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z"/>
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/969836647292231770/888cbdd5a998e5eda80bd9e6e4de16e8.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">KaibaCorp InterDUEL™ Service</div>
+        <div class="preamble__entry">SIDE STORY ARCHIVES / exchange-of-spirit</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970201908599992360" class="chatlog__message-container " data-message-id="970201908599992360">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 01:56 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi logged out of the chatroom with a huff. 
+
+What did all this mean? Different dimensions? Electronic mail? None of it made any sense to him.
+
+“If this is Kaiba’s idea of a joke, then it isn’t funny.”
+
+But what if it wasn’t a joke? Everyone else in that chatroom seemed to take it all seriously, and had some idea what that admin guy was talking about. If that was the case, Yugi was in way over his head. He didn’t understand any of this stuff. 
+
+The others mentioned getting their decks ready. He probably should work on his. Yugi reached to pick up his own deck and looked down at it. How long had it been since they worked on it? He couldn’t remember.
+
+Speaking of they…
+
+“What do you think of all this, partner?”
+
+Upon saying the word ‘partner’, Yugi could feel his heart try to leap out of his chest. Yeah, partners. They were partners… It was hard not to smile at the thought. Just the word itself made him happy.
+
+Okay, Yugi, come on, focus. Crazy dimension stuff. Deck building. Electronic mail. This was important, he couldn’t be distracted.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970204521869504552" class="chatlog__message-container " data-message-id="970204521869504552">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 02:06 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><em>&quot;It sounds dangerous,&quot;</em> The response came, voice a rumble in his mind and through his chest. <em>&quot;I would not see to you being in harms way, partner.&quot;</em> 
+
+Yami appeared in his mind&#39;s eye, perched next to his desk. <em>&quot;We must prepare...Ah, you were already thinking as I was.&quot;</em> 
+
+His smile and emotion were more than just seen- with their bond, it was felt. <em>&quot;Good work, partner.&quot;</em>
+
+He glanced at the computer. What a weird device. Other people were inside of it? It confused him just as much as Kaiba&#39;s other technology. But, he could never hope to understand it all. He would just stick by Yugi, who seemed to understand it better than him.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970214898653098044" class="chatlog__message-container " data-message-id="970214898653098044">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 02:47 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi felt the emotion swelling within him, not just Yami’s but his own at well. It was almost overwhelming, and definitely distracting. He called him partner! Twice…!
+
+“Thank you…”
+
+He cleared his throat, and began leafing through the deck. “Whatever happens, we need to be ready. What do you think about our deck as it is now? You’re better at dueling than I am, so…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970216981070503956" class="chatlog__message-container " data-message-id="970216981070503956">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 02:55 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><em>&quot;Nonsense,&quot;</em> He folded his arms. <em>&quot;We are at our best when we are together. You taught me that. I would be nothing without your aid.&quot;</em>
+
+And every word was so serious- he always was. He assumed the rush of feelings was from his partner&#39;s nervousness. He hoped that his own words would quell his fears. 
+
+<em>&quot;Recently, I have noticed an uptick in other Duelist&#39;s use of spell cards...We run a low amount. Perhaps we should consider it,&quot;</em> He seemed to muse this out loud, both to no one and to Yugi. <em>&quot;There is a balance, but...hm,&quot;</em> he glanced at Yugi&#39;s hands moving through the deck. <em>&quot;You know more of what is &#39;new&#39;.&quot;</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970239766123675679" class="chatlog__message-container " data-message-id="970239766123675679">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 04:26 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi could feel his heart trying to beat out of his chest. They were at their best together…!
+
+Wait, Yami said other words besides that. He tried to focus on those.
+
+“M-more spells, huh?” That was a good idea. He stood up to get his cards that weren’t in his deck to look through. “I think we have more spells we can look through. As for what’s new, Grandpa’s probably got a bunch of newer stuff we can look at in the shop.” He paused, his brain taking an entirely new train of thought. “With the game getting more popular, do you think Grandpa’s been getting more business?”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970242279208026122" class="chatlog__message-container " data-message-id="970242279208026122">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 04:36 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">It was so strange how he could watch Yugi walk across his room. He knew, cognitively, that he was within Yugi, and they were both experiencing the same thing at the same time. Yet, the picture of him was so clear in his mind. 
+
+That was nice. It meant they could be closer-
+
+<em>&quot;The shop?&quot;</em> Yami paused, looking thoughtful. <em>&quot;If Grandpa considered carrying more, perhaps. He has lower stock than most places.&quot;</em> He peeked at the door, half expecting him to break it down and scold them for speaking poorly of the store. When that didn&#39;t happen, he continued. <em>&quot;While I agree with the sentiment that there are other games just as good as Duel Monsters, one cannot ignore it&#39;s popularity.&quot;</em> 
+
+When Yugi returned, Yami reached out as if to take the binder from him. When he brushed against Yugi&#39;s hand and felt its almost transparency, he laughed. <em>&quot;I always forget. Will you show me, partner?&quot;</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970345063324459149" class="chatlog__message-container " data-message-id="970345063324459149">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 11:24 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">The contact as Yami’s hand touched his was electrifying. He could feel his face turning red. He tried to laugh, too, but it was off. A bit forced. 
+
+He opened the binder and very slowly flipped through it, trying to give each card careful consideration. It was hard to concentrate. How could one little touch be so distracting?
+
+His brain tried to latch onto something, anything, to think about other than Yami’s hand brushing against his. It was so difficult with Yami so close to him. His heart was beating so fast. 
+
+“I wonder what our friends would think of all this… This multiple d-dimension stuff seems so far-fetched!” He laughed again, though he wasn’t entirely sure why. He really was trying to act normal! But with Yami right here and so close…</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970425659006541875" class="chatlog__message-container " data-message-id="970425659006541875">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 04:45 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami paused from looking at the cards, and leaned in. He didn&#39;t have a very good grasp on &quot;personal space&quot; when he was like this- they shared a body after all- and looked very closely at Yugi&#39;s face. <em>&quot;Are you feeling well?&quot;</em> He asked.
+
+He raised his hand again, like he was going to press it to Yugi&#39;s forehead, but lowered before he made the contact. Remembering that wasn&#39;t how things worked. <em>&quot;You appear flushed. Are you sick?&quot;</em>
+
+Yami didn&#39;t feel sick. But he supposed that could be the case- one of them feeling sick, and the other not. Discordant emotions had happened before. He closed his eyes for a brief moment. 
+
+<em>&quot;Your heart is racing, partner.&quot;</em> He opened his eyes again. <em>&quot;Perhaps we should take a break, if you are not feeling well.&quot;</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970435898007236658" class="chatlog__message-container " data-message-id="970435898007236658">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 05:25 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi almost dropped the binder as Yami got even closer to him. He fumbled for a second before catching it. His face got even redder, his heart started beating faster.
+
+Why did he have to be so nervous? This wasn’t the first time Yami had ever called him partner, or made contact, or been concerned about him.  The only thing that was different now was all the chaotic emotion swirling inside him.
+
+“I-I’m fine! Really! You don’t need to worry!” Yugi shook his head. “I can keep going, really!” He pointed to a random card in the binder. “What do you think of this one? Could be good for our deck, right?”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970437647380123710" class="chatlog__message-container " data-message-id="970437647380123710">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 05:32 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami glanced at the card, before a short chuckle came out. <em>&quot;That is a trap card, dear partner. Weren&#39;t we discussing spells?&quot;</em>
+
+The lilt to his voice was a small tease, though care still leaked into his tone. Something was clearly amiss! And when his partner kept things from him, it was always strange. <em>&quot;When you say things such as that, it causes me to worry further. Are you certain you&#39;re alright?&quot;</em>
+
+This time, even though the contact was moot, Yami put his hand over Yugi&#39;s, trying to impress upon him his concern. This was normal in his eyes- he was trying to be a good friend, like Yugi had taught him!</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970443966195589213" class="chatlog__message-container " data-message-id="970443966195589213">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 05:57 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">And now Yami’s hand was touching his—
+
+Yugi felt like he was going to explode. This was certainly too much. He was going to explode right here and now. 
+
+“I’m not sick! I-I’m okay, really!” And it wasn’t a lie; he really wasn’t sick. But the real reason he was acting this way… he didn’t have the courage to say it. He couldn’t do it.
+
+He laughed again. “Of course! Just t-trying to keep you on your toes!” He looked away, just looking at Yami was too much for him right now.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970494153433681990" class="chatlog__message-container " data-message-id="970494153433681990">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 09:17 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami then reached out, not caring that his touches were only phantom. He put his hand to Yugi&#39;s shoulder, encouraging him to look back at him. 
+
+<em>&quot;If you are not ill, then something else must be ailing you.&quot;</em> It was only ever with Yugi was he this quiet, considerate. <em>&quot;May I know, partner? Keeping secrets from one another, now that we can communicate, feels counter-productive.&quot;</em>
+
+It was all logical to him- and well, he truly had no idea what was going on. Why did he feel dizzy, his heart hammering- well, not <em>his,</em> but shared amongst himself and Yugi. <em>&quot;However...I do respect your choices, if you do not wish to share.&quot;</em>
+
+Though he couldn&#39;t help the tone in his voice turning a little sad. It was so lucky that they could speak to each other so freely now- what was the purpose of not sharing what they could?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970497000061693952" class="chatlog__message-container " data-message-id="970497000061693952">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 09:28 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi looked back at Yami. What was he supposed to say? The truth? He couldn’t do that. But was there anything else he could say that Yami would believe?
+
+The expression on Yami’s face, the tone of Yami’s voice… It was all so genuine. Yugi couldn’t help but feel a pang of guilt. He couldn’t stop his heart from beating out of his chest either. Yami’s hand on his shoulder, the way it sounded when he called him his partner…
+
+He started breathing faster. He couldn’t do this.
+
+Yugi jumped out of his seat and ran. Out of his room, out of the shop.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970499947763990650" class="chatlog__message-container " data-message-id="970499947763990650">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 09:40 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami was going to exclaim, but the vision of the room faltered and fell away as Yugi got up and ran from his chair. What was going on <em>now?</em> His vision whipped around until they were in the street. It was the middle of the night, the cold air stinging their skin from the sudden change. Whenever this happened, it made Yami disoriented, confused- he couldn&#39;t reach back out to Yugi right away. But he had been right! Something <em>was</em> the matter! 
+
+Well, if it had been nothing before, it was something now. From the alley beside the shop came a larger man who grabbed Yugi as soon as he was outside, pulling him back into the dark. Cold metal pressed to his temple. &quot;If y&#39;don&#39;t wanna get hurt, I&#39;d keep a tight lip,&quot; he threatened.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970504043858391050" class="chatlog__message-container " data-message-id="970504043858391050">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 09:56 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi didn&#39;t even register what was happening until he was pulled into the dark. The cold metal was surprisingly grounding, bringing his mind back to some semblance of rationality. This was....what was happening?
+
+The man told him to stay quiet, and Yugi was happy to oblige. He bit his lip and didn&#39;t move, didn&#39;t make a sound. What was happening? What was happening to him?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970509311723855932" class="chatlog__message-container " data-message-id="970509311723855932">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 10:17 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;Now&#39;s I hear you got a pretty good stock of cards in there,&quot; His breath was stale with some sort of alcohol as he rattled off his demands. &quot;And there&#39;s some idiots who pay top dollar for that crap! So you&#39;re gonna be a good kid, and let me into that store there, and you won&#39;t say a peep about nothin, hm?&quot;
+
+He dug the gun into his cheek now, a little roughly. &quot;You wouldn&#39;t wanna find out what happens if you complain, huh?&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970512075296227328" class="chatlog__message-container " data-message-id="970512075296227328">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 10:28 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Let this guy into his grandpa&#39;s shop? He couldn&#39;t do that to Grandpa! But...but Grandpa wouldn&#39;t want him to get hurt, but...
+
+Yugi winced as the gun pushed into his cheek. Did he really have a choice? But this man said not to make a sound, so... Yugi shook his head slightly, just enough to let the man know he would comply. 
+
+He teared up a little. How was he gonna explain this to Grandpa?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970513749704335390" class="chatlog__message-container " data-message-id="970513749704335390">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 10:35 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">He grabbed Yugi and pushed him forward, moving to tuck the gun into his back. The kid was so small he couldn&#39;t keep it low enough, but it was so late- what did it matter? 
+
+He shoved him into the door with a quiet rattle. &quot;Open it up, kid. And make it quick.&quot; He jabbed the gun into his back. 
+
+<em>&quot;P-tne-!&quot;</em> Yami tried to shout, but the stress was making it harder to communicate. If only he had just the right moment-!</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970516977774919770" class="chatlog__message-container " data-message-id="970516977774919770">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 10:47 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">“Ah—!” Yugi couldn’t stop himself from groaning in pain as he was pushed into the door. He was getting a horrible, pounding headache from this whole situation. 
+
+Fumbling for his keys, Yugi finally got hold of them and pushed them into the key slot. His hands shook as he turned the doorknob and opened the door.
+
+This was all his fault. If he just had the courage to stand up to this guy…! No, it was his fault for not being able to tell Yami the truth. If he’d just been able to open his mouth, he wouldn’t be in this mess…</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970519305953349632" class="chatlog__message-container " data-message-id="970519305953349632">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 10:57 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">The man growled, smacking Yugi with the gun as soon as he was in. He tried to make it hard enough to knock the kid out. &quot;Good, now stay quiet, unless you <em>really</em> want to cause a scene.&quot; 
+
+He moved to the display case with the Duel Monsters cards in them, starting to pluck up whatever he could carry. 
+
+<em>&quot;Yugi!&quot;</em> Yami shouted. In his minds eye, he was watching the interaction take place. <em>&quot;Let me protect you, partner!&quot;</em> He pushed for the front, but still felt resistance. Why? Of all times, why now?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970523478769958972" class="chatlog__message-container " data-message-id="970523478769958972">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 11:13 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi fell to the ground. He was just barely conscious of the man stepping over him. 
+
+Guilt was eating at him. How could he let this happen?
+
+In the midst of all the pain, at the edge of consciousness, Yami’s voice was clear to him again. No, Yami was right.  He needed help. He couldn’t handle this alone, he couldn’t…
+
+Closing his eyes, Yugi let Yami take front. He trusted Yami more than anyone else.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970530182865747969" class="chatlog__message-container " data-message-id="970530182865747969">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">01-May-22 11:40 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami sighed out his anxiety. He could handle this. Filling out the body, he pushed them up and off the ground. 
+
+He grinned. This would be easy. Nothing he&#39;d never done before. 
+
+&quot;Hey,&quot; he spoke, voice a little rough from impact. &quot;I&#39;d be willing to give you those cards and not tell a soul... and we have more in storage. But you have to win them over first. How does that sound?&quot;
+
+There was plenty to use in here- no shortage of games.</span>
+
+                            <span class="chatlog__edited-timestamp" title="01-May-22 11:57 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970538545380986910" class="chatlog__message-container " data-message-id="970538545380986910">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 12:13 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">The man scowled, glaring at Yami and aiming his gun at him. Didn’t he tell this brat to stay quiet?
+
+But then again, the kid knew where to find more cards than what was just here. This was a golden opportunity. 
+
+“Win them how?” He kept his gun pointed at Yami. “And I better like your answer.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970549221885374477" class="chatlog__message-container " data-message-id="970549221885374477">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 12:56 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;You play a little game with me.&quot; He approached the counter, slowly. From behind it, he produced a stack of playing cards. &quot;How about blackjack? A round of three, first to 21...dealer draws to 17.&quot;
+
+Typical rules. Yami could win this game, easily. He had faith. No matter what, he would keep his other self safe. He hoped Yugi could feel his determination, to quell any fear he had.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970559858409619467" class="chatlog__message-container " data-message-id="970559858409619467">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 01:38 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">The man watched Yami, making sure he didn’t make any sudden moves. 
+
+“A game, huh?” The man mulled it over for a moment. The prize was worth the risk, he decided. “Sure, why not.” He approached the counter, keeping his gun trained on Yami. “But I’ll be the one dealing, got it?”
+
+Yugi stayed hidden behind his other self, even though the man wouldn’t be able to see him. He could feel his other self’s confidence and determination, and it felt comforting. Like a blanket over his shoulders. He knew Yami knew what he was doing. Everything was going to be okay. He could believe that now.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970563618842243073" class="chatlog__message-container " data-message-id="970563618842243073">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 01:53 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;That&#39;s fine by me,&quot; Yami replied, passing him the deck. The dim light of the store was enough for him to watch the deck as it changed hands. When the cards were dealt, he looked at their hand. 
+
+It was a 16. Not a great hand. He was willing to take a chance, though. 
+
+&quot;Hit,&quot; he said, looking at the man. The gun was a worry some point...but it was in his control. He had everything together. <em>Don&#39;t worry, partner. I will protect us.</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970568414001250334" class="chatlog__message-container " data-message-id="970568414001250334">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 02:12 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi wrapped his arms around himself. He tried not to focus on his own guilt, instead trying to focus on his trust in Yami. Hopefully his other self knew he trusted him.
+
+The man shuffled the cards very carefully before dealing. He grinned as he dealt another card to Yami. Soon, this match would be over…and, soon, all the cards in this shop that he wanted would be his.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970569371992883270" class="chatlog__message-container " data-message-id="970569371992883270">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 02:16 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami looked at the cards. He hissed through his teeth. &quot;Bust,&quot; he grumbled. The cards were slid back to him. An automatic win for the other. 
+
+&quot;Round two,&quot; he said. His confidence hadn&#39;t wavered. When he was dealt his next two cards, he didn&#39;t react. But Yugi would be able to see his draw: a perfect 21. 
+
+&quot;Pass,&quot; he smiled. &quot;Dealer&#39;s move.&quot;</span>
+
+                    </div>
+
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="smiling_face_with_3_hearts">
+                                <img class="chatlog__emoji chatlog__emoji--small" alt="&#129392;" src="https://twemoji.maxcdn.com/2/svg/1f970.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970703778154172416" class="chatlog__message-container " data-message-id="970703778154172416">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 11:10 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi smiled upon seeing the cards. Surely the heart of the cards was on their side! No cards would be stolen, nothing would have to be explained to Grandpa in the morning. 
+
+The man flipped over his second card. Less than 17, so that was an automatic draw. He scowled at the sight of his next card. That put him over 21. Damn.
+
+He was so close to winning this game, so close to getting all the cards he desired and more! He couldn’t afford to lose!
+
+He gathered up the cards and put them on the bottom of the deck. He held the deck low as he prepared to start shuffling. As he did so, he carefully, subtly, made sure to drop the bottom few cards on the deck to the floor. There. That should lower this kid’s chances of another 21.
+
+He shuffled and dealt the cards.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970738246298509412" class="chatlog__message-container " data-message-id="970738246298509412">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 01:27 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;Final round,&quot; Yami said after passing his 21 back, face up. Just to rub it in a little. But, he had certainly noticed the man&#39;s attempt at cheating. For now, he said nothing. His hand was promising- a 12. He just needed another nine to win. 
+
+But...
+
+&quot;Pass. Dealer&#39;s move.&quot;
+
+There was one thing the man had certainly not realized once he snatched the deck from Yami&#39;s hands. There was still a joker inside.</span>
+
+                            <span class="chatlog__edited-timestamp" title="02-May-22 01:28 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970840871270481920" class="chatlog__message-container " data-message-id="970840871270481920">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 08:15 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">The man ended up having a 10 for his hand. He drew his next card. When he saw what it was, he scowled with anger. 
+
+“A joker? Are you kidding me??” He glared at Yami. “You left a joker in this deck!”
+
+Yugi ducked behind Yami’s back. Even if the man couldn’t see him, he was still scared.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970848736253186048" class="chatlog__message-container " data-message-id="970848736253186048">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 08:46 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami grinned. His confidence came off in waves- this was the moment where the final piece fell into the puzzle. 
+
+&quot;Your greed made you clumsy. You took the deck from my hands before I removed the joker. And, you&#39;re a <em>terrible</em> cheat. I knew you couldn&#39;t follow simple rules.&quot;
+
+The air suddenly felt toxic, oppressive. Yami raised his hand, his grin a bit wild now. His third eye glowed. 
+
+<em>&quot;Penalty game!&quot;</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970853445315747900" class="chatlog__message-container " data-message-id="970853445315747900">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 09:04 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Plagued by hallucinations, the man fell to the ground in the shop. Whatever he was seeing made him burst into an unending stream of tears.
+
+It wasn’t a pretty sight. But, Yugi had a hard time feeling too bad for the man after having a gun shoved in his face. A little bad, sure, but not too much.
+
+———
+
+Back in his room, Yugi couldn’t stop shaking. Tears threatened to spill from his eyes. Guilt ate at him, for nearly getting his grandpa’s store robbed, for getting into a situation where his partner had to protect him. For not simply telling the truth.
+
+But, his partner <em>had</em> protected him, and they were both okay. He was extremely grateful.
+
+But the whole thing was his fault. Yugi couldn’t deny that.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970856760015470712" class="chatlog__message-container " data-message-id="970856760015470712">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 09:18 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Thank god it was an easy clean up. Yami had finished the job by kicking the man out of the store, tying him up with a pretty bow and leaving an anonymous tip for the police, before safely returning himself and Yugi home. It was very, very late now. 
+
+And Yami couldn&#39;t hold onto the front anymore. So Yugi was left to his devices for a moment, while Yami gathered himself. After a few moments, he appeared beside Yugi on the bed. 
+
+<em>&quot;It is alright now, partner. I took care of it. You don&#39;t need to be worried.&quot;</em> He tried to be comforting, reaching out to touch Yugi&#39;s shoulder.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970858964415811654" class="chatlog__message-container " data-message-id="970858964415811654">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 09:26 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi leaned towards Yami. Having Yami here again helped him calm down a little. He felt safer.
+
+“Sorry, partner.” He stared at the ground. “If I didn’t run off like I did, none of that would’ve…” He trailed off. It wasn’t even what he should be apologizing for, but how could he apologize for withholding the truth if he still couldn’t tell him?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970863899324858378" class="chatlog__message-container " data-message-id="970863899324858378">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 09:46 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><em>&quot;You have no reason to apologize. Quiet.&quot;</em> His voice was firm, but he didn&#39;t know how else to sound sincere. He was working on it. 
+
+<em>&quot;I will not pretend to know why you ran in that moment,&quot;</em> He looked at the window. <em>&quot;But you act upon your emotions, which have always been pure and just. I trust you. You will divulge with me when it is right.&quot;</em> 
+
+Yami looked back at Yugi. He wanted to know...but, he was patient. He could wait a very long time. <em>&quot;It is late, partner. It is time to rest.&quot;</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970866938647560242" class="chatlog__message-container " data-message-id="970866938647560242">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 09:58 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi looked up at Yami.
+
+He trusted him. His partner trusted him. He felt like he betrayed that trust today, but it didn’t changed the fact that Yami trusted him. 
+
+“I’ll tell you someday. I promise.” Once he worked up the courage. However long that took.
+
+It <em>was</em> late, wasn’t it? Exhaustion hit him like a train. He reached out towards Yami. “Please stay here with me. Please don’t go.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970870838037467147" class="chatlog__message-container " data-message-id="970870838037467147">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 10:14 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami smiled, in a small and soft way. <em>&quot;I never planned to go. I will keep watch over you, partner.&quot;</em> 
+
+He folded his legs, sitting on the edge of Yugi&#39;s bed. He watched the window, like he was staking out for them. He could wait. 
+
+Even if it made him very, very curious. But Yugi was a fun kind of curiosity- one that made his heart feel less jaded and lost. Yugi was a kind of home. No matter if it was confusing or scary or <em>anything.</em> Yugi would always be his way home. 
+
+<em>&quot;Relax. I&#39;ll keep you safe.&quot;</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970873217747153038" class="chatlog__message-container " data-message-id="970873217747153038">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 10:23 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">“Thank you…”
+
+…Yugi hoped he could work up the courage soon. Yami deserved better than to have secrets held from him. Maybe he should talk to Anzu…
+
+Holding back a yawn, Yugi jumped out of bed. He grabbed pajamas and quickly changed into them, leaving his clothes on the floor for now. He could take care of them after he rested.
+
+As he approached his bed once more, Yugi paused for a moment. He smiled. “Thanks, partner. For everything.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970875266324922439" class="chatlog__message-container " data-message-id="970875266324922439">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 10:31 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami grew a bit tired himself. He wanted to &quot;stay watch&quot;- that was, remain more conscious than Yugi while he slept. But they must have been more in sync than usual, because he was also dozing off. 
+
+<em>&quot;Mm...&quot;</em> He glanced up. <em>&quot;Of course, dear. Goodnight,&quot;</em> He rumbled, and his image faded. But his warmth was transferred immediately to Yugi, indicating he was just a call away.</span>
+
+                            <span class="chatlog__edited-timestamp" title="02-May-22 10:34 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970878204187394068" class="chatlog__message-container " data-message-id="970878204187394068">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 10:43 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">“Goodnight.”
+
+He was so tired the ‘dear’ slipped right by him. It just sounded right, natural. Tomorrow, when he remembered it, though, he’d feel like he was exploding all over again.
+
+Once he was in bed and comfortable, he closed his eyes. Without thinking about it, he held up a hand against his heart as he fell into slumber.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-970891706042040340" class="chatlog__message-container " data-message-id="970891706042040340">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">02-May-22 11:37 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Once he felt Yugi&#39;s consciousness drift off, Yami let out a small, strangled sigh. This was a tough mask to keep up. Any more of Yugi acting the way he did was going to make Yami start jumping from his proverbial seat. 
+
+He couldn&#39;t possibly show any of this yet. He was already scaring Yugi with his advances in the first place. They had no intention, but-! 
+
+Silent groan. 
+
+Whoever he used to be, he wondered if that person struggled this much with feelings too. Or maybe the person he was now was just an idiot. 
+
+<em>Goodnight,</em> he thought once more. <em>Pleasant dreams, my partner.</em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 42 message(s)</div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,3495 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>KaibaCorp InterDUEL™ Service - those-who-carried-on</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+            font-family: Whitney;
+            font-weight: 300;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+            font-family: Whitney;
+            font-weight: 400;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+            font-family: Whitney;
+            font-weight: 500;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+            font-family: Whitney;
+            font-weight: 600;
+        }
+
+        @font-face {
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+            font-family: Whitney;
+            font-weight: 700;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+            image-rendering: high-quality;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .preamble {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            max-width: 100%;
+            padding: 1rem;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 1rem;
+        }
+
+        .preamble__entry {
+            margin-bottom: 0.15rem;
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .preamble__entry--small {
+            font-size: 1rem;
+        }
+
+        .chatlog {
+            padding: 1rem 0;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chatlog__message-group {
+            margin-bottom: 1rem;
+        }
+
+        .chatlog__message-container {
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message-container--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message-container--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__message {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            padding: 0.15rem 0;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__message:hover {
+            background-color: #32353b;
+        }
+
+        .chatlog__message:hover .chatlog__short-timestamp {
+            display: block;
+        }
+
+        .chatlog__message-aside {
+            grid-column: 1;
+            width: 72px;
+            padding: 0.15rem 0.15rem 0 0.15rem;
+            text-align: center;
+        }
+
+        .chatlog__reference-symbol {
+            height: 10px;
+            margin: 6px 4px 4px 36px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .chatlog__short-timestamp {
+            display: none;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__message-primary {
+            grid-column: 2;
+            min-width: 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            margin-bottom: 0.15rem;
+            align-items: center;
+            color: #b5b6b8;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-avatar {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25rem;
+            border-radius: 50%;
+        }
+
+        .chatlog__reference-author {
+            margin-right: 0.3rem;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link .hljs {
+            display: inline;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.chatlog__markdown-spoiler) {
+            color: inherit;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__header {
+            margin-bottom: 0.1rem;
+        }
+
+        .chatlog__author {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__bot-label {
+            position: relative;
+            top: -0.1rem;
+            margin-left: 0.3rem;
+            padding: 0.05rem 0.3rem;
+            border-radius: 3px;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__content {
+            padding-right: 1rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .chatlog__attachment {
+            position: relative;
+            width: fit-content;
+            margin-top: 0.3rem;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 999;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #dcddde;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.05rem;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            max-width: 45vw;
+            max-height: 500px;
+            vertical-align: top;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            max-width: 520px;
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            background-color: #2f3136;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3rem;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25rem;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0.6rem;
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            background-color: rgba(46, 48, 54, 0.3);
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author-container {
+            display: flex;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author {
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__embed-author-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .chatlog__embed-description {
+            color: #dcddde;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5rem;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6rem;
+            font-size: 0.875rem;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 50px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .chatlog__embed-field-value {
+            color: #dcddde;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            max-width: 80px;
+            max-height: 80px;
+            margin-left: 1.2rem;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6rem;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6rem;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.2rem;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            max-width: 45vw;
+            max-height: 500px;
+            vertical-align: top;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6rem;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__sticker {
+            width: 180px;
+            height: 180px;
+        }
+
+        .chatlog__sticker--media {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            margin: 0.35rem 0.1rem 0.1rem 0;
+            padding: 0.125rem 0.375rem;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background-color: #2f3136;
+            align-items: center;
+        }
+
+        .chatlog__reaction:hover {
+            border: 1px solid hsla(0,0%,100%,.2);
+            background-color: transparent;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35rem;
+            color: #b9bbbe;
+            font-size: 0.875rem;
+        }
+
+        .chatlog__reaction:hover .chatlog__reaction-count {
+            color: #dcddde;
+        }
+
+        .chatlog__markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .chatlog__markdown-preserve {
+            white-space: pre-wrap;
+        }
+
+        .chatlog__markdown-spoiler {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chatlog__markdown-spoiler--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .chatlog__markdown-spoiler--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .chatlog__markdown-spoiler--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .chatlog__markdown-quote {
+            display: flex;
+            margin: 0.05rem 0;
+        }
+
+        .chatlog__markdown-quote-border {
+            margin-right: 0.5rem;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .chatlog__markdown-pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .chatlog__markdown-pre--multiline {
+            margin-top: 0.25rem;
+            padding: 0.5rem;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .chatlog__markdown-pre--multiline.hljs {
+            background-color: inherit;
+            color: inherit;
+        }
+
+        .chatlog__markdown-pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .chatlog__markdown-mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(88, 101, 242, .3);
+            color: #dee0fc;
+            font-weight: 500;
+        }
+
+        .chatlog__markdown-mention:hover {
+            background-color: #5865f2;
+            color: #ffffff
+        }
+
+        .chatlog__markdown-timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #a3a6aa;
+        }
+
+        .chatlog__emoji {
+            width: 1.325rem;
+            height: 1.325rem;
+            margin: 0 0.06rem;
+            vertical-align: -0.4rem;
+        }
+
+        .chatlog__emoji--small {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .chatlog__emoji--large {
+            width: 2.8rem;
+            height: 2.8rem;
+        }
+
+        .postamble {
+            padding: 1.25rem;
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chatlog__markdown-pre--multiline').forEach(e => hljs.highlightBlock(e));
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.8.1/lottie.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chatlog__sticker--media[data-source]').forEach(e => {
+                const imageDataUrl = e.getAttribute('data-source');
+
+                const anim = lottie.loadAnimation({
+                  container: e,
+                  renderer: 'svg',
+                  loop: true,
+                  autoplay: true,
+                  path: imageDataUrl
+                });
+
+                anim.addEventListener('data_failed', () =>
+                    e.innerHTML = '<strong>[Sticker cannot be rendered]</strong>'
+                );
+            });
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('chatlog__message-container-' + id);
+            if (!element)
+                return;
+
+            event.preventDefault();
+            element.classList.add('chatlog__message-container--highlighted');
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                behavior: 'smooth'
+            });
+
+            window.setTimeout(function() {
+                element.classList.remove('chatlog__message-container--highlighted');
+            }, 2000);
+        }
+
+        function showSpoiler(event, element) {
+            if (!element)
+                return;
+
+            if (element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+
+            if (element.classList.contains('chatlog__markdown-spoiler--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__markdown-spoiler--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="attachment-icon" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z"/>
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z"/>
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z"/>
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z"/>
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/969836647292231770/888cbdd5a998e5eda80bd9e6e4de16e8.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">KaibaCorp InterDUEL™ Service</div>
+        <div class="preamble__entry">SIDE STORY ARCHIVES / those-who-carried-on</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988641373655806012" class="chatlog__message-container " data-message-id="988641373655806012">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">20-Jun-22 11:07 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">This is decidedly not how they left Yugi&#39;s place last time. 
+
+The room is a bit of a disaster. Their desk is covered in papers- you&#39;d think it was the usual classwork. But it&#39;s scrawled with shapes and words that look close to real ones, but aren&#39;t quite it. Based on context clues, Yugi&#39;s been...going through it. 
+
+There&#39;s two things interestingly missing. 
+
+The model millennium puzzle, and the golden plate that used to sit side by side on the desk. 
+
+Yugi greets him, though, like nothing is really off. He&#39;s tired, hair pulled back into a ponytail that&#39;s missing chunks of it, which stick out in weird directions. He&#39;s still in the same shirt that they saw him in last time. 
+
+&quot;H-Hey!&quot; He tries for something a little cheerful. &quot;U-Uhm, I was worried aboutcha. I wanted to make sure you&#39;re alright.&quot; He watches them tumble into his room from his desk chair, gesturing for them to sit on his bed. His bed looks untouched, like it was made and then never gotten into again.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988644149920145478" class="chatlog__message-container " data-message-id="988644149920145478">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">20-Jun-22 11:18 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi took a seat on the bed, looking around the room.
+
+It looks...um... Should he point it out? Or was this normal? Maybe it was nicer than usual the last time he was here. It might just be rude to point out the mess...
+
+He decided not to comment on the state of the room.
+
+&quot;Hi!&quot; He smiled brightly at the older Yugi. &quot;I&#39;m okay! We talked things over, and... everything&#39;s good now.&quot; Everything was great now. Sure, it was a little abnormal that there were two guys in his brain that he loved a lot and they loved him back, but they were happy. That was all that mattered, right?&quot;
+
+He tapped his fingers together. &quot;What about you? How&#39;re you?&quot; Ever since his partner woke up from that nightmare speaking another language, he&#39;d been a bit worried.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988646307138789396" class="chatlog__message-container " data-message-id="988646307138789396">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">20-Jun-22 11:27 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;That&#39;s good,&quot; He says, though his eyes are flicking between the younger Yugi&#39;s face, and the puzzle around his neck. He does it a few more times than he really should. &quot;Was worried about him. Getting trapped somewhere- that would mess with anyone, haha.&quot;
+
+Yugi looks away, rubs the back of his neck. &quot;Busy, lately. Got a lot of course work. That&#39;s what I get for missing a week, off with that other Kaiba, haha.&quot; There&#39;s quite a few angry red markings on some of the papers. Maybe that meant it was overdue stuff. 
+
+Yami appears next to his Yugi, watching the older version. He doesn&#39;t say anything, though his look is a bit sharp. Yugi looks back at him with a sheepish smile. &quot;S-So he&#39;s better now, yeah? You guys talking?&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988982263792435280" class="chatlog__message-container " data-message-id="988982263792435280">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">21-Jun-22 09:42 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">“He’s doing better now. Not so angry. Doesn’t want to hurt us anymore.” Yugi stared at the floor. “It turns out he…envied what my partner had. He thought we hated him. We just…didn’t understand each other. Couldn’t, until we knew he and my partner are different people.”
+
+He smiled. “We’re talking now.” More than just talking. “I… We… I think he’s happy, with our current situation. We like him. He likes us. And having him and my partner…makes me really happy.”
+
+He was hesitant to go into too much detail. From what little he’d heard about Yami’s nightmare, and remembering his last conversation with the older Yugi about Atem… It almost felt like he was rubbing it in the older Yugi’s face. If the older Yugi wasn’t the one who brought it up, anyway.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988989156053114901" class="chatlog__message-container " data-message-id="988989156053114901">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">21-Jun-22 10:09 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi listened, but as it went on he seemed to get more anxious. He started to bounce his knee, then to try and mitigate it, he reached into the desk and pulled out...
+
+a deck of cards. 
+
+Yami reached and took Yugi&#39;s hand. Didn&#39;t say anything, but you could tell he was concerned about something. The older Yugi didn&#39;t seem to notice, or care. 
+
+He shuffled clumsily, listening to the rest of what he had to say. 
+
+&quot;And you spoke to my old friend, and he was helpful?&quot; He smiled, though it was a bit wobbly. &quot;Was he alright?&quot; 
+
+Didn&#39;t they talk about this already?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988995436033482764" class="chatlog__message-container " data-message-id="988995436033482764">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">21-Jun-22 10:34 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi squeezed Yami’s hand. Everything was fine, surely. The older Yugi was just nervous because these were uncomfortable topics, right? Maybe the older Yugi was being a bit forgetful, sure, but it wasn’t like Yugi himself never forgot anything. 
+
+The older Yugi asked him to be here. If this was what he wanted to talk about, then this was what they were talking about. It was fine.
+
+“He was very helpful.” Yugi nodded. “He gave good advice. Told me to speak from the heart, that I would have to explain how I felt. And it…and it worked. He…he understood.”
+
+“He was okay. We weren’t in the sun this time, but that’s okay! I told him I hope you guys can see each other again soon.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-988998331189571625" class="chatlog__message-container " data-message-id="988998331189571625">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">21-Jun-22 10:46 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;He was inside the puzzle, wasn&#39;t he.&quot; Yugi murmured, looking away. His tone sounded very different then. Yami watched him transition into swing cuts, rounding them...around his thumbs. 
+
+&quot;But it was empty. And there wasn&#39;t a way out of it.&quot; 
+
+<em>Something is wrong with him. Stay alert.</em> Yami hushed, his body feeling like razor wire. Waiting to snap tight. There was just something wrong. And this wasn&#39;t their home. They didn&#39;t have the advantage here. 
+
+Yugi&#39;s eyes flickered to Yami. Didn&#39;t say anything to him. &quot;He&#39;s being punished for bailing you out. You got lucky to be able to see him. Who knows if he will be let free.&quot; He rolled another packet around his fingers. 
+
+&quot;But, worth it for you, hm? To keep you three together.&quot; 
+
+Yami glared. He didn&#39;t like that, didn&#39;t like that tone, didn&#39;t like any of this.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989011759518085160" class="chatlog__message-container " data-message-id="989011759518085160">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">21-Jun-22 11:39 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Punished?
+
+Atem was being punished?
+
+“I—I’m sorry.” Yugi leaned towards his partner. “I didn’t— I didn’t know he was being punished, I…”
+
+He heard his partner, but didn’t respond. But he didn’t look away from the older Yugi, either.
+
+“It’s not worth it if he’s being punished! We could have found some other way, he didn’t have to…”
+
+Sure, maybe, Yugi could’ve gotten hurt if the older Pharaoh didn’t step in. But he’d prefer that over the older Pharaoh being punished! He didn’t want other people to suffer over his mistakes, his problems.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989017658060054569" class="chatlog__message-container " data-message-id="989017658060054569">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 12:03 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">There&#39;s a few beats of silence, the only sound the cards shifting in his hands. Yugi&#39;s breath hitches, skips. He swears he can hear his younger self&#39;s heart race in his ears. 
+
+It gets to be too much. Too much. This is the puzzle, this is- this is the punishment from the Gods, he knows it-
+
+his eyes fall on the puzzle again. 
+
+But that, that is different. 
+
+That is a way out. 
+
+Yami seems to guess it before his other self does, a reflexive leap in front of Yugi that proves useless- he&#39;s only a vision, after all, even if Atem had started to make him more physical. There&#39;s just a ferocity to the older Yugi&#39;s movements that no spirits could stop. And they wouldn&#39;t have the chance, soon. The younger Yugi was shoved back, pinned for a moment while the older pulled the puzzle over his head. There isn&#39;t any time to process this, because he&#39;s hopped onto the desk, throwing the window open and climbing out of it. There&#39;s a scrape of his shoes against the pavement, and he tears away from the store, into the dwindling daylight that&#39;s beginning to turn to night. 
+
+The silence from the lack of connection to the puzzle doesn&#39;t last long. There&#39;s a loud thump-thump-thump up the stairs before a bang on the door. A grumble when he tries the lock, and the door is locked- &quot;Yugi! Open up or I&#39;m gonna break the damn door again!&quot; 
+
+Joey. Maybe he could help-</span>
+
+                            <span class="chatlog__edited-timestamp" title="22-Jun-22 12:14 AM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989021408212430858" class="chatlog__message-container " data-message-id="989021408212430858">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 12:17 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi stared, didn’t move as he watched his older self climb out the window. Couldn’t move. He felt frozen in place.
+
+His partner, gone—
+
+Atem, gone—
+
+The puzzle, gone—
+
+A knock on the door. All Yugi could do was stare at it for a moment, until Joey’s words force him to move. He couldn’t let his older self’s door get broken because of him.
+
+After he opens the door, he stared up at Joey wide-eyed. “He—he— He— He…” His eyes teared up. He couldn’t get the words out, he couldn’t— A tear slid down his cheek.
+
+His brain was still playing catch up. What just happened?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989024005728120893" class="chatlog__message-container " data-message-id="989024005728120893">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 12:28 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey stands a bit dumbfounded too. This was not the Yugi he was expecting to see. He takes a few moments to look beyond him- there isn&#39;t an older him, and there isn&#39;t a puzzle around the younger&#39;s neck, and-
+
+&quot;Fuck,&quot; he hisses, grabbing Yugi&#39;s arm and dragging him downstairs. There&#39;s a nagging thought he needs to calm the younger version down, but they don&#39;t have a lot of time. He takes out his phone on the way out, checking it. 
+
+&quot;Damnit-&quot; he swears again. He didn&#39;t take his phone with him, he couldn&#39;t check where he had gone. He turned, kneeled down to Yugi&#39;s height. &quot;Listen. He&#39;s not thinking straight right now. I&#39;m gonna make this right, and we&#39;ll get that puzzle back, okay? Need you to breathe, though, cause the more you freak out, the more you&#39;ll freak him out. You&#39;re stronger than you think, you can do it.&quot;
+
+It had been so damn <em>long</em> since this happened. Why did he have to act out <em>now?</em> What the hell had he gotten up to?</span>
+
+                            <span class="chatlog__edited-timestamp" title="22-Jun-22 02:47 AM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989225891953508362" class="chatlog__message-container " data-message-id="989225891953508362">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 01:50 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi yelped as he was dragged downstairs, but otherwise let Joey pull him wherever he needed to go. It was Joey. He always trusted Joey.
+
+He nodded as Joey spoke to him, took a deep breath. Another deep breath. Another one. Everything would be okay. Joey was here.
+
+…Briefly, the thought crossed his mind that he deserved this. Atem was suffering because of him. His older self was suffering because of him.He didn’t deserve the puzzle.
+
+He breathed. “I’m okay. I’m okay.” He went to fiddle with the chain around his neck. Then he realized what he was doing and stopped, his hands staying up in the air uselessly. “He went out the window. I don’t know which way he went.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989233248259436634" class="chatlog__message-container " data-message-id="989233248259436634">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 02:19 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Seeing the younger Yugi cry like this- over that puzzle- dredged up weird, mixed up memories for Joey. Leaving it behind the first time, the way Yugi cried for days and days and-
+
+He shook his head and pulled Yugi outside, hoping on the way he&#39;d get some idea on where he was going. Where would he take the puzzle? It&#39;s not like he could <em>run</em> to Egypt, so that was out of the question. Campus didn&#39;t make any sense (was he gonna make macaroni art with the damn thing?)- &quot;I don&#39;t got a fuckin&#39; clue where he&#39;s off to. And when he gets like this, he&#39;s fast.&quot;
+
+Something something, Atem had always been a fairly athletic guy, something- Joey pulled Yugi around back to where his car was parked and gestured for him to get in. &quot;And if I have to knock his ass out,&quot; he muttered while he started the engine- took a few tries- &quot;I ain&#39;t interested in carrying his scrawny ass.&quot;
+
+It was a little mean of him. But he was pissed off- not specifically <em>at</em> his Yugi, but just at circumstance. He wasn&#39;t a praying kind of guy- that was Yugi&#39;s thing- but he sent a few angry thoughts to wherever the hell Atem was now. He drove in the directions he thought Yugi might go- Campus, the store that Yami always gravitated towards...But he was coming up short. 
+
+&quot;...I&#39;m sorry this happened,&quot; Joey muttered, eyes on the road and flickering to either side, waiting to see him. &quot;Sometimes- sometimes they forget who they are, really. And they think they&#39;re the Pharaoh, and he&#39;s not supposed to be here anymore. So he gets scared. Acts out. Used to try and beat the hell out of anyone around him, actually.&quot; He looked over at the younger Yugi briefly. &quot;He probably doesn&#39;t think you&#39;re real. He won&#39;t think I am. He&#39;ll say how we&#39;re some aspect of the Gods who are punishing him.&quot;
+
+His hands on the wheel tightened slightly. &quot;He ain&#39;t...dangerous. Ain&#39;t nothing bad gonna happen. He&#39;s just scared. Just gotta- be his kite string, y&#39;know? Bring him back down.&quot;
+
+As Joey spoke, a warmth curled around Yugi&#39;s hand.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989279319643783219" class="chatlog__message-container " data-message-id="989279319643783219">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 05:22 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi made sure to buckle up once Joey brought him into the car. Safety first!
+
+…Joey could drive? Well, this Joey was older, it made sense, he just hadn’t…thought about it. Being able to drive, owning a vehicle.
+
+The warmth around his hand… Yugi’s cheeks turned pink. That was right, he wasn’t alone… His partner was still here, even if he couldn’t see him. 
+
+“It’s okay… It’s not your fault. Not his fault, either.” Yugi looked down at the floor. “We just need to help him. We can do that. It’ll be okay.”
+
+He took a deep breath. It would be okay. He was probably trying to convince himself more than he was Joey. “I wish I knew where he went…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989291289285640212" class="chatlog__message-container " data-message-id="989291289285640212">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 06:10 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey grumbled, &quot;You and me both, buddy.&quot; He sat at a red light for a while, running a hand through his hair. He tugged at his bangs- something he&#39;d obviously picked up from Yugi. 
+
+Where the hell would he go...Where did he go last time? It was almost hard for him to remember, it felt so long ago at this point. And there was the sore point of that damn puzzle. The other Atem inside, the poor kid getting wrapped up in this. He <em>knew</em> Yugi was going to feel god awful about this when it was all over, but for now...
+
+&quot;Ah, shit.&quot; He groaned. &quot;I know where he is. That fuckin&#39; museum.&quot; Though this one would be different from the one Yugi knew- Kaiba owned it now, and it was remodeled heavily on the inside. Joey rounded the corner and headed in that direction. It was late enough that the museum was closed- though, Joey knew that Yami would try his damndest anyway to get inside. And he <em>really</em> needed to get there before he made a serious effort into breaking in, because Kaiba would <em>not</em> be happy about it. 
+
+&quot;What he&#39;s lookin for ain&#39;t even there anymore. Kaiba owns the place now,&quot; Joey filled in as they pulled into the parking lot. &quot;Listen to me.&quot; He turned, faced Yugi. &quot;He might be really, really nasty to you. He might try to hurt me. You have to understand that he&#39;s not in the right mind. It ain&#39;t an excuse, but I need you to know that before we go try and get him, alright? I promise, nothin&#39; bad is gonna happen to you or the other you.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989294980138930186" class="chatlog__message-container " data-message-id="989294980138930186">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 06:25 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">As Joey mentioned the museum, it made sense. Of course… That was where Atem kept wanting to go, originally. 
+
+Yugi looked up at Joey as he spoke. He nodded. “I…I understand. I know it’s not his fault.” The older Yugi didn’t ask for any of this, he knew that. “Please, be careful… I don’t want you to get hurt, either.”
+
+Not over Yugi’s own problems.</span>
+
+                            <span class="chatlog__edited-timestamp" title="22-Jun-22 06:31 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989299678724120577" class="chatlog__message-container " data-message-id="989299678724120577">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 06:43 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey took a deep breath, nodded, and got out of the car. He looked around, hoping maybe they&#39;d just jump out at him- but, couldn&#39;t be that easy. 
+
+&quot;Hey-! I know you&#39;re out there, buddy!&quot; He called, walking up the steps of the entrance. If Yugi didn&#39;t know any better, it&#39;d probably look like a completely different building to him. &quot;Come on- you know we&#39;ve been through this one before! If you just listen to me, it&#39;ll be alri-&quot;
+
+Around the corner where the doors were, Joey suddenly choked as a chain was wrapped around his throat. Yami had been hiding there, and was now using the puzzle&#39;s chain to hold Joey back. 
+
+&quot;You are still chasing me,&quot; he growled. &quot;I aim to return what was stolen and you still are <em>hunting</em> me.&quot; 
+
+&quot;Ai-Augh-&quot; Joey tried to respond, but was too busy trying to worm a finger between the chains and his throat to get some breathing room. Yami&#39;s eyes fell on Yugi, then- his eyes looked dull, but with a restrained fire behind them. His hands were shaking. 
+
+&quot;You,&quot; he breathed. &quot;Spectre of my partner.&quot; He tipped the chain so the puzzle caught the dwindling sunlight. &quot;I am making it right. I am making things right, partner. Then we can be together again.&quot;
+
+Joey struggled, but confusion flickered across his face. That was new.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989303258478682213" class="chatlog__message-container " data-message-id="989303258478682213">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 06:57 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">This was the museum? Kaiba really had changed up the place…
+
+This wasn’t the time to think about that.
+
+Make things right?
+
+“Making what right?” He looked between Joey and the older Yami, doing his best not to panic. “Please, don’t hurt Joey… You can let him go, he doesn’t want to hurt you. We can just talk.”
+
+Joey and Yami were friends, they shouldn’t have to be in conflict like this.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989305229667336212" class="chatlog__message-container " data-message-id="989305229667336212">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 07:05 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey managed to worm a finger between the chain, allowing him just a <em>bit</em> of breathing room. He really didn&#39;t want to beat Yami&#39;s ass in front of the younger Yugi, but the prospect was getting more and more reasonable. 
+
+&quot;I am not meant to be here. I left. I went unto the afterlife, I said <em>goodbye.</em>&quot; He growled, &quot;And I will make it right, I will go back, so you and the rest of the Gods wishing for my torment will let me be at rest.&quot;
+
+The puzzle caught the orange sunlight again. Yami flinched, yelped- like it had burned him. But he held tight, hands shaking a bit harder. 
+
+<strong>Let me go- let me go-</strong> The voice of Atem was just, <em>just</em> loud enough to be heard by Yugi. <strong>Let me go or I&#39;ll make you hurt worse than that, let us go-!!!</strong></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989309219935236156" class="chatlog__message-container " data-message-id="989309219935236156">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 07:21 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi winced. Atem was probably so scared, did he even know what was going on? Atem didn’t deserve this, but—but the older Yami didn’t, either. 
+
+“It’s… You’re not…” Yugi took a deep breath. “I’m not here to torment you, I just want to help. Joey does, too. You’re hurting him, please… I just want to help.”
+
+What was he supposed to say? What was he supposed to do? He’d never been in this situation before, he wasn’t an expert like Joey, and Joey was in danger!</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989312752617160744" class="chatlog__message-container " data-message-id="989312752617160744">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 07:35 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Damnit, Joey would regret it, but he jabbed his elbow back into Yami&#39;s stomach. Yami choked, and his grip on the puzzle faltered. Joey sprung to grab it, and he held it for a minute- but he yelped too, and couldn&#39;t hold on for long. &quot;Catch-!&quot; He shouted, tossing it to the younger Yugi. Where he had been holding it, there was a stark red burn. Yami&#39;s hands looked worse. 
+
+Joey held him back, wrestling with his fidgeting for a minute. &quot;Fuckin&#39; knock it off, Yami! You know where you are! Wake up!&quot;
+
+Yami growled out something that only sounded vaguely familiar- was that Egyptian? Joey didn&#39;t bother trying to question him longer. He produced what looked vaguely like an Epi-Pen from his pocket, and jabbed Yami in the side with it. He yelped in pain, and started struggling harder, fear plastering itself across his expression. It didn&#39;t last long, though. After a few moments, he became unsteady on his feet, and then was slumped against Joey.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989323751927709758" class="chatlog__message-container " data-message-id="989323751927709758">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 08:19 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi’s eyes didn’t leave the puzzle. He caught it with both hands. The impact stung a little, but was nothing compared to the relief of having the puzzle back.
+
+“It’s okay, Pharaoh, it’s okay, buddy. I got you. It’s okay,” Yugi told him soothingly. 
+
+He looked up at Yami and Joey. “Is he okay?” Yami didn’t look okay, but, maybe it wasn’t as bad as it looked. 
+
+Oh, right, the puzzle should go where it belongs. Yugi put the chain around his neck. “It’s okay now,” he whispered.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989328168789884989" class="chatlog__message-container " data-message-id="989328168789884989">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 08:36 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey sighed, pushing Yami&#39;s body a little. He checked his pulse, and nodded. &quot;Just out pretty cold is all.&quot; He muttered. 
+
+The puzzle was warm in Yugi&#39;s hands, even moreso around his neck. Like the spirit was just so happy to be back, and it was better like this he was <em>home-</em>
+
+And that home was just threatened by someone. Someone he was supposed to trust, someone that Yugi had gone into with trust and care and-
+
+Rage raced up Yugi&#39;s spine like a wave of heat. And this was a different fire-y heat, something so alike what they used to be. A force to be reckoned with- a demon inside the puzzle. But Yugi was still here. <strong>He tried to take me away from you,</strong> came the voice, and it was measured and calm. Just like how Yami would say it. <strong>We should make him pay for it.</strong>
+
+Joey recognized the look immediately. &quot;W-Woah. Woah- hey, now. It&#39;s cool, now. You don&#39;t gotta go all spooky and shit. I&#39;ve got it handled.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989333138410983505" class="chatlog__message-container " data-message-id="989333138410983505">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 08:56 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi’s eyelids felt heavy. No, no, it was okay, they didn’t need to—
+
+But the voice was right. Just hearing the voice of the one he loved made his heart beat faster. He was right. They’d been separated, and he’d been so scared for his love, and they missed each other so much…
+
+…It wasn’t the older Yami’s fault, he was suffering, he wasn’t in his right mind…
+
+Did it matter? Why should he care for someone who so clearly showed they didn’t care about him? Who tried to take him from his love? Actions spoke a hell of a lot louder than words.
+
+…There was a new king in town. It was high time the old one learned to <em>submit</em>.
+
+A third eye appeared over Yugi’s forehead, glowing red. Yugi’s eyes snapped wide open. He took a step back, away from Yami and Joey. He held a protective hand over the puzzle, and glared at the two of them.
+
+“You two really think you can get away with laying your hands on the king? Please. You don’t deserve to breathe the same air as him.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989336169961631754" class="chatlog__message-container " data-message-id="989336169961631754">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 09:08 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey sucked a breath in. 
+
+Shit. This was new. This wasn&#39;t something he&#39;d <em>ever</em> seen Yugi do. So now he was a bit lost at sea. And his time with magic trinkets and deadly games was long-since past. 
+
+God. These two were fucking lucky that Joey Wheeler liked them. Because otherwise, he&#39;d just book it. 
+
+&quot;...Alright, buddy, what&#39;s your game, then?&quot; He asked, shifting so he could hold Yami to his side. 
+
+<strong>Punish them,</strong> came the voice, <strong>For trying to take me away from you. You can do that for me, prince. You&#39;re stronger than you think, you can do it.</strong></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989354967657758790" class="chatlog__message-container " data-message-id="989354967657758790">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 10:23 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">He smiled.
+
+Oh, how nice it was to hear his king’s voice, to be called his prince once more. How lovely it was to hear his king’s praise. If his king said he was strong, it must be so. His king would never lie to him.
+
+“Game?” Yugi repeated, his smile turning bitter. “Games are for those that need to be judged. My king has already judged you. No, there’s no need for a game. My king has something much worse in mind.”
+
+…No… not… right…
+
+He squashed down the part of him that didn’t want to listen to his king. He thought of how happy his king would be, after carrying out his punishment.
+
+He took a step closer to Joey and Yami. His heart beat faster. “But how should I punish you, is the question. I’d separate you from the one you love, show you what you did to us, but it seems that work has already been done for me.”
+
+But what could be just as bad, if not worse, than that?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989368887726440488" class="chatlog__message-container " data-message-id="989368887726440488">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">22-Jun-22 11:18 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey grit his teeth, stepping back to keep the distance between them. Jesus fucking Christ, this was worse than any spooky shit his Yugi had ever done. King? What the hell did this kid know already?
+
+He put an arm around Yami protectively, biting back, &quot;Big talk for someone I could punt into next fuckin&#39; week.&quot;
+
+He glanced back. Somehow Yami was waking up again, blinking heavily against whatever Joey had stuck him with. That&#39;d never happened before either. 
+
+Fucking magic shit. 
+
+<strong>I have an idea,</strong> spoke the king, softly and sweetly into his ear. <strong>I never told you the last words the older Pharaoh said.</strong>
+
+&quot;Y-Yugi?&quot; He breathed, softly, looking at his younger self with blurry eyes. He couldn&#39;t focus on him fully. 
+
+<strong>I&#39;m sure it would devastate him to know that his Pharaoh is forgetting his face. He couldn&#39;t remember his name. That&#39;s what he was wailing for forgiveness for.</strong></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989395652104585267" class="chatlog__message-container " data-message-id="989395652104585267">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 01:05 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi smirked at Joey. “You could, but would you? Would you be able to bring yourself to do it, when I look so much like your best friend?”
+
+He glared down at his older self. “So, I’m not just a ‘spectre’, hmm? Self-described Prince of Games? Bold of you to claim that title when your king <em>abandoned</em> you. How can you be a prince without a king?”
+
+He tilted his head as he listened to his king. His king had such perfect ideas, and this one failed to disappoint. A smile returned to his lips.
+
+“Does it hurt,” he asked, “knowing that he sacrificed himself for me? That he answered <em>my</em> prayers, visited <em>me</em> instead of you? You poor thing…”
+
+He took another step towards them. “You want to know the truth? Why he won’t answer your prayers? It’s because he’s forgetting you. Your name, your face, every detail. How little you must matter to him, for him to allow something like that. And it’s all because of me. He didn’t do any of this for you. It was all for my sake.”
+
+He smirked. “How does it feel to be forgotten? How does it feel, to become nothing to the one you love? I couldn’t possibly imagine.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989398367492775966" class="chatlog__message-container " data-message-id="989398367492775966">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 01:15 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi&#39;s body goes still. Where it had been wracked with the shakes before, now he was still, eerily so. Joey&#39;s head whips to check him, see if he passed out again- 
+
+He grits his teeth, and slowly lowers Yugi to the ground to sit. He appears completely lost; not sleeping, but not with it, either. His eyes are lidded, staring out into nothing. 
+
+&quot;You son of a <em>bitch,</em>&quot; Joey seethes, and he marches right forward and grabs the younger Yugi by the collar. &quot;You forget one important thing about me, <em>buddy,</em> and that&#39;s I&#39;ve never been afraid to throw a fuckin&#39; punch.&quot;
+
+And he does. He hits the younger Yugi with as much restraint as he can manage while still making it hurt pretty damn <em>good.</em>
+
+&quot;And you&#39;d better consider something else, <em>king,</em>&quot; he bites, and it&#39;s all piss and vinegar. All Joey sees is red, red, just like the damn glow in the younger Yugi&#39;s eyes. &quot;Your fuckin&#39; days are numbered. You&#39;ve been dead walking since you woke up in that puzzle. So you better start acting wise, or you&#39;ll spend what little you&#39;ve got left alone.&quot;
+
+<em>Yugi-! Yugi, please, this isn&#39;t right-! Please, wake up, please-!</em>
+
+The vision of Yami appears in the grass where Yugi was thrown, trying his hardest to reach out- he&#39;s so faint, though, his hands pass right through Yugi with no resistance at all. 
+
+<em><strong>Partner!!!</strong></em></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989402339028922398" class="chatlog__message-container " data-message-id="989402339028922398">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 01:31 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi’s so small, compared to the older Joey, that he crumples to the ground easily. He moans in pain.
+
+“How— Dare you—“ Yugi glared up at Joey. “What right…do you have…to disrespect the king? I’ll make you… I’ll make you…”
+
+The red glow slowly disappeared from his eyes, his third eye slowly disappearing as well. 
+
+Yugi blinked. Were they still at the museum? What happened? Why did he hurt so much? What was going on?
+
+“Wh…” He closed his eyes.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989405377097498635" class="chatlog__message-container " data-message-id="989405377097498635">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 01:43 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey takes a breath. In for four, out for six. Just like he&#39;d tell Yugi. 
+
+He wished it helped his anger. He&#39;d had an anger born from the depths of a hellish household long before he&#39;d met these two. It wasn&#39;t easily controlled. 
+
+Managed, maybe. But not quelled.
+
+He walks to his Yugi, and helps him up, the boy stumbling behind him blindly, numbly. He walks over to the younger Yugi and picks him up by the scruff of his jacket, carrying him to the car. He doesn&#39;t say anything the whole time, but his hands are shaking. 
+
+He&#39;s nicer to his Yugi than the younger one. He just pushes his into the car, whereas he throws the younger Yugi in. He doesn&#39;t wait for a seatbelt or whatever before he tries the engine. 
+
+It&#39;s cold. It takes one too many tries to start, and he lets out an enraged sound. &quot;You&#39;d fucking think-&quot; he tries again- &quot;That you risk your fucking skin, you put everything out there, because this kid&#39;s the only reason you&#39;re fucking <em>breathing-</em>&quot;
+
+He tries it again. The motor sputters to life. &quot;You&#39;d fucking think the gods would give you a fucking break.&quot;
+
+He throws the car into reverse, and he&#39;s a little clumsier driving than he should be. The roads have calmed enough that it&#39;s not an issue. 
+
+The puzzle is quiet. Yugi, in the backseat, is quiet. Joey&#39;s finally gotten it out, and he adjusts the mirror to look at him. 
+
+&quot;Breathe.&quot; He mutters. A glance is thrown at the younger Yugi, too. &quot;In for four, out for six. You remember.&quot;
+
+He wished it helped his anger. Managed it, maybe. But never quelled.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989408878640906311" class="chatlog__message-container " data-message-id="989408878640906311">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 01:57 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">It came back to him as he was thrown into the car. Slowly, but surely, it came back to him.
+
+The words he said… Those horrible words he…
+
+He didn’t bother with the seatbelt this time.
+
+He hid his face in his hands and started sobbing. What right did he have to cry? He wasn’t the one who got hurt here. His feelings weren’t the feelings that mattered. He didn’t completely understand what happened, but he knew he just lashed out, that he had no right to lash out.
+
+He doesn’t think he can make it right. He knows he doesn’t deserve forgiveness for what he did.
+
+“I’m sorry,” he couldn’t help but sob out, “I’m sorry, I’m sorry…”
+
+He couldn’t say he didn’t mean it. Even if it were true, he doubted he’d be believed. He didn’t deserve to be believed, anyway. He deserved nothing, worse than nothing.</span>
+
+                            <span class="chatlog__edited-timestamp" title="23-Jun-22 01:58 AM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989414258192302120" class="chatlog__message-container " data-message-id="989414258192302120">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 02:19 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Joey&#39;s anger was quelled, though, by those sobs. That was what always woke him up, huh? When he went too far, hurt someone more than just with his hands. He knew it wasn&#39;t about that. But he felt damn sour. 
+
+&quot;...I&#39;m sorry, too. I shouldn&#39;t have gotten pissed at you.&quot; Joey breathes out. He knows the younger Yugi isn&#39;t gonna listen to him very well. 
+
+&quot;Just- breathe, kid. We&#39;ll figure it out.&quot; He reached out and put his hand on Yugi&#39;s shoulder, hoping it would help him feel better. He bites his lip. They can&#39;t go back to the house- Solomon and Yugi&#39;s ma are there, and this is something he can&#39;t really explain. 
+
+Okay. Alright. At a stop light, Joey shoots off a quick text. 
+
+[MSG: Spooky Kid] Hey. Got an emergency
+[MSG: Wheeler] come on over
+
+&quot;We&#39;re going to a friend&#39;s house. Gramps and his ma are gonna have a heart attack if they see him- or you.&quot; Joey turns the blinker on and turns a different direction, into the other side of the city. 
+
+--
+
+Joey helps his Yugi first and foremost, who&#39;s gone mute and barely cognizant since he woke up. He helps him up the stairs of Bakura&#39;s apartment, checking to make sure the younger Yugi kept following him. Bakura and Joey speak quietly, Joey explaining the best that he can what just happened. 
+
+&quot;Okay- mm, he can go lay in my room.&quot;
+
+&quot;...I&#39;m sticking with him,&quot; Joey says quietly. If he stays here, he worries he might get pissed off again. 
+
+Bakura looks at the younger Yugi a little owlishly. &quot;A-Alright. Hi, I&#39;m- er, Bakura. I don&#39;t know if you know me.&quot; Joey and Yugi wander down the hall, and Bakura guides the younger to sit on his couch. 
+
+&quot;You&#39;re bruised,&quot; he murmured, going to his fridge to pull out a cold pack. He wraps it in a towel and brings it back to him, offering it. There&#39;s a scar on his hand that looks nasty. 
+
+&quot;Here. Take it. I- er, I don&#39;t bite, hah.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989417350870753291" class="chatlog__message-container " data-message-id="989417350870753291">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 02:31 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">How could he accept Joey’s apology when he didn’t deserve one in the first place? Joey had every right to be angry with him.
+
+Yugi sobbed the rest of the car ride until he ran out of tears. Only then did he force himself to breathe.
+
+He wrapped his arms around himself as he followed Joey to the apartment, staying silent. 
+
+“I know you,” he told Bakura quietly. “We’re friends. You’re the nice one.”
+
+As he sat on the couch, he stared at the ice pack. He didn’t take it. He didn’t deserve it.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989418700023148544" class="chatlog__message-container " data-message-id="989418700023148544">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 02:36 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Bakura debates it for a moment, before he reaches out and presses the ice pack to Yugi&#39;s cheek. &quot;He gave you one, huh?&quot; He sighed. &quot;If there&#39;s something he never grew out of, it was his fists.&quot;
+
+He knows this kind of song and dance like the back of his hand now. But his eyes do flicker to the puzzle around his neck with a worried look. So many memories attached to that...If he had that, that meant Yugi knew the self that was still burdened by the ring. If this was his Yugi, he&#39;d crack a joke about it. But it&#39;s not, and he has to remind himself of that. This isn&#39;t his, and that puzzle has nothing to do with him. 
+
+He doesn&#39;t move, keeping the pack gently pressed to his face. He&#39;s in his pajamas- you could tell he rolled out of bed for this one. 
+
+&quot;You&#39;re like him, then? Just younger.&quot; Bakura asked gently, trying to prod what he could out of him. He was a helper type, especially when it came to Yugi these days.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989569703280279582" class="chatlog__message-container " data-message-id="989569703280279582">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 12:36 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi looked up at Bakura as the ice pack touched his cheek. 
+
+“I deserved it,” he muttered. “My fault, not Joey’s.”
+
+This Bakura didn’t seem to have the ring; if he did, he wasn’t wearing it. That probably made sense? If the puzzle was gone, the ring might as well be gone, too. And that was a good thing.
+
+Hopefully this Bakura was happier with the ring gone.
+
+“I guess I’m like him.” Did he deserve to be compared to the older Yugi? The older Yugi had done so much to help him out, and he… “Still in high school.”
+
+The thought briefly occurred to him that he had homework to do, due soon. Now wasn’t the time to think about it.
+
+“He… It’s my fault he’s suffering. It’s my fault. I’m sorry, I…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989572550378029056" class="chatlog__message-container " data-message-id="989572550378029056">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 12:48 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;It&#39;s alright.&quot; Bakura said, and it was a very simple, soft statement. 
+
+&quot;You don&#39;t know how many times someone&#39;s said the wrong thing and Joey&#39;s brought him over like this. He&#39;s just...we&#39;re all just a bit fragile. We&#39;ve been through things.&quot;
+
+He takes Yugi&#39;s hand, and has him hold the ice pack to his cheek. &quot;Joey&#39;s done it, I&#39;ve done it, Anzu...And I think all of us have deserved a punch from Joey once or twice. I know I have. It&#39;s alright.&quot;
+
+He sighs, twisting the sleeve of his pajamas. &quot;He&#39;s gonna be fine. He needs to rest for a while and when the medicine gets out of his system, he&#39;ll be fine. Just was the right mix of things to make him, er...&#39;go away&#39; for a bit, I guess.&quot;
+
+He stands up and goes to his kitchen again. &quot;Do you like tea?&quot; He calls softly. &quot;He does. Though I don&#39;t think he ever drinks it. He just likes to hold it. I also have hot chocolate- his other self likes that more, though I don&#39;t think he drinks it either...&quot;
+
+This Bakura did seem happier. He was less quiet, less folded into himself like a careful paper crane.  He wasn&#39;t loud or anything, he didn&#39;t act like the soul of the ring- but he also didn&#39;t flinch at every little thing, or shy away from the least bit of resistance. He would have likely backed off entirely years ago if Yugi was acting like this. But if there was one thing that he learned over the years, it was persistence. And the love of the friends who always forgave him.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989694337967333396" class="chatlog__message-container " data-message-id="989694337967333396">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 08:51 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi kept his hand against the ice pack and stared down at the floor. 
+
+Bakura said it was okay, that it was alright, but… Yugi couldn’t help but wonder. Wonder what his own Bakura would say in this situation. What his own Joey would’ve done. If they’d seen him, heard the things he said. Would they say the same things as Bakura? Would they still care for him?
+
+Would they still want to be his friends?
+
+His self confidence was failing him. He was worried the answer was no.
+
+Physically, the older Yugi would be okay, and that gave the younger some relief. Some. He knew that, emotionally, he’d gone way too far. That the older Yugi probably would need more time than it took for the medicine to get out of his system to recover from his words.
+
+He watched Bakura leave. It felt selfish to ask for anything. Bitterly, he thought about how selfish he’d already been today. What difference did one more selfish action make?
+
+“Hot chocolate, please.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989697114659500083" class="chatlog__message-container " data-message-id="989697114659500083">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 09:02 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Bakura smiled, and it was a bit brighter. Yes. Small victory, small things that meant he was making progress, even a little. He went to the task, quietly humming to himself as he quickly put that together for him. 
+
+He returned and set the mug down in front of Yugi on the coffee table. He would go for it when he was ready. 
+
+He sighed softly, glancing back at the hallway where his room was. There was some muffled conversation going on. It was quiet, and he couldn&#39;t make out the words. &quot;Joey told me you&#39;re from somewhere else, that&#39;s a lot like where we&#39;re from, but a little bit different. You said you&#39;re still in high school?&quot;
+
+He folded one leg over the other. &quot;He said something about your...puzzle.&quot; He couldn&#39;t help the slight hesitation. &quot;...do you wanna talk about what happened?&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989720029383782451" class="chatlog__message-container " data-message-id="989720029383782451">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 10:34 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi stared at the hot chocolate. He didn’t take it.
+
+“I’m in high school. Still have the puzzle.”
+
+Did he want to talk about it? Would talking about it help? Or would it just turn Bakura against him?
+
+…Did he deserve to have Bakura on his side? 
+
+He might as well just talk about it.
+
+“I… The older Yugi took my puzzle. Joey helped me get it back and I.. I heard his voice telling me to make them pay, to punish them… I.. I taunted them about their Pharaoh being gone. Told Yugi he was abandoned by him.”
+
+He sucked in a breath. “His Pharaoh…visited me in a dream. I asked him for advice. That’s why Yugi asked me to visit. He asked about him, and that’s what…led to Yugi taking the puzzle.”
+
+Yugi closed his eyes. “I…taunted him about the Pharaoh visiting me and not him. And I… told him the Pharaoh is forgetting him. His name, his face. I wasn’t lying, my Pharaoh told me…told me he was… But I only told Yugi to hurt him. Every word I said was supposed to hurt…”
+
+His eyes teared up. “I don’t have a good reason for any of it. I’ve never…never done anything like that before. The puzzle and I were just so happy to be reunited, and I lashed out, and…”
+
+“I’m sorry…” A tear slid down his face. “I hurt your friend and I <em>meant</em> to do it and I don’t have a good reason for it…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989724857203834902" class="chatlog__message-container " data-message-id="989724857203834902">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 10:53 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Bakura listened patiently. There were different ways he and his Yugi had dealt with their trauma. Where Yugi was unabashed with his emotions, a passion burning in him passed down from the Gods...
+
+Bakura was quieter. He was a lighthouse, where Yugi was always a part of the storm. And this one was no different. A magnet for chaos, he&#39;d always been. And so was Bakura, for different reasons. 
+
+He couldn&#39;t help but feel so, so much empathy for Yugi in this moment. He&#39;d been there. It would be a lie to say that the ring was the only person hurting anyone. It fed off of Bakura&#39;s worst desires, just as Yugi was describing. He rubbed a hand over his scar on his hand, feeling a phantom tingle through it. It had severed multiple tendons and nerves there. He never got full mobility back in it. &quot;You were scared. Yugi- his other half is terrifying when he gets like that. When I met him again, he played blackjack against some kid...But he can&#39;t deal a penalty game anymore. So he punches this guy, twice his size in the stomach, grabs my arm and throws the fire alarm on the way out. The <em>Pharaoh</em> wouldn&#39;t even do things like that. I...&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-989724863369474069" class="chatlog__message-container " data-message-id="989724863369474069">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="23-Jun-22 10:53 PM">22:53</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">He sighed. &quot;I can&#39;t sit here and tell you that you&#39;re not in the wrong. But I can tell you that I don&#39;t think that reflects who you really are as a person. His other half did equally bad things to you. He scared you and stole something that mattered a lot to you. You <em>both</em> have some apologizing to do.&quot; 
+
+He glanced at the hallway again. He could hear a muffled sob. 
+
+&quot;Nothing was ever simple, when it came to those items.&quot; He pointed at the puzzle. &quot;You said to me, that I&#39;m the &#39;good one&#39;. The spirit of the Millennium Ring- he made me do terrible things.&quot; He showed the scar on his hand, and then shifted his sleeve. There was another nasty one on his upper arm. &quot;But I&#39;m still Yugi&#39;s friend. Even though I put him in...much, much worse danger, than some nasty words. We all have done things we aren&#39;t proud of.&quot;
+
+He heard the muffled sound of Joey, saying something sharp in return. 
+
+&quot;...What set me apart from the spirit,&quot; He murmured, looking at the hallway. &quot;Was that I knew I needed to say I was sorry.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989731950006788116" class="chatlog__message-container " data-message-id="989731950006788116">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 11:21 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Bakura didn’t think he was a bad person. Bakura didn’t think he was a bad person. Even after explaining everything he did.
+
+Maybe he wasn’t… Maybe he wasn’t a bad person after all. 
+
+“…Even if the spirit made you do bad things, I’ve never thought you weren’t my friend,” he muttered.
+
+He reached out and picked up the mug in front of him with his free hand. 
+
+“I’ll apologize. I’ll do whatever it takes to make up for what I did. And… And maybe we can still be friends, and maybe it’ll be okay…”
+
+<em>Maybe</em> it would be okay. He still hadn’t decided if it would be yet.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989733699421634630" class="chatlog__message-container " data-message-id="989733699421634630">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 11:28 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;Honestly? I&#39;d put money on you still being friends.&quot; Bakura mentally cheered. Another small step, as he watched him pick up the mug. &quot;Just...needs maybe some time. He needs to get some sleep. I don&#39;t know if he&#39;s been sleeping at all since he got back from...wherever he went.&quot;
+
+There was another muffled noise, sounding like the two of them may have been arguing with each other. 
+
+&quot;...They&#39;re always like that these days,&quot; He shook his head. &quot;Always sound like they&#39;re arguing with each other, but they&#39;re perfectly fine. I don&#39;t know how he does it. If Joey talked to me like that, I&#39;d crumple up and bawl.&quot;
+
+He laughs softly, allowing some silence to pass. 
+
+&quot;...Your puzzle, huh. Joey and Yugi told me you don&#39;t want to find out about it. And you two seem to...well, you&#39;re talking, right?&quot; He gestured between the puzzle and Yugi.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989737418263515206" class="chatlog__message-container " data-message-id="989737418263515206">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 11:43 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Wherever the older Yugi had gone. Right. Gone to save the younger Pharaoh, and lose the older one in the process.
+
+“I don’t want to find the Pharaoh’s memories. And he’d rather find himself in a future with us, than to look for his own memories. We… We love him, and he loves us, and…”
+
+And he hadn’t heard Atem <em>or</em> Yami speak since he’d stopped lashing out. It suddenly hit him like a train or a bus. 
+
+“…and they’re both being quiet.” Another tear slid down his face. Why were they being quiet?? “Do you think they’re okay? Or..or maybe they don’t want to talk to me anymore…”
+
+He wouldn’t blame either of them for turning their backs on him, after seeing the kind of person he could be.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989739889039908867" class="chatlog__message-container " data-message-id="989739889039908867">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">23-Jun-22 11:52 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">&quot;O-Oh.&quot; Now that one was out of his wheelhouse. He didn&#39;t know these- two? Oh, he was <em>really</em> like Yugi, then- and how was he going to make any blanket statements about them if he didn&#39;t know? If he couldn&#39;t verify its truthfulness?
+
+Bakura goes to respond, but he hears his bedroom door open and footsteps shuffle out. There&#39;s...Yugi, looking tired, still disheveled with his makeup all smeared. 
+
+He totters over to Yugi, Joey in tow- watching the exchange closely. Yugi throws himself next to his younger self, and then hugs him very, <em>very</em> tightly. &quot;I&#39;m s-so sorry.&quot; He whispered. &quot;I-I&#39;m sorry I scared you. I&#39;m sorry. I- I wasn&#39;t feeling good. I didn&#39;t mean to.&quot; 
+
+And here <em>he</em> was, babbling out his own apologies. Bakura realized then what they were arguing about- who was at fault. 
+
+&quot;H-He&#39;s s-sorry too, I- I just, I&#39;m sorry. I&#39;m really- I&#39;m really sorry. I didn&#39;t want you to see me like that, ever, but- S-Sometimes-&quot;
+
+Sometimes it got too much. Sometimes the world disappeared from under his feet. Sometimes, he was abandoned, lost at sea. &quot;I-I&#39;m sorry. There&#39;s no good excuse for me acting like that. Tricking you into coming here so I could m-mess with you.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989744032165023834" class="chatlog__message-container " data-message-id="989744032165023834">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 12:09 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi was so surprised by the hug that he almost dropped his mug and his ice pack. Almost. He kept a tight hold on them though.
+
+He shook his head. “It’s okay, it’s okay, I understand, I…” How could he be mad at Yugi? Yugi was upset about what happened to the Pharaoh, which was ultimately <em>his</em> fault. 
+
+How could he be upset at Yugi for lashing out when he’d just done the same thing?
+
+“I shouldn’t have said any of those things to you… I said hurtful things and nothing can justify that. I shouldn’t have tried to hurt you, I…”
+
+It was like a dam broke. Tears fell freely down his cheeks. 
+
+“I’m sorry, I’m sorry, I— I’m so sorry…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989746984711753779" class="chatlog__message-container " data-message-id="989746984711753779">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 12:21 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Bakura reached over and gently took the items from the younger Yugi, slipping over to his kitchen. Joey followed, keeping an eye on them, but nonetheless leaving them be. 
+
+Yugi didn&#39;t speak for a while longer, just holding his younger self and crying, crying out all the terrible things he&#39;d started to feel since meeting him. Jealousy, fear, all of it. He <em>knew</em> it would come to this, eventually, that something would break and someone would get hurt. He just wished it had only been him. 
+
+He found his hand curled around the chain of the puzzle. He wasn&#39;t trying to grab at it, but it just- was familiar, in a weird way. &quot;I- hha. Hhaa. I&#39;m sorry. I- I was always jealous of you. I wanted nothing more than what you have right now. I wanted him to stay more than anything in the whole world. B-But he- it was <em>right</em> for him to go, for the rest of the world&#39;s sake, but-&quot;
+
+He lifted his head and rubbed his eyes. &quot;...He would have given anything to come back, too. But it&#39;s just not how things work.&quot;
+
+He had to say it. Even if it was forming a stone in his throat, it had to come out. &quot;I-If he&#39;s- f-forgetting me. Being punished for helping you. I-It...He just, didn&#39;t want to see history repeat itself. Not if he could help it this time.&quot;
+
+He couldn&#39;t really keep it together, though. He let go of his younger self and shoved his hands in his eyes, trying to stem the flow of tears. &quot;H-He always w-wanted to do the right th-thing. E-Even if it meant doing- doing the, hard things.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-989746994467713064" class="chatlog__message-container " data-message-id="989746994467713064">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="24-Jun-22 12:21 AM">00:21</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">But here the younger Yugi was. Staring down, again, the idea of a kind and selfless Pharaoh. One who had given up something most precious for him. And yet, the one in his puzzle wanted nothing more than to hold him tight and damn the rest of the world. 
+
+Finally, a pale vision of Yami appeared, on the other couch, away from the two of them. He didn&#39;t look at Yugi. He looked down at his hands, which were shuffling a deck of cards. He&#39;d begun to master the swing cuts that he&#39;d seen the older Yami do.
+
+The deck wasn&#39;t correct again. But this time, there were not hearts. It was a deck full of the Jack of Spades.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989751208086495282" class="chatlog__message-container " data-message-id="989751208086495282">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 12:37 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi wrapped his arms around the older Yugi as his tears continued to flow.
+
+“I’m sorry he couldn’t stay… I… You love him and I know he cares so much about you, too, and, and… if I could trade something to bring his memory back, I would…”
+
+The older Pharaoh had done nothing wrong, deserved to have his memory back. Yugi didn’t deserve his help, he was the one who should be punished.
+
+When he saw his partner, he nearly stopped breathing. “P— Y—Yami…”
+
+Guilt clawed its way up his throat as he remembered promises he’d made.
+
+<em>I promise, I will never betray you for the puzzle</em>.
+
+His older self wasn’t the only person he’d hurt. Yugi wrapped his arms around himself
+
+“Y—Yami… I’m sorry… I-I…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989754834381058058" class="chatlog__message-container " data-message-id="989754834381058058">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 12:52 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi lifted his head, seeing the vision of Yami, too. He looked at the vision and the way he shuffled cards- it was so damn <em>familiar.</em>
+
+Yami didn&#39;t say anything. He rolled the cards over his thumbs, then over his index fingers. <em>I was right,</em> he finally whispered. <em>My dream came true.</em>
+
+He stumbled and dropped a packet of the cards. <em>I made you- you both. You both acted out because of my rage.</em> He was convinced of it- everything that he had dreamt of, the terrible dream, it all came true. But he had <em>felt</em> it this time. All of those emotions, the desire to do anything to please Atem. 
+
+Yugi tried to read his lips, but wasn&#39;t able to. He sniffed and rubbed his eyes again. &quot;I-I&#39;m sorry to you too,&quot; he mumbled. &quot;I-I scared you, too. I wasn&#39;t...&quot; He trailed. Repeating himself would only get him so far- and he could tell Yami wasn&#39;t listening, just looking at the cards in his hands.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989775623591456798" class="chatlog__message-container " data-message-id="989775623591456798">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 02:14 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi stared at the cards on the floor. The Jack of Spades… What did that mean? It had to mean something, something to Yami, but… Yugi just wasn’t sure.
+
+“I’ve told you before, you’re not corrupting me. You didn’t make me do anything I wasn’t capable of doing. I chose to say every word I said. Like I said, this just means… I’ve always been a bad person. You didn’t make me into anything I’m not.”
+
+He looked back up at Yami. He wanted to reach out towards his partner, to offer comfort…but… His partner deserved better than his comfort. “I promised you, I wouldn’t betray you for the puzzle… I broke that. I’m sorry. It’s my fault, not yours. My fault for acting out, for breaking my promise… I’m sorry, I…”
+
+He wanted to say he wanted to take it back. Unbreak his promise, unsay those horrible things. But a selfish part of him didn’t want to take it back. A selfish part that thought it was worth it for Atem’s praise, Atem’s happiness. So he didn’t say it. He refused to lie.
+
+“…If you want nothing to do with me, I understand. I’m sorry.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989780029888167936" class="chatlog__message-container " data-message-id="989780029888167936">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 02:32 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">And Yami knew it. Yami knew every part of his partner, like he knew himself. Those selfish parts- they were his, too, in some way. They were the same. Two parts of one whole. What was it that the older Pharaoh had said?
+
+A boy with two hearts. But if he and Yugi were the same person...Maybe the other heart was Atem&#39;s. Maybe he didn&#39;t belong- maybe he was the one who needed to submit, under whatever Yugi wanted. He thought he could be happy that way. If his partner was smiling, if he was happy...That&#39;s all that mattered to Yami, in the end. 
+
+And he had <em>felt</em> that happiness. And he wasn&#39;t sure he was going to make Yugi feel that way. 
+
+<em>You...like him. I understand,</em> he said softly. <em>If we are parts of the same whole, then, I must...agree with you. If you want the puzzle- if you want...Atem. I won&#39;t complain. I&#39;ve only ever wanted your protection, your happiness.</em>
+
+His dream rang in his ears, loud. His hands couldn&#39;t hold the cards anymore. He <em>knew</em> he was lying. He wanted to be with Yugi as much as he wanted to breathe air. But...his wants were secondary. <em>Make no mistake, please.</em> He asks, and its a weak, cold thing. <em>I want nothing more than to be by your side...As your partner. As someone you love. But if you value a king more, then...I suppose he has always fit the bill better than I had.</em>
+
+Yugi couldn&#39;t help it. He hated being out of the conversation. So while he watched Yami speak, he reached out and brushed his hand against the puzzle. He didn&#39;t switch, but his voice came to him all the same. He didn&#39;t try to interrupt. He didn&#39;t want to. But the familiar headache spiked up the side of his face, and he closed his eyes.
+
+And he prayed. Maybe these two would still figure it out.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989787086561370202" class="chatlog__message-container " data-message-id="989787086561370202">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 03:00 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi shook his head. He started shaking. He didn’t notice his older self touch the puzzle.
+
+“I <em>want</em> to be your partner. I want you to be mine. I love you so much, I-I… I don’t deserve you. You’re so kind and understanding, and I stepped all over that, and…”
+
+He sniffed. “I <em>want</em> you, Yami. I want <em>you</em>, I <em>love</em> you. I love Atem, too, but… I want <em>both</em> of you. Please, partner, please…”
+
+And what a lovely word it was. ‘Partner’. Yugi didn’t deserve to have anything to do with it. But he couldn’t let Yami go on thinking Yugi didn’t love him. That was unacceptable, that was…
+
+…A natural conclusion, given the circumstances. Yugi deserved to be alone, he knew that. But it was a wrong conclusion, and Yugi would fight against it with everything he had.
+
+If his partner still wanted him, he’d do anything to stay by his partner’s side.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989791019581198347" class="chatlog__message-container " data-message-id="989791019581198347">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 03:16 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami locked his jaw, unsure what to say. He wanted to bawl, he wanted to yell, he wanted to cause issues, he wanted- 
+
+He hated the terrible things he felt. None of them were directed at Yugi. He found himself thinking these terrible things about Atem. If he wasn&#39;t here, if this damned <em>puzzle</em> wasn&#39;t in the way, it&#39;d be fine. They wouldn&#39;t be here having this conversation. They would just be together. 
+
+&quot;You&#39;ve been awfully quiet.&quot; Yugi murmured quietly. Yami looked at him, confused, before he jumped slightly. His shadow grew out from under him, revealing the spirit of the puzzle. No expression, just a flicker of shadow with bright, golden eyes. &quot;You going to let these two hash this out, and not admit your hand in this?&quot;
+
+The shadow looks blankly at them. Yugi blinks heavily, then murmurs in a lower voice, &quot;you were always stubborn. You never wanted to lose. So when it happens you&#39;re going to fight against it, all you want. Be kind. Tell them.&quot;
+
+The spirit looks between his Yugi and Yami. <strong>It was my rage that overtook us. But it was not only my rage, it was...my fear. We had finally begun to connect. I scrambled to hold onto it. I...I made a mistake. I manipulated your thoughts to bend under what I thought was right.</strong>
+
+The shadow shifted, and separated from Yami. It sat beside him, slowly gaining form again. <strong>I thought you both would understand. That when we were safe, you would- you both would...understand.</strong>
+
+Yugi gets up from the couch, a hand lingering on the younger&#39;s shoulder before he joins the others in the kitchen. He looks like he&#39;s aiming to do something. 
+
+<strong>...I was hoping you both would be happy with me. That I did what I could protect you and Yami. I...I have caused worse to happen. I- I do not want you two to be apart. There is not a place for me without you both.</strong> 
+
+Yami can&#39;t find his voice anymore. He tries to project his feelings instead- hoping that Yugi can feel even in his pain, that all he has for him is love, a warm and soft thing.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989896002125303849" class="chatlog__message-container " data-message-id="989896002125303849">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 10:13 AM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi didn’t look at his older self as he left. He looked from Yami, to Atem, to his own hands. 
+
+“Even if my thoughts were manipulated, I made my own choices,” he murmured. “I knew what I was doing.”
+
+He looked up at Atem. “I…I do appreciate that you wanted to protect us. I do. This wasn’t the right way to do it, but… it’ll be okay.”
+
+He looked at Yami again. “I don’t want to be apart, either. Any of us. I love you both, I don’t want this to break us apart. We can learn from this and do better. I… I don’t want you to leave me. Please don’t leave me…”
+
+He could feel that he was loved. He wished he deserved it, but… He had to try to be better. To deserve that love. He didn’t want either of them to leave him.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-989934710102839416" class="chatlog__message-container " data-message-id="989934710102839416">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 12:47 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><em>Stop!</em>
+
+Yami wished he could help himself from having an outburst, but it all finally got to him. He appeared next to Yugi, and threw his arms around him. His form was weaker than usual. 
+
+<em>I cannot stand to hear these thoughts of yours any longer. It hurts, partner. You have forgiven me for worse ills. I have hurt people. You forgave me for trying to kill Kaiba, you forgave me for scaring you- all of it. We are a part of the same whole. We- we are two hearts beating in the same body.</em>
+
+He looked up at Yugi, and pressed their foreheads together. He had to know that he meant every single word, that they were the truth and he swore by it. <em>You have forgiven me for acting in fear, in anger. You forgave him, too. Please. Forgive yourself as I have already forgiven you. As our older self already has.</em>
+
+Yami wished his emotions didn&#39;t betray him as stray tears fell down his cheeks. <em>To think...to hear you believe you are not worthy of my love. That is what pains me the most. You are stronger than you may believe...Even if you have made mistakes. I refuse to believe you are a bad person. I refuse to believe your heart is anything but full of light.</em>
+
+Atem stayed quiet. His eyes had fallen on Joey, who was watching them from the cutout leading into the kitchen. He swore Joey was looking right at him. What a mess he had caused. What a terrible thing he had done. 
+
+<em>I could never leave you. I would only leave if you did not want me at your side any longer. I love you too much, otherwise. More than I care to breathe air or live on my own.</em> Nevermind the fact the two of them really couldn&#39;t be apart, anyway.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990013880866582528" class="chatlog__message-container " data-message-id="990013880866582528">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 06:01 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi stared up at Yami as their foreheads pressed together. He listened to every word Yami said like they were the most important words in the world. Right now, in this moment, they were.
+
+…His partner really believed he was still worthy of love. His heart began to feel lighter. The pain inside him began to ease.
+
+“I’m sorry, I don’t mean to hurt you, partner. I’ll try to believe I’m worthy of your love. I’ll try to forgive myself.”
+
+He couldn’t promise he’d be successful immediately, but he could promise that he would try.
+
+“I’ll always want you by my side, partner. I’ll never want you to leave. Nothing will ever change that. I love you too much to be able to leave you, either…”
+
+Yugi closed his eyes.
+
+“I’ll always love you, partner. And if you love me…then I can learn to forgive myself.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990020993969963038" class="chatlog__message-container " data-message-id="990020993969963038">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 06:29 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami breathed out, and closed his eyes, too. The own knots in his chest subsided, slowly. They were still there in some ways, but looser. As long as things were good between the two of them, then, it would be alright. They could do anything as long as they were together. Maybe he wouldn&#39;t get the assurance he needed that he was still wanted, just as much as Atem was, right now. But it would come. Yugi would always follow through. 
+
+He was the light that always pulled things back from the edge. Nothing could change that. Mistakes were a part of being human. Yugi taught him that. 
+
+Atem just listened. Let the two of them &quot;hash it out&quot;. Guilt still churned inside of him- and this was new. He had never felt guilty before all of this began, since they started to connect. Everything he did was bid on instinct and the heat inside of his soul, demanding answers. But now he was coming into himself. Now, he had a name. And names carried responsibility. 
+
+Responsibility he was abusing. Yugi saying he chose to or not, Atem knew he amplified his emotions to a degree he shouldn&#39;t have. He did it to Yami, too, back when they were still one. Could they be blamed for the things they did while he did that?
+
+He didn&#39;t ask for affections or reassurance like the two of them were giving each other. He thought it wasn&#39;t his place. He had caused the issue. Punishment, now, fell on him. 
+
+His form disappeared, and Yami&#39;s became a bit more solid. Yami glanced back at the place that Atem used to be. 
+
+He wished he could offer him support. Offer him something. 
+
+...But he was upset with him on some level, still. He couldn&#39;t lie. He didn&#39;t have the energy to. 
+
+Yugi emerged back from the kitchen, holding a plate in his hand. Joey scoffed, shaking his head. But Yugi just smiled in a tired way and sat across from the two of them. 
+
+&quot;These were just frozen, but...&quot; He sets down a plate with a few small pancakes on them. &quot;...Share with him, and me?&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990024476756422696" class="chatlog__message-container " data-message-id="990024476756422696">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 06:43 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi leaned against his partner as he turned to face his older self. He looked down at the pancakes, then up at his older self again.
+
+…After the jabs he made about the older Pharaoh, the way he threw everything in his older self’s face, the fact that he was being asked to partake was…
+
+He didn’t deserve to, but it would be so much ruder to refuse…
+
+Yugi forced a smile. “It would be an honor.”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990031480463962172" class="chatlog__message-container " data-message-id="990031480463962172">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 07:11 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami&#39;s head dipped to rest on Yugi&#39;s shoulder. He was tired. Unbelievably so. Emotions like that were taxing for anyone, much less someone who didn&#39;t feel them with such intensity often. He let his eyes shut. 
+
+Yugi looked happy, though, that he agreed. It meant a lot to him. It meant it was okay, maybe. That the younger Yugi forgave him. 
+
+...Did he fully remember what was said to him? He thought he may, but the emotions were far. That always happened. But he knew what the truth was- all he wanted was peace. That&#39;s what Atem would have wanted, too. 
+
+...What he wouldn&#39;t give, just to hear him one more time. To soothe the worry about what he was dealing with in the afterlife. The time they had in that moment had been all too fleeting. 
+
+He closed his eyes, took a deep breath. &quot;As the sun rises, so does our intention, and every day we are bathed in a new light, reborn. We offer this to you, nameless Pharaoh. May it give you the joy you seek.&quot;
+
+Bakura had to nudge Joey when he muttered a quiet &quot;amen&quot;. But it did make Yugi smile. 
+
+He spoke then in a quiet, somewhat stumbly Egyptian, like Yami had. He looked like he was about to finish speaking-
+
+When quietly, Yami murmured back the last of his prayer. Yugi&#39;s eyes snapped open to look at the vision of the younger self. 
+
+&quot;D...Did he-?&quot; He whispered. Yami hadn&#39;t stirred, almost like he was asleep.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990035333313888276" class="chatlog__message-container " data-message-id="990035333313888276">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 07:26 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi closed his eyes as the older Yugi prayed. He tried to commit the words to memory. If he needed or wanted to pray to the older Atem again, he might appreciate a nicer, more formal prayer.
+
+He, too, however, opened his eyes when his partner spoke. 
+
+Yugi looked back up to his older self. “This isn’t— This isn’t the first time he’s spoken Egyptian. Or, um, I assume it’s Egyptian. When I woke up from my dream of your Pharaoh, he spoke Egyptian then, too.”
+
+He frowned. “Then, it was the older Pharaoh speaking through him, but now… I don’t know. We don’t know the language, I don’t know…”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990038124929376266" class="chatlog__message-container " data-message-id="990038124929376266">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 07:38 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi was also coming up blank. Why was this-? Yami, of all people- not the spirit inside their puzzle, but the other half of his younger self. 
+
+He held his breath, and waited for a few moments. Yami didn&#39;t stir, still. He really did seem like he was sleeping. Yugi was lucky that for some reason the puzzle was still letting him hear Yami. &quot;I-It is. Sumeric of some sort. H-He spoke it better than I do-&quot;
+
+Which, admittedly, wasn&#39;t hard- but it would be for someone who has no idea! 
+
+Bakura, though, quietly stepped forward, and placed his hand on Yugi&#39;s shoulder- which made him jump. Bakura was so damn quiet. &quot;Um. Your other half just finished the rest of the prayer, didn&#39;t he?&quot; 
+
+Yugi felt stupid. Of course Bakura could hear all that. With how long he wore the ring and whatever else occult he was tuned into...
+
+&quot;He did, yeah.&quot; Yugi looked up at Bakura, then back at Yami. 
+
+&quot;Not the first time either, you said...&quot;
+
+&quot;Bakura.&quot; Yugi said firmly. &quot;Don&#39;t - Don&#39;t get my hopes up. They&#39;re still-&quot;
+
+&quot;It&#39;s worth a try. You&#39;ve already been hurt tonight. What&#39;s one more.&quot; Bakura fired back, but his tone wasn&#39;t sharp or anything. It was even a bit flat. It was the way the two of them talked to each other. 
+
+Yugi sighed weakly. &quot;...Atem?&quot; He asked, &quot;Are you- are you <em>really</em> talking through our younger self?&quot;
+
+Yami stirred. His eyes didn&#39;t open, but his head slowly nodded. Like it wasn&#39;t really his own. 
+
+&quot;H-How do I know this isn&#39;t just their spirit,&quot; Yugi rushed out. He looked at them. &quot;H-Has- has yours ever-???&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990041960523890738" class="chatlog__message-container " data-message-id="990041960523890738">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 07:53 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi tapped his fingers together. “He— He understood the language, last time. It’s the only way I knew what my partner was saying. But— I’ve never heard him speak the language. He’s never done anything like this.”
+
+He gently moved his hand so it was holding his partner’s. His partner had been so upset when this happened before, he… It was probably a good thing he was sleeping through it this time.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990047750089490442" class="chatlog__message-container " data-message-id="990047750089490442">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 08:16 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi fidgeted. God, the night really was just getting better and better, wasn&#39;t it? First it had to be like this, and now-
+
+He jumped, again, when the shadow of the younger Atem appeared. So that really solidified what was happening. He felt selfish of it, but the shadow reached out and took Yugi&#39;s free hand. If he was going to be here, he- he really needed something to keep him reasonable. Yugi always was that for him. 
+
+Yami spoke again. It was slow, thick with his exhaustion. Atem looked to him. 
+
+<strong>He said he is sorry to cause so much issue. He has felt both of your anguish.</strong>
+
+Atem fidgeted. He didn&#39;t want to say it. But the last time he didn&#39;t, bad things happened. <strong>Yugi,</strong> he faced the younger one. <strong>He is...upset by m-...o-our actions.</strong></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990050599011774484" class="chatlog__message-container " data-message-id="990050599011774484">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 08:27 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi squeezed Atem’s hand. He felt a little happier, having both Yami and Atem here with him.
+
+That happiness was extinguished pretty quickly.
+
+“The Pharaoh didn’t…do anything wrong. There’s nothing to apologize for.” It wasn’t the Pharaoh who had hurled harsh words for the sake of lashing out.
+
+He looked down at the floor. “I’m… I’m sorry, Pharaoh. I shouldn’t have said any of those things. I know you didn’t visit me just to hurt the older Yugi. I used your visit against him, and I’m sorry. If there’s anything I can do to make up for it…”
+
+He felt bad. Just because his older self wanted him to be part of the prayer didn’t mean the Pharaoh did.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990058449524113458" class="chatlog__message-container " data-message-id="990058449524113458">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 08:58 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yami&#39;s head lifted. He took Yugi&#39;s cheek, turned his head, and brushed their noses together briefly. 
+
+Atem filled in. <strong>He says he forgives you.</strong>
+
+Yami shifted, and with his eyes shut he got up slowly and wandered to the other Yugi. He took his hands in his face, and pressed their foreheads together. He lingered there longer, spoke softly. 
+
+He stumbled back and sat next to his own Yugi again. <strong>...He said that he &#39;appealed&#39;. He could not bear to forget you.</strong>
+
+What they all had failed to mention was how <em>scared</em> the words had come out of Yami before. How he was begging for forgiveness. The older Yugi didn&#39;t move, just watched between the three of them. This was so much. How could he trust this wasn&#39;t a trick? But Yami kept talking, and damnit, you could have fooled him. How many nights had he woken up to hear those kinds of words, spoken in a language he didn&#39;t <em>know</em> but <em>felt.</em>
+
+<strong>He says, you both are walking the same path. There are differences, but you are both kindred souls. He believes you should have met, that even though this is painful, it is another aspect of destiny. He is sorry that he could not walk it among you both.</strong>
+
+Atem fidgeted again. He couldn&#39;t meet either of their eyes. 
+
+<strong>He says it is his greatest regret.</strong> This made the older Yugi cover his face. He nodded, forcing himself to. <strong>But as we have learned, we will always live with regrets.</strong>
+
+Yami shifted, again. He seemed to begin to wake. His eyes fluttered open- but they were different. A softer crimson, like...Atem&#39;s. He smiled at the older Yugi. <em>I love you, partner.</em> He said, clearly now. <em>And you as well, other self. Do not think I have forgotten you.</em> He looked up at his own Yugi, too. <em>And you...Have become a very treasured friend. I look forward to hearing from you again.</em>
+
+Yami&#39;s head slumped. Asleep. Yugi took a few, deep breaths. 
+
+And then he laughed. He picked up one of the pancakes with his hand, and bit into it. &quot;Eat. He spoke to you, too. I&#39;m not looking to piss off Ra.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990066059111436328" class="chatlog__message-container " data-message-id="990066059111436328">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/353629811350044683/14ecca0ed8a82638a50233be8e61f1e3.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(255, 0, 0)" title="samwheeler#7567" data-user-id="353629811350044683">THE CHAZZ SEEKS YOUR VALIDATION</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 09:29 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi’s cheeks turned pink as their noses brushed. 
+
+He was forgiven…he was forgiven. More of the pain inside him began to ease. 
+
+He was forgiven…and the older Atem wanted to hear from him again.
+
+As long as Yugi made sure to learn from his mistake…maybe it would be okay. No, it would be okay.
+
+With a smile, he grabbed a pancake of his own and took a bite. 
+
+“These are really good… Thank you.” He looked down shyly for a bit, before looking back up again. “Can we…can we be friends?”</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-990068845530218536" class="chatlog__message-container " data-message-id="990068845530218536">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/e6d4dce5f4c7b8b31a7d319e4260a10f.png?size=512" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="HUB.BATCH#2350" data-user-id="189906724084252673">DRAW, MONSTA CARDO!</span>
+
+
+                        <span class="chatlog__timestamp">24-Jun-22 09:40 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Yugi looked at his younger self. He finally, <em>finally</em> felt better. Sure- what was said to him was still painful. Everything about this night had been painful. 
+
+But, now, they were sharing pancakes with each other, and with the Pharaoh. 
+
+&quot;You&#39;re stuck with me, actually.&quot; He smiled. It was a real one. &quot;I&#39;m your friend whether you wanted me to be or not. Can&#39;t just let the opportunity to see you three grow up pass me by.&quot;</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 69 message(s)</div>
+</div>
+
+</body>
+
+</html>
