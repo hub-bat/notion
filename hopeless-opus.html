@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - hopeless-opus</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">hopeless-opus</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">07-Nov-18 11:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="509942121097199662" id="message-509942121097199662">
+                <div class="chatlog__content">
+                    <span class="markdown">The most at this point Rockman could make out was the thin framework of the net. But the lack of eyes did not stem his crying- he was so lost without Blues, without anyone to share with these terrible things that had just occoured. And with the officials not believing him...Things felt as if they were getting worse and worse. 
+And as soon as Pen let him <em>try</em> to get into Enzan&#39;s room, they got worse. And worse. And ever so worse.
+What a mess he could make out. Lines drew across his kaleidoscope vision, explosions of phosphorus green and dark shades of black. The sounds of Enzan&#39;s very measured, controlled breathing filled his receptors. He did not sense Blues here. 
+His heart ached at the thought of missing him, because Rock knew Blues was not missing him.
+&quot;Enzan?&quot; His voice was thin, still a little scratchy. It hurt to speak, both raw from crying off and on so much and from...The bad event.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">07-Nov-18 11:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="509945236026294280" id="message-509945236026294280">
+                <div class="chatlog__content">
+                    <span class="markdown">Pen&#39;s protests were half-hearted. She knew Rockman would be good to Enzan, but she was scared <em>Rock</em> would be negatively effected by Enzan&#39;s nonverbal behavior (&quot;He hasn&#39;t spoken since he got settled.&quot;).
+
+Enzan jumped at the sound of any voice that wasn&#39;t Pen&#39;s muffled murmurs. His carefully assembled homeostasis was broken. Breathing broke off into gasps meant to breath out all the demons invading his body. He didn&#39;t recognize the voice, until he saw the speaker. 
+
+&quot;Rockman.&quot; He cleared his throat, recalling a time when he was composed in front of Rockman. A role model. Enzan&#39;s hands were shaking. His whole body was shaking and he was covered in cold sweat. &quot;Rockman. You&#39;re here too.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">07-Nov-18 11:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="509947255420092417" id="message-509947255420092417">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;A-Ah,&quot; Rockman nodded his head. He saw the way Enzan shifted and his voice was a near surprise after countless warnings. Something beat at the back of his mind, <em>do not trust.</em> 
+&quot;Y-Yeah. J-Just got a minute to step out of dad&#39;s lab.&quot; He avoided the words &quot;Scilabs&quot;, in case it upset Enzan. He was so very careful...The lines that made up Enzan&#39;s face faltered and shifted and threatened to crack. His system buzzed with notices that Enzan was clearly very sick. 
+&quot;S-Sorry if I startled you. Please breathe, o-okay?&quot; 
+He couldn&#39;t lose another. His heart keened. Enzan would not be lost to that <s>M0NS73R.</s></span>
+
+                        <span class="chatlog__edited-timestamp" title="07-Nov-18 11:28 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 02:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="510168001253998602" id="message-510168001253998602">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I am breathing.&quot; Enzan wasn&#39;t though, not really. He was forcing every puff into a body so tense he couldn&#39;t move. He glanced at the door. 
+
+&quot;Why are you here?&quot; His voice was flat, &quot;Pen said she wouldn&#39;t tell anyone where I was.&quot; 
+
+Enzan wasn&#39;t positive this Rockman was even real yet. Maybe it didn&#39;t matter until he was out of this withdrawl delirium. He was aware of himself and his condition, but from an outside perspective.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 02:13 PM</span>
+
+            <div class="chatlog__message " data-message-id="510169898618454045" id="message-510169898618454045">
+                <div class="chatlog__content">
+                    <span class="markdown">The flat tone reminded him too much of his attempts to get through to Blues. He felt his heart twist, but mustered a leveled reply: &quot;Worried about y-you. W-Wanted to see you.&quot;
+His eyelids fluttered a little. Keeping them closed all the time was getting difficult, with so many emotions running rampant. 
+&quot;I asked her n she said you- you weren&#39;t f-feeling good. M-My Papa told me you might be here, s-she didn&#39;t do nothin&#39; wrong.&quot;
+He felt so juvenile. It had been a long time since he was <em>afraid</em> of being in Enzan&#39;s presence.</span>
+
+                        <span class="chatlog__edited-timestamp" title="08-Nov-18 02:13 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 02:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="510180755884867604" id="message-510180755884867604">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Your father is too smart for his own good.&quot; Doctor Hikari was too trusting, too open... too smart. He was a liability. He hadn&#39;t realized that as much when he was younger. 
+
+Enzan shivered, and curled into himself. His mind was too constrained to care much about how he was seen. 
+
+&quot;She must&#39;ve told you...&quot; he could see the streams of data under Rock&#39;s eyes. The coding that made him up was raw.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 03:04 PM</span>
+
+            <div class="chatlog__message " data-message-id="510182813668999178" id="message-510182813668999178">
+                <div class="chatlog__content">
+                    <span class="markdown">Rock shifted on his feet. Why did Enzan care so much? It wasn&#39;t as if it was a bad thing that Rock knew...Unless Enzan felt it was. He tipped his head down, an involuntary action. He tried not to take what was being said to heart, because much like Blues no one was in their right mind. 
+Why did Rock have to be the one to...
+He blew a breath out. &quot;He th-thought it might help. I-I wanted to h-help if I could.&quot;
+That wasn&#39;t the whole truth. He wanted Enzan&#39;s help with Blues...But he hadn&#39;t known how awful Enzan was feeling. 
+&quot;I-I was worried t-too.&quot; <em>Your screaming is the only thing I can remember so clearly.</em></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-18 11:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="510317574744178689" id="message-510317574744178689">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;...I&#39;m glad you&#39;re okay.&quot; Enzan couldn&#39;t say for sure he was glad he was here though. Too many people knew. &quot;Pen is helping me. You should take care of yourself.&quot; 
+
+Enzan&#39;s voice cracked on the edges a little. He huffed out a long breath, trying to steady himself. Nothing was helping. Rockman&#39;s voice stuttering like that threatened to bring him back. The room wavered around him. 
+
+He teetered and reached up to thread his hands through his hair. &quot;Mnh--&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 12:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="510318792686043176" id="message-510318792686043176">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I&#39;m o-okay,&quot; he couldn&#39;t help the stutter, his voice wavering in ups and downs. &quot;Th-th-th-&quot; he paused, wishing his voice wouldn&#39;t...do that. &quot;Thanks.&quot; It finally came out.
+Rock flinched when Enzan made a sound. &quot;Ahn-? E-Enzan, are y-you okay? C-Can I help, please?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 12:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="510509652451131403" id="message-510509652451131403">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;No. No.&quot; Enzan tried not to bark, but force was the simplest method to hiding his <em>fear</em>. One hand lowered, seeking something to ground him. This blanket, it was different. The slats of light from through the blinds meant freedom. 
+
+&quot;I need... water.&quot; He looked around for it, despite having drunk from the britta many times. Shaky arms splashed a bit on himself, but he managed to pour a cup and drink. 
+
+&quot;You have not been... fully recovered.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 02:19 PM</span>
+
+            <div class="chatlog__message " data-message-id="510533857867464704" id="message-510533857867464704">
+                <div class="chatlog__content">
+                    <span class="markdown">The water was static and fire to Rockman. He suppressed a reaction to his technicolor mess of vision. &quot;A-Ahn, n-no. Dad&#39;s w-working on it.&quot;
+His eyelids fluttered again at being spoken of. He shuffled on his feet. He wanted to ask about Blues, but...What was Enzan seeing in Blues? Was he seeing that dead copyroid or the hero they were <em>losing?</em> 
+He bit his lip and squeezed his eyes shut. 
+&quot;E-Eyes are im-important. S-Something special, it-it-it&#39;s why h-he...&quot; <em>Took them from me. Knew he couldn&#39;t replicate.</em>
+He wanted Enzan to hear his thoughts, god he wanted Enzan to hear everything and know that it was all...over. Maybe if he could convince Enzan he could convince himself.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 09:31 PM</span>
+
+            <div class="chatlog__message " data-message-id="510642705806917643" id="message-510642705806917643">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;...&quot; Enzan turned away from the console, facing the corner. &quot;Yeah. Something special.&quot; He wished someone was working on that for him. He&#39;d been dismissed after too short a treatment. Or maybe he&#39;d just refused them. Enzan couldn&#39;t remember. 
+
+&quot;I&#39;m sorry.&quot; Enzan could remember some things from his time there. He remembered failing. His hand gently touched his forehead. Bruises still remained. &quot;Sorry. Didn&#39;t mean to put you in danger.&quot; 
+
+&quot;You&#39;re probably looking for Blues. He&#39;s over there.&quot; Enzan gestured to a dresser at the foot of his bed, with his PET plugged into a charging port. &quot;Just so you know.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-18 10:02 PM</span>
+
+            <div class="chatlog__message " data-message-id="510650478284242985" id="message-510650478284242985">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman blinked- fully, showing the hollow spaces his eyes should be. Anger filled him. &quot;I never a-a-a-asked to be s-s-special!&quot; 
+He clenched his fists. &quot;I don&#39;t want to s-s-ssee him. H-He d-doesn&#39;t want t-to s-see me. H-He d-doesn&#39;t f-feel anything a-anymore.&quot;
+Rockman stomped, paced. He threw his hands up. &quot;Wh-What was I e-even s-saved for- w-waste of r-resources you-you-you two c-clearly nnn-needed!&quot; 
+He felt his world crumbling, breaking off around him. His mind was beating down into him that Enzan was lost, and so was Blues and nothing- nothing would ever be that perfect they had before. His mind was on <em>fire.</em> He felt hot tears on his cheeks, involuntary. He didn&#39;t want to be angry. 
+He slowly broke down, the angry tension turning into sadness. &quot;I-I- mmgh-! I-I just w-want t-t-to h-help!!! I w-want t-to t-take y-y-y-your h-hurt aw-away...&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 01:57 AM</span>
+
+            <div class="chatlog__message " data-message-id="510709654767271937" id="message-510709654767271937">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan flinched. He stared at the wall. After Rockman started to yell, he&#39;d dissociated himself from the dialog. 
+
+He&#39;d been trying to relate-- he was mourning something special he&#39;d lost as well. Enzan was crippled without trust. 
+
+After a long beat of quiet he said, &quot;We can&#39;t take away hurt.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 02:00 AM</span>
+
+            <div class="chatlog__message " data-message-id="510710331895447552" id="message-510710331895447552">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Liar!&quot; Rockman&#39;s voice had force but no volume. It broke in all the wrong places. &quot;I-I-I c-can d-do it! I-I&#39;ve d-done it be-be-RGH!&quot; 
+He stomped his feet. He felt the tremors of the net under him. Was Blues seeing this tantrum? <em>Why do you even care? He doesn&#39;t.</em>
+&quot;I-I can. Do it. I&#39;ve. Done it, before.&quot; He placed his words more carefully to avoid the stutter.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 10:43 AM</span>
+
+            <div class="chatlog__message " data-message-id="510841852094709760" id="message-510841852094709760">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan didn&#39;t react at all this time. He just held onto his knees and stared. 
+
+A black hand wrapped around Rockman&#39;s wrist. Blues. He was tight, and yanked Rock back from the interface. 
+
+&quot;You are upsetting Enzan-sama.&quot; Blues said the words flatly, but hushed so Enzan didn&#39;t have to listen. &quot;You must stop. Come with me.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 11:45 AM</span>
+
+            <div class="chatlog__message " data-message-id="510857539525804033" id="message-510857539525804033">
+                <div class="chatlog__content">
+                    <span class="markdown">The touch crackled across his skin and burned his wrist down through his glove and to his soul. Rockman wanted immediately for that touch to go away- when his head whipped around to look, the fire that was supposed to be there was just empty shells. 
+&quot;R-Rrgh,&quot; Rockman made a pathetic sound. He couldn&#39;t fight Blues, having an inkling if he refused Blues would have no issue striking Rockman down. He was just being an aberrant nuisance at that point. 
+&quot;F-Fine.&quot; But he did yank his hand away.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 11:51 AM</span>
+
+            <div class="chatlog__message " data-message-id="510859074984869888" id="message-510859074984869888">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Come.&quot; Blues pointed to the warp point he had come from. He lead the way, but kept sensor on Rockman to ensure he obeyed. 
+
+&quot;If you need to talk, you will talk here.&quot; They entered the barren PET. Blues&#39; space was full of finished email work, IPC documents and more. Everything was work related. &quot;Enzan-sama is in no condition to talk with you.&quot; He paused. &quot;Your diagnostics stay you should be in recovery.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 11:56 AM</span>
+
+            <div class="chatlog__message " data-message-id="510860301542096916" id="message-510860301542096916">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman didn&#39;t see any of the work documents; he saw an empty space, void of anything, a wasteland that would surely become Blues&#39; tomb. How long could he stay like this before he convinced himself to never come back? 
+Rockman felt his chest twist. The swing of emotions came back to his sorrow. He just wanted to <em>help.</em> Just like he had wanted back then, but...
+Flashbacks played over his broken vision. He forced them away. &quot;I-I&#39;m fine. Thank you.&quot; 
+Placing his words quiet, but careful, he simply sat on the ground where he was standing. It was close enough to the exit point if he needed. No where near Blues. 
+He did need recovery. But it wasn&#39;t a recovery his father could offer. He almost countered, <em>your diagnostics say you&#39;re gone and never coming back, and I miss you.</em> 
+But he felt that wasn&#39;t fair of him.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 12:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="510861194656088065" id="message-510861194656088065">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues waited a few moments to watch Rockman settle. 
+
+&quot;Understood.&quot; Then, he returned to his work. He was covering for Enzan as much as possible, keeping intensive work at bay and completing whatever was possible that didn&#39;t need Enzan&#39;s sign off. 
+
+After a while he paused. &quot;I can escort you back to Scilabs when you are ready.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 12:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="510862559931531277" id="message-510862559931531277">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I&#39;m n-n-n-&quot; His mind supplied, <em>remember when he told you that was cute?</em> &quot;Not. Going. Back.&quot; He pressed the words down and his hands curled tight into fists. Blues would have already taken him there. Blues would have already given him a hug and told him everything was going to be okay and they were going to get the <em>bastard</em> who did this <em>together-</em> 
+Rock suppressed the tears threatening to spill. He suppressed everything with squeezed shut eyes. 
+He had so many stupid questions in his mind. <em>Do you feel anything? Do you care still? Is the navi I love still in there or did Regal take that away too? Did the copy fool you? Am I just a copy to you?</em>
+&quot;Whatcha workin o-o-on.&quot; Was the only one that came out.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 12:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="510867900253339669" id="message-510867900253339669">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I will have to take you back eventually.&quot; Blues filed away all the emails, and moved onto contracts. &quot;I am now working on classified IPC files relating to stock.&quot; 
+
+He moved around to be situated to face Rockman. &quot;You are experiencing many errors. You need to be repaired. You cannot function fully without optic-data.&quot; Blues worked while he talked, not a line was out of place. He felt nothing.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 12:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="510870462960762891" id="message-510870462960762891">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;But you w-w-won&#39;t.&quot; Rockman mumbled, pulling one knee up to hug. &quot;D-Doesn&#39;t e-effect y-you. W-What d-do y-you c-care except f-for what you-you-your system i-is t-telling y-you?&quot;
+It wasn&#39;t the nicest thing to say, but it was said without any hate or malice. Just deep, deep sorrow. He couldn&#39;t ask Blues to just, turn it back on- that wouldn&#39;t be fair, he felt- but he wanted Blues back so darn much...
+He rested his head against his knee. Imagined it to be Blues&#39; shoulder. &quot;D-Doesn&#39;t m-matter. W-W-Wouldn&#39;t want t-to k-keep yy-you from w-work.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 01:04 PM</span>
+
+            <div class="chatlog__message " data-message-id="510877551179071538" id="message-510877551179071538">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I do not understand the question. Performing care is my task right now. Not feeling it.&quot; Blues set aside his work files, and closed down the more important ones. &quot;Your words are contradictory. They imply you need attention.&quot; 
+
+Enzan was quiet right now. His breathing was regular. Blues decoded that Enzan was not in immediate need. 
+
+&quot;What do you need to aid your healing process?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-18 01:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="510880600794857482" id="message-510880600794857482">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman hid further down. The care meant nothing to him if there was no love behind it. That&#39;s all he wanted. Everything was feeling so disconnected and sterile- even his father was acting that way with him. 
+&quot;Y-You sh-sh-should k-know th-the answer t-to that.&quot; 
+But he wouldn&#39;t! Rockman&#39;s chest ached. Couldn&#39;t Blues tell? Couldn&#39;t he tell all he needed was the soft touch he had taken so much work to garner out of him? Maybe he had to start over. Did he even have the energy anymore? <em>Am I worth that anymore?</em> 
+&quot;G-Go back t-to work. I-I&#39;m f-fine.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 01:37 AM</span>
+
+            <div class="chatlog__message " data-message-id="511066835282558977" id="message-511066835282558977">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;That would not be appropriate. Your functionality takes precedence.&quot; Blues stood up. &quot;If repaired, you may be equipped to help Enzan-sama.&quot; 
+
+Blues walked closer to Rock and stood in front of him. 
+
+&quot;I will run a small diagnostic to see if there is anything I can do here.&quot; He reached down and took Rock&#39;s hand.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 01:47 AM</span>
+
+            <div class="chatlog__message " data-message-id="511069513488531456" id="message-511069513488531456">
+                <div class="chatlog__content">
+                    <span class="markdown">Crackle, fire burning and it hurt like mad to be <em>touched.</em> Blues was his achilles heel- nothing else could break him down, not fully, but Blues <em>could.</em> When their hands met he surged up, onto his feet in an instant. His hand was wrenched away and he grabbed Blues&#39; face, leveling their gaze. He could not see Blues but he knew this body like he knew his own- broken, but pieced together in the ways that made a warrior. Hollowed out eyes bore through a visor he loathed-
+and he pressed forward into a kiss. His language their own he hoped Blues could still read, he begged- <em>please come back to me, partner, team-member lover Blues Blues <strong>Blues!</strong></em></span>
+
+                        <span class="chatlog__edited-timestamp" title="11-Nov-18 01:48 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 03:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="511279624572108801" id="message-511279624572108801">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Mm-&quot; Blues tilted his head into the kiss, but the rest of him was unresponsive. His eyebrows creased, when Rockman did not pull away. Why? Why? His hands came up, cradling Rockman&#39;s back. This was the proper thing. Why did he do that? 
+
+Blues&#39; green eye filled with sparks. It hurt. He didn&#39;t want to come back, Rockman, please, it hurts too much, there is so much, don&#39;t make me see Enzan like this--
+
+Tears rolled down between their cheeks, and Blues&#39; arms held tighter. He could feel the beating warmth of Rockman&#39;s [HEART]. He kissed back, tentative. If this was what he experienced, maybe it was okay. But only if it didn&#39;t end.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 04:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="511284109427998737" id="message-511284109427998737">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman made a soft sound, recognizing the motions but unsure if it was reaction or feeling. Had this woken him up from the dreamless coma? He made a humming sound, pulling away only to push their foreheads together. His hands came up and thread through Blues&#39; hair, gentle. 
+&quot;B...Blues?&quot; He asked softly, he pressed closer. Their emblems bumped. <em>Come home. Come home. Come home.</em></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 05:34 PM</span>
+
+            <div class="chatlog__message " data-message-id="511307801222709269" id="message-511307801222709269">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues sighed and shuddered and let himself collapse against Rockman. 
+
+&quot;I can&#39;t--&quot; he whispered, rough. &quot;I cannot function like this. Rockman--&quot; Blues squeezed, seeking support to stay standing. &quot;I need to function to help- I can&#39;t <em>do anything</em>&quot; 
+
+A sob, and glitches rippled out from his eye.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 05:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="511311154002526228" id="message-511311154002526228">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Please- please yes you <em>can</em> we always do!&quot; Rockman did not yell but his voice grew shrill- He was so <em>desperate</em> now that he could see the Blues he fell in love with, the navi he loved so deeply- 
+&quot;Please, please let me <em>help,</em> just don&#39;t go away again-&quot; he held up Blues&#39; weight perfectly despite this decaying body, despite this weight he would always hold him up. &quot;Pl-Please. Y-You don&#39;t- don&#39;t gotta- d-do it on y-your own...&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 06:14 PM</span>
+
+            <div class="chatlog__message " data-message-id="511317899210915850" id="message-511317899210915850">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues shuddered again, squeezing and squeezing... &quot;Rockman-- I am sorry. I failed you. I am so sorry--&quot; 
+
+All of the weight from the past days doubled him over. &quot;It is too m-uch. I-tt--&quot; Pixelated tears fell from his right side, and realistic from the other side. 
+
+&quot;You are too hurt, Rockman I was supposed to <em>protect</em> you--&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 06:23 PM</span>
+
+            <div class="chatlog__message " data-message-id="511320214479306762" id="message-511320214479306762">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Husssh,&quot; his voice wobbled and betrayed him. &quot;Pl-Please. It&#39;s not your f-f-faault-&quot; 
+Rock&#39;s arms wrapped around Blues&#39; neck and made an attempt to cradle the poor navi. Was Enzan watching? He had no idea. Did he even really care if he was?
+&quot;I- I can be f-fixed, I&#39;ll be o-okay.&quot; But never the same again. &quot;Ju-Just don&#39;t go again, pl-please.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 06:40 PM</span>
+
+            <div class="chatlog__message " data-message-id="511324487598473226" id="message-511324487598473226">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues ripped of his helmet. The damned tears were fogging everything up. He reached up and rubbed them away. 
+
+&quot;I w-on&#39;t, I won&#39;t--&quot; The silent crying reached a new intensity. Blues curled up, bringing them both down to the ground. His emotion data was twisting and churning like he had never felt before. &quot;But it hurts, Rockman-- it <em>hurts</em>.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 06:52 PM</span>
+
+            <div class="chatlog__message " data-message-id="511327284502855691" id="message-511327284502855691">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman&#39;s hands traced down Blues&#39; frame, clinging to him when they were moving down. He could go wherever Blues wanted- but being temporarily bind still made the movement somewhat nerve-wracking. &quot;It-It&#39;s gonna b-be ok-okay,&quot; he offered, trying to think of some <em>way</em> he could help him. He&#39;d done this before, he&#39;d brought both Enzan and Blues back from the dark before, why was this proving to be harder? Why was Regal this exception to the rule- why couldn&#39;t he have just <em>stayed dead?</em>
+&quot;G-Gonna b-be ok-ok.&quot; He said again, hand tracing up and down his side. &quot;G-Gonna h-help however I c-can.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 07:51 PM</span>
+
+            <div class="chatlog__message " data-message-id="511342272890011662" id="message-511342272890011662">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues sniffled, and placed the balls of his hands to his eyes. 
+
+&quot;I want to be the one to help you. Please. I have to do this. I have to.&quot; All he could think about was the way Enzan&#39;s body laid on that bed. This strange place. Enzan&#39;s <em>fear</em>. 
+
+The anger. He remembered it as his last cataloged emotion, and he reached another uptick in sobs. He had let the monster <em>live!</em> And now no one believed them and <em>he</em>, Blues, the failed protector, was the enemy! He supposed it was only fitting. A punishment for being too late. For not seeing things more clearly. 
+
+&quot;I didn&#39;t-- I didn&#39;t kill him. I should have. Rockman-- I was selfish. I wanted to stay with Enzan. He doesn&#39;t want me. He&#39;s-- he&#39;s-- he--&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 08:15 PM</span>
+
+            <div class="chatlog__message " data-message-id="511348333986578432" id="message-511348333986578432">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Enzan thinks y-you&#39;re <em>d-dead.</em> &quot; Rockman tried to level his voice. He nearly succeeded. He could recall Regal&#39;s disgusting voice, dripping venom as he detailed all of the horrible things he was doing to Enzan. <em>I made a copy from your memory data of his wretched Navi. And then I killed it in front of him, letting him think he could escape...</em>
+The laugher drove a shudder and choke through him. It was directly Rockman&#39;s <em>fault</em> Enzan even felt that way. 
+&quot;Killing him is n-not the a-answer.&quot; He gently pulled his hands down and held them so gently, so softly. &quot;N-Never was, n-never w-will be. N-No matter what.&quot;
+No matter what. Rockman hoped he could hold that to be true. 
+&quot;Th-There&#39;s got to b-be something we can d-do. I- I let you two commune before when you were d-disconnected. M-Maybe-?&quot; 
+He could filter out all of the terrible distortion Enzan was feeling, and maybe let them...heal. Like they were supposed to.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 08:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="511352516869357569" id="message-511352516869357569">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;He won&#39;t <em>look</em> at me. He can&#39;t <em>see</em> me. We couldn&#39;t... we <em>can&#39;t</em> perform full synchro.&quot; Blues felt dirty even saying it. They had never failed before. Not at this. Blues&#39; chest felt so cold. With his emotion data off, the loss of temperature was imperceptible. At least then he hadn&#39;t felt so acutely Enzan&#39;s rejection. 
+
+&quot;If you can help him, <em>please</em>.&quot; Blues hands moved as control returned to him. He gripped Rock&#39;s shoulders, looking into the pits serving as eyes. &quot;We have to try.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="11-Nov-18 08:33 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">11-Nov-18 09:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="511370534911737857" id="message-511370534911737857">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;He can with m-me. W-We tr-tried.&quot; Rock tipped his head down, feeling Blues&#39; gaze. &quot;Tr-Tried to use it to get away. It&#39;s...How w-we. Got w-w-word ou-out.&quot;
+Remembering brought the stumble back. He bit at his lip. &quot;I-I could t-try with him...S-See what I c-can do...Th-Then you c-can try to reach him through me. H-He can&#39;t st-stay l-like this.&quot;
+Rockman hoped some part of him was still holy. If not, then maybe he couldn&#39;t do this after all...</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 12:50 PM</span>
+
+            <div class="chatlog__message " data-message-id="511598620772925453" id="message-511598620772925453">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Enzan-sama might reject the connection. Please be aware. It may hurt you.&quot; Blues murmured very softly. &quot;Please don&#39;t give up. Help him.&quot; 
+
+It wasn&#39;t fair of him to ask this. This was Blues&#39; responsibility. 
+
+He placed a kiss to Rockman&#39;s lowered head. &quot;If anyone can help him right now... it&#39;s you.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 01:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="511602345004761108" id="message-511602345004761108">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman tipped his head back up and surged forward, kissing Blues like he had before again. After a beat he separated and whispered with hot breath, &quot;Us. We&#39;re a team.&quot;
+He took Blues&#39; hand (with mild difficulty) and squeezed it tight. &quot;We&#39;re going to help him.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 01:19 PM</span>
+
+            <div class="chatlog__message " data-message-id="511606061703102474" id="message-511606061703102474">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Mm-!&quot; Blues&#39; eyebrows raised in surprise. A beat of pause and he kissed back. &quot;Y-yes. Together.&quot; His hand squeezed right back, while his other came up to cradle Rockman&#39;s head. 
+
+&quot;You know better than I what he is thinking.&quot; Blues brought to mind the sleeping murmurs Enzan cried out with in the night. Maybe they would help his true insight. &quot;Tell me.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 01:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="511609127760560138" id="message-511609127760560138">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman leaned into the touch, and made an effort to disconnect himself from what had happened. &quot;R-Regal told me everything he did to Enzan. He used this drug to make Enzan hallucinate a lot...&quot; He curled in tighter. 
+&quot;And th-then he- ahn- he t-took you f-from my memories and m-made a fake y-you. M-Made Enzan th-think he was getting o-out.&quot;
+The more he spoke the more his voice trembled. The more he remembered the more he was back in that comp, hiding out and waiting, waiting for someone to save him.
+&quot;Th-Then we synched and-&quot; his breath hitched all of a sudden and he clamped his mouth shut, shaking his head violently. No, no he couldn&#39;t say. &quot;Mmhh- pl-please I don&#39;t wanna say no more.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-18 04:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="511654902435676170" id="message-511654902435676170">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;That-- is enough. That is enough--&quot; Blues gathered Rockman into his arms. He squeezed. &quot;Thank you. I will try to understand you both.&quot; 
+
+His own grief was already being stacked up and set aside in piles for future address. Enzan&#39;s feelings, Rockman&#39;s feelings... [EmpathyData]=Active
+
+Enzan&#39;s head lifted, and he looked over to the PET. He felt a shift in there air. A sudden warmth.</span>
+
+                        <span class="chatlog__edited-timestamp" title="12-Nov-18 05:48 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">16-Nov-18 04:45 AM</span>
+
+            <div class="chatlog__message " data-message-id="512926175467667476" id="message-512926175467667476">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman nodded and leaned into Blues, taking a few calming breaths himself. The pressure felt good and was accompanied by...warmth. He hadn&#39;t realized it until now, but Blues&#39; surface temperature had also gone a little cold. 
+The returned warmth calmed him down quicker and easier. 
+&quot;...W-Whenever y-you&#39;re re-re-ready.&quot; He said softly. &quot;W-We can try.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">16-Nov-18 11:40 AM</span>
+
+            <div class="chatlog__message " data-message-id="513030634516774913" id="message-513030634516774913">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I think... I am ready.&quot; Blues whispered out the words like a prayer, before looking up to Enzan. 
+
+The young man curled into himself. He pulled his legs up onto the bed and hugged them to his chest. 
+
+Blues felt that, and reached through Rockman as a soul-bridge. So long ago, they had done the opposite. It was Blues&#39; turn to return the favor. 
+
+Enzan&#39;s eyes widened, glowing blue as he felt the navis resonate near him. Rockman was accepted, trusted, right away. 
+
+It had been so long since Enzan had felt that red warmth. He&#39;d been scared he&#39;d never feel home again. Blues and Enzan synched to near perfection, exactly into their rightful places. Enzan felt their joint tears fill his eyes. He pulled the blankets over himself.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">18-Nov-18 04:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="513640858025984001" id="message-513640858025984001">
+                <div class="chatlog__content">
+                    <span class="markdown">It was no surprise Rockman was accepted. In fact, Rock ended up feeling silly for wondering if he wouldn&#39;t. How long had he become the only comfort in this boy&#39;s existence? How long had he given up everything so that Enzan may sleep, may reserve the last bit of life in him so that they could wait for rescue?
+He did not watch the two souls join; this time his blindness was chosen and back turned, he worked to take what he could from Enzan&#39;s soul. Fear, that drug, that twisted reality Regal tried to force him into. 
+<em>Come home,</em> he whispered- something he had said before. It was mantra. He quietly cleaned that soul, taking on what he could for himself- he could bear it. Enzan did not have to take this weight any longer. Rockman would not let him.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">20-Nov-18 01:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="514504552947515403" id="message-514504552947515403">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan breathed more normally, allowing the natural shakes and sobs to come forward. Blues cried with him. They finally, together, could find the strength to mourn. 
+
+But, Enzan did not let go of his trauma. There was nothing relingushed to Rockman other than jumbled memories. The emotions would not dislodge themselves-- they were held between Enzan and Blues&#39; souls. Rockman pulled away sludge like memories of voices and frightening images. Enzan&#39;s concepts of the fictitious events Regal had planted grew vague, and he was left with the cold reality of his throat being cut, the imposter Blues, the escape attempt...
+
+Blues felt it all too. He felt the emotions and shifting memories, and he nearly pushed Rockman out of the cross for it. He was taking too much on his small shoulders. Blues tried to help. He needed to know as much as the others did. 
+
+Enzan&#39;s breathing slowed as the two navis sorted through his thoughts. His glowing eyes closed. The cross weakened simply by Enzan&#39;s drifting consciousness.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">21-Nov-18 09:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="514997226897014795" id="message-514997226897014795">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman stepped back, and said softly, <em>time to rest.</em>
+He had taken on what he could- all of the muck had mostly cleared, and he hoped this would bid Enzan sweeter dreams. Rockman himself had started to daydream of the N1, for whatever reason- perhaps, he hoped, Enzan could have a nice dream like that. Of their halcyon days gone by.
+Rock&#39;s soul found Blues&#39; and remained close. He would not force anyone to go, not until they were ready. But he could feel Enzan&#39;s drowsiness- it had grown familiar, now. But at least this felt warmer than the collapse.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">22-Nov-18 12:20 PM</span>
+
+            <div class="chatlog__message " data-message-id="515215042850062336" id="message-515215042850062336">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan held tight to Blues until he truely had no more waking thoughts. The navi&#39;s head rolled back a bit, as he sorted through what had happened. Seperating felt cold, but Rock was right here.
+
+&quot;Thank you...&quot;  Blues wrapped his arms around the smaller navi. &quot;You have done... so much for us. Thank you.&quot; 
+
+&quot;There is a lot of termoil in you. Please allow me to help <em>you</em> as well.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">22-Nov-18 01:09 PM</span>
+
+            <div class="chatlog__message " data-message-id="515227256629755915" id="message-515227256629755915">
+                <div class="chatlog__content">
+                    <span class="markdown">Rock&#39;s head rolled too, into Blues. God, he was tired. How many times was he stretching this body thin and stressing it more and more? His skin was pale, almost a shade of blue. &quot;Mm,&quot; he mumbled. Blues&#39; words took longer to register.
+&quot;I&#39;ve got it,&quot; he nodded. &quot;Done it before. M&#39;fine. Just,&quot; he sighed, &quot;stay around.&quot;
+He was happy to do it. Always. It was what he was good for at this point, he felt.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">22-Nov-18 01:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="515236732095037441" id="message-515236732095037441">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues carefully brought his hand up to Rockman&#39;s head. He felt so fragile... both of them did. Blues felt hard in comparison, like a muscle coiled too tight for months at a time. 
+
+&quot;Of course I will stay. We can remain like this as long as you need.&quot; Blues whispered into Rockman&#39;s hearing receptor. He placed the lightest of kisses to Rock&#39;s head.
+
+&quot;Allow me, next time. Please do not burden yourself more. You brought me back... thank you. I can do more, being fully here. By your side.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">22-Nov-18 06:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="515313805866303498" id="message-515313805866303498">
+                <div class="chatlog__content">
+                    <span class="markdown">Rockman let his eyes shut, finally. Shielding himself from the world in the only way he could anymore- that technicolor waveline fading from his false vision. 
+He didn&#39;t respond, just leaned into Blues&#39; hand. <em>You forced him back. That was selfish of you.</em>
+Mm. That was a weird thought. He brushed it away, and tried to relax. &quot;Love ya,&quot; he mumbled. &quot;Don&#39;t forget it.&quot;
+An &quot;again&quot; lingered, unspoken.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 53 message(s)</div>
+</div>
+
+</body>
+</html>

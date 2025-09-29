@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - point_of_no_return</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">point_of_no_return</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-May-18 07:35 PM</span>
+
+            <div class="chatlog__message " data-message-id="447180476755738625" id="message-447180476755738625">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> Upon entrance to the comp the DEVIL had so graciously taken for itself, the lock behind the duo accented the sudden, thick air. Cold– but only slightly; there was the tinge of salt on the edges. Sea salt. 
+
+An island. 
+
+At the center of said island, a building stood; soft, artificial light flooding in from the place. A game had been played here; months and months ago <em>something</em> had happened here– something only few knew of. How could it be here ? How could this place exist ?
+
+A crude note was left for the two, printed on weathered parchment and –the virus’. 
+
+<strong>GET MOVING STOP
+
+THEY ALREADY KNOW YOU ARE HERE STOP</strong>
+
+-----
+
+Through the first hunter’s eyes, he saw a swordsman. One he knew well; one that had been bred in his bonds for years; ever since birth he had known this one; this protector, this friend– this <strong>THREAT.</strong> 
+
+Through the second hunter’s eyes, they saw a sniper. An ally; born of metal and steel and code– a weapon. A <strong>TROPHY</strong> to be <em>recollected.</em> 
+
+A gunshot whizzed by both their heads; burying the bullet into the trees behind them.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447180968974090241" id="message-447180968974090241">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> “This is <em><strong>mockery</strong></em>.” Blues spat, his hackles already raised as he struggled to cover up fear with <em>anger</em>. 
+
+His green eye scanned the note, he was sure Search had already read. His sword twitched, gleaming in the artificial sunlight- he urged to destroy the note, and rip apart the very ground they stood on. He could see the rock Enzan and he had fallen by, he could see the trees they had ran past, in an effort to <em>escape</em>.
+
+The bullet seemed to trace his line of vision. He scanned the line of trajectory, his visor showing him the path it had taken.
+His knees bent. It was time to destroy this demon. The note’s talk of more beings was inconsequential. He would delete anything that got in his way.
+
+“Can you see it?” the red navi hissed, watching for more attacks to be dodged. Blues could not see that far into the island, but if they were dealing with another Countershade he was sure the two of them could deal with it together.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447181485699497985" id="message-447181485699497985">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> Searchman kept his scope gun pointed down, his hand ready to lift it up. He knew what this place was suppose to be, but he had barely gotten the chance to know the real thing. This island was still foreign to him, despite the fact that he had been trapped here for quite a long time. 
+
+As the bullet soared past, Searchman kept his stoic expression. The blue viewfinder over his left eye scanned deep into the forest, whirring and beeping as his comrade’s anger grew. It couldn’t be Countershade. He knew that, but no one else did. 
+
+That’s when they were spotted. That’s when Searchman’s eyes grew wide. 
+
+“Laik–” He stopped himself, and raised his weapon. “Blues, the hostiles are wearing disguises. Do not be fooled by them. I will need cover from the swordsman while I take on the long range assailant. Do not leave me.”</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447182053864374272" id="message-447182053864374272">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ They had been seen ! A name– dead, dead to all inhabitants of this devil’s island– barely uttered and they were off, sprinting away from each other and splitting up. It hurt so much to part, but it was necessary. The game was more important than the duo’s apparent comradery– their prey was ripe for the picking. ]
+
+[ The swordsman, in particular. Blues’ anger washed over the hunters in waves, the tang of metallic and BLOOD– he was aimed to kill. If only his fear wasn’t mixed in with it– the fear of this place sullied the wonderful hunt they would be partaking in. He would be first. It was time to begin, to draw them back into their game. ]
+
+[ They knew just how to play on his fears. His fears of this place. No, they were no disguise. The DEVIL played tricks, but it did not FALSIFY them. ]
+
+[ Breaking through the air waves in the island. on the only broadcast line present through the static– ]
+
+<strong>I FEAR I DO NOT KNOW WHERE I AM
+
+–I AM IN DANGER– I AM ALONE–</strong>
+
+[ There was the almost deafening crack of a gun, followed by a scream. One too familiar– much, much too familiar. Enzan– ]
+
+<strong>– I AM</strong> <em><strong>SCARED</strong></em>.</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-May-18 07:42 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447183173152014337" id="message-447183173152014337">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> “More than one hostile? Feh. Disguises- understood. I will not-” Blues inhaled sharply, his own eyes widening. He could feel a vice close in around his core, and the voice split through all of his reasoning. 
+
+“<em>Enzan-</em>” 
+
+Only the breath of his voice remained, Blues himself was gone. 
+
+Trees passed by in a blur, long before Blues regained any sort of control over his facilities. He knew it made no sense. The operators were safe in their vacation home, seen mere moments ago. But all of his primary instincts said <strong>protect</strong>. <em>Don’t let him be hurt again</em>. 
+
+Either he needed to protect, or he needed to tear this mockery limb from limb. Fire lit in his head as he remembered the copy Rockman, and how he <em>tore</em> him apart. 
+
+His unfinished statement finally played out, and brought his feet to a stop. How idiotic. <em>I’m sorry Searchman</em>. He was letting them all down again.
+
+His scanner zipped through the trees until it landed on a figure. [Power: ???] [Weapon: ???] [Distance: 30 cyber-meters] [Threat level: ???]</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-May-18 07:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="447185013641969664" id="message-447185013641969664">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> “Blues!!!” Searchman barked. He watched in vain as his companion rocketed off. “Damn–!”
+
+He brought his scope gun up to take aim. It was hard to fight through the cringe that set in upon hearing the broadcast. Searchman was happy to hear those words once, but now they only brought back feelings of false hope and <em>betrayal</em>.
+
+“BLUES!!” Searchman called out again. He hated this, he could barely do anything on his own. Laika wasn’t here, Blues had run off. It was just him and that monster again. 
+
+After locking onto the figure in the distance, Searchman hesitated. Exorcising this demon was so easy the first time. So why? Why couldn’t he fire? There was something different now.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447185893631983641" id="message-447185893631983641">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ There was a beat of silence, another breath of serenity before the storm began, before the winds picked up. Breaking it and casting the first bolt of lighting was a <em>wail</em>. A child letting out a sputtering sob, tears streaming down their face mixing with the blood beginning to cover them, watering down the crimson. ]
+
+[ It was Enzan– but of course it wasn’t, it couldn’t be, but <em>oh</em> he was– his shoulder gushing blood from an apparent bullet. He was crumpled against a tree and trying desperately to make the bleeding stop and control himself; control the tears and the blood, <em>god it was everywhere</em>– ]
+
+[ When they heard the voice, Searchman’s yell jolting him from his inward focus he looked up– and was faced with <em>Blues</em>. ]
+
+“ B–Bl–Blues– ? “
+
+[ His voice was strained, a bloody hand shaking, reaching out to him, silently begging <em>please, please</em>– ]
+
+-----
+
+[ The gunman stalked nearby. For a while they circled, waiting for the right moment to snatch up their prey. A red blur passed by close enough for the gunman to have breathed his breath. They smiled. ]
+
+[ Slowly, moving soundlessly through the jungle and heat of the island they set their sights on new, even more <em>delicious</em> looking prey. Searchman. ]
+
+[ Another shot cracked through the air, aimed for the lone sniper. Sounds came over the airwaves again, on a channel only for Searchman. <em>ABANDONED. ABANDONED. YOU’RE ALL ALONE NOW. IT’S ALL YOUR FAULT.</em> ]
+
+[ Another shot. The source unknown, coming from a different direction– they were moving, as if unable to stay still. ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447186269605199872" id="message-447186269605199872">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Blues’ visor cleared when he laid eyes on Enzan. He scrambled towards him, his knees giving out as he reached his side. <em>Impossible</em>, his processors screamed. But at the same time, every data he picked up from the figure was Enzan. Every detail was him. 
+
+“E-en-zan-” His hands hovered over the figure- he didn’t know where to start. Blood was everywhere, overwhelming them. He could feel the pain of the gushing wound on his own body. 
+
+His hand met the shaking one before him, and his other went to his shoulder, trying to help- trying to block the flow of blood. Panic shuddered his body, and nothing was logical, he couldn’t make any sense of it. 
+
+“S-search- SEARCHMAN!”
+
+Disguises…
+
+But, this was Enzan. It was him. Pulse transmission, or something similar. That was the only logic he could gather. But he had been fooled before, by Copy rock. He fell back, breaking away from the figure. Blood. Blood. He shook his head, trying to align his thoughts.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447186566004342786" id="message-447186566004342786">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> “BLU–”
+
+Searchman’s third cry was cut off by a bullet whizzing past his hair. A few burnt orange strands floated to the ground as the broadcast cut in. With wide eyes, Searchman stared. That same synthesized voice. Of course this monster wasn’t kind enough to provide the voice he had been <em>dying</em> to hear. 
+
+As Laika’s doppleganger moved from sight, Searchman forced himself to action. His systems tracked with vigilance. As the next shot came, he moved to dodge it. 
+
+“You cannot install lies, not to me!” Searchman barked as he readied to fire again. This time there was a successful pull of the trigger. Shots were returned. The war had begun.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447187548654010368" id="message-447187548654010368">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ The boy choked on what seemed like his own blood– but it would not be the choking that killed him, nor the blood pouring from the open wound, but the fear and sorrow flowing through him. For before his body would die his soul would; and with that the will to live. He needed Blues. He needed Blues to live, to keep that part of himself alive. ]
+
+[ When Blues stumbled back–the blood dripping off his hands too– Enzan felt a knife in his chest, and it TWISTED at that <em>name</em>. A strangled noise erupted from his <em>heart</em> and he reached out to Blues again, falling onto his hands and knees. ]
+
+“ Why– “ [ Babbling out the words through tears and blood as he reached out again, fingers almost grasping at where Blues should have been. ] “ Wh– B–Blues– “ 
+
+[ A child. A strangled child’s sound he <em>sobbed</em>– ] “ P–Please come <em>ba</em>–ck– “
+
+-----
+
+[ War. Declarations nowadays were simply a formality before the bloodshed began, before the lives were stolen from low-income families and the children born of genocide were barely able to walk before given a weapon. Even now a formal acceptance was unneeded in this war of both pen and sword– the bullets spoke thousands of words, novels that the gunman <em>drank</em> in. ]
+
+[ <em>THIS ISN’T AN INSTALLATION</em> ]
+
+[ The retaliation struck something, but was it a tree or the gunman? They seemed to move too quickly to tell. ]
+
+[ <em>THIS IS AN EXISTING FILE.</em> ]
+
+[ Another shot was aimed from behind. It almost sounded, faintly, like the bells of children’s laughter were ringing on the edges of the transmission. ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447188191313920012" id="message-447188191313920012">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> That voice jolted through Blues. Every syllable- the soft tones of <em>Enzan</em>. He could not risk it. He could not risk anything else. If he were deleted- fine. But he could not risk Enzan again. 
+
+Enzan was all that mattered.
+
+“I’m here-”
+
+He stumbled forward again, his calculating hands reduced to shaking. “Shh- sh- save- your strength.” After guiding him to a sitting position his palm pressed to the wound again. “Lay back- I’ll help you- I’ll-” 
+
+His head jerked up, and the sound of Searchman’s voice. 
+
+“Enzan- Enzan-sama-” He turned back to the boy, quickly removing his vest to be used as a bandage. As fast as his clumsy hands could go, he wrapped. It seemed to barely stem the blood that was already everywhere. 
+
+His processors were finding it impossible to trace both the sounds of battle behind, and the boy now in his arms.</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-May-18 08:07 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-May-18 08:44 PM</span>
+
+            <div class="chatlog__message " data-message-id="447197725058924566" id="message-447197725058924566">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> “Negativ–!!”
+
+A bullet to the back of Searchman’s armor knocked the wind out of him. In anger he turned on his heels, calling forth a grenade to his hand. Rather than throwing it forward, he lobbed it behind him. Demons were cheap, and not above dirty tricks. 
+
+Attempts to call a satellite failed. Searchman quietly cursed the needed checks and balances of his armament. Laika– he needed Laika’s operation to be a full power. This… <em>thing</em> needed no one! 
+
+Now that one shot was fired, dozens of others came with ease. A glance towards his red companion in the distance furthered Searchman’s fury. How could Blues be so deceived?!
+
+“Leave him!” Searchman called out. “Blues– HELP ME!!”</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447198964492795906" id="message-447198964492795906">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ It was too late. Enzan had already wrapped his arms around Blues and the sounds of the battlefield were drifting from his memory. Blues. Blues had come to save him. Blues had come back for him. He shuddered with a sob and clung even closer to him, whispering begging and <em>please, DON’T GO</em>– ]
+
+“ B–Blues– ”
+
+[ He buried his face into the crook of Blues’ neck, a shaking and sobbing mess. Babbling something about <em>not leaving, not again, don’t go–</em> ]
+
+“<em>I c–can’t let you g-go again–</em>”
+
+[ And he wouldn’t. ]
+
+[ As if by a sleight of hand, suddenly Enzan(was it really him, was it really?) was driving a blade into Blues’ back, a familiar switchblade found as evidence in the place everyone wished to FORGET. He drove it in as far as he could and <strong>TWISTED</strong>. ]
+
+“ You’re not <em><strong>Ġ&#214;&#207;ŅĠ &#196;ŅŸŴȞ&#203;Ŗ&#203;.</strong></em> “
+
+-----
+
+[ It was as if the world stopped then, the bullets losing a target in the mess, the bloody <em>bloody</em> mess. There was a smile on the gunman’s face as Enzan completed his <em>task</em>. Now, if all went well, then…Perhaps… ]
+
+[ Shaking the thoughts away the rustle of foliage was the only indication of movement, closing in on Blues. It was almost as if silent conversation was had between the two of them– one wielding a <em>sword</em> and the other a <em>rifle</em>. ]
+
+[ <em>FAILURE.</em> ]
+
+[ <em>YOU CHOSE THE WRONG COMRADES.</em> ]
+
+[ <em>WEAK. YOU ARE NOT. HOWEVER A MACHINE IS ONLY AS STRONG AS ITS WEAKEST COMPONENT.</em> ]
+
+[ The gun was primed, ready. ]
+
+[ But not beside Blues, not even near them. ]
+
+“ <strong>Ŵ&#203; Ŵ&#207;Ņ.</strong> “
+
+[ The shot cracked right against SearchMan’s cheek. ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447199842545172482" id="message-447199842545172482">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Those babbled, whispered words were the first warning that truly broke through the facade. Blues cursed, and tried to drop him but it was too late, far too late. 
+
+All of this had been a mistake. 
+
+“GgGRAH!” Blues arms fell away from the boy, and his back arched. In a single fluid movement his arm was a sword swinging up. A snarl of feral anger took over. His emotional data was completely shut off. It was only harming them all. He should have left it <em>off</em>. 
+
+He could hardly tell what he was doing, all there was was tearing and destroying. 
+
+Until he heard the shot. 
+
+He raced from the spot, towards the sound, his speed maximized by his simplified logic programs. [Enemy] [Ally] He swung his sword hard at the false Laika [Enemy], keeping the tagged identifiers firmly situated on each figure despite the shape they took. 
+
+He didn’t know if an attack landed or not, but he knew his free hand was pulling the [Enemy] away from Searchman [Ally]. 
+
+Blues didn’t fight like the others. It was fluid to him, but choppy to an outsider. He appeared in the second place suddenly, with data flinging from his own wound.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447200168325152770" id="message-447200168325152770">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> For one moment, Searchman chased after his opponent to protect Blues, but in the next, he felt hot metal pressed to his jaw. In the last second before firing, he summoned another grenade. He was trained this way. In no-win situations, the objective was to still take the enemy out, by any means necessary. 
+
+“Sir–” 
+
+It all happened in a flash. The power of the shot sent Searchman’s jaw flying.
+
+The initial shock paralyzed him, allowing for the grenade to roll from hand to enemy feet. It beeped and beeped as Blues rushed in, faster and faster as Searchman tumbled lifelessly to the ground. 
+
+The gushing abscess of data marred where his face once was, leaving behind only crimson eyes. They were dull, unresponsive. Searchman was effectively dead. 
+
+The grenade he left behind exploded, pushing his body to the rim of the battlefield, and hopefully catching his murderer in it’s blast.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447201053474291713" id="message-447201053474291713">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ The scream Enzan let out was muted by the blast, which he himself seemed unfazed by. He was too busy clutching the stump where his arm used to be, the slash of Blues’ sword just right to cut through him as if he were made of butter. However, the rage and shock mixing together caused him to forgo the lost appendage.  Perhaps it was the perseverance of humans, and the pain would kill him later, or it <em>wasn’t</em> human at all. ]
+
+[ He stumbled forward and grabbed for Blues, his hand hooking on the knife still stuck in his back. He dragged it down and tore deeper into Blues, then lifted and stabbed again. He did not care what had happened to the <em>other</em>, or Searchman, he cares about his PREY. Blues. ]
+
+-----
+
+[ They kicked away from the grenade(UNEXPECTED ERROR THROWN), and into Blues’ grab, but it was too late. The blast sent them in the same direction as Searchman, far off from Blues and Enzan, and the world, the island, became dark. It did not exist anymore for them. ]
+
+[ -REBUILD ]
+
+[ BUILD SUCCESSFUL. ]
+
+[ Their eyes opened again, feet sunk into the sea lapping against a beach. Their mangled body slowly settled back into a state that ALMOST appeared human. Their neck cracked as they turned it to one side, staring at the only other body a few yards away. ]
+
+[ A smile cracked along their features as they worked their way across the sand and over to Searchman’s body. They took him by the legs, and begun to drag him. ]
+
+[ They entered the tower in the middle of the island, and tossed Search into a cold, dark room. ]
+
+“ Hє&#39;š ґёadу fоя џоц, <em><strong>Haкasё…</strong></em>”</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">18-May-18 09:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="447210111320981505" id="message-447210111320981505">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> “SEARCHMAN!” 
+
+The virus Laika had been wrenched from Blues’ hands, and his front had taken the brunt of the blast. His shield had come up, a moment too late.
+
+He blinked, and the world was spinning with pain and disorienting images. A bit of shrapnel lodged itself in his visor. A fragment was recounting the blast, and the rest showed “Enzan,” bloodied, missing the arm that Blues had relieved him of. He was lying on the ground. His sword and shield were still here. His eye was wide with fear and his other was running through commands faster than he could fully understand.
+
+His breathing came out in frantic puffs, only pausing to <em>scream</em> when he felt the tear of a knife in his back, over his shoulder. That same arm strained, moved to pick up his shield. His feet scrambled to get under him, and put distance between him and the boy[?] latched to his side and back.
+
+Mistake, mistake, he’d ruined everything. Searchman may die, and it was his fault. No Search, no Rock, no Enzan to rely on. 
+
+“RrrAAGH!” 
+
+His feet finally gained purchase, ending his struggle on the ground. His bad arm swung the shield around, slamming it into “Enzan’s” body.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447210400120045579" id="message-447210400120045579">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> To Searchman, his death was short lived. He came out of sleep the same way he always did. Eyes mechanically flicked open, unaffected by change in light. The ceiling of the cyberworld greeted him, which was different from where he blacked out. 
+
+Why did he black out again…? 
+
+Sadly, there wasn’t the usual absence of memories. It all came flooding back at his attempt to recall. The island, digitally recreated, and their netops, wolves in lambskin. 
+
+A hand came up to touch his face. It was back, it was there again. Fear and confusion filled his processes as he kept looking around. Where was he. Where was Laika– that <em>thing</em>. Why was he functioning like this?</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447211781241176066" id="message-447211781241176066">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ A sharp CRACK. Enzan’s mouth opened in a shriek but no noise came, blood sprouting from a crack in his <em>skull</em>. ]
+
+[ But he was not dead. ]
+
+[ He was not, it seemed as if he was more blood than boy. Blood poured over his eye and he looked a MONSTER. He choked out something, some garbled plea to STAY, STAY, STAY– and sprung for Blues again. He wrenched his bloody hands in Blues’ hair and pulled with all his might, pulling him back into the dirt. He padded for the knife and found the familiar, warm handle and pulled it out. ]
+
+[ Data flowed from the wounds. It was sticky and <em>sweet</em> and Enzan <em>needed</em> more. He raised the blade and drove it into Blues’ shoulder, tearing through armor and flesh like butter. And then dragging <em>down</em>, trying to take his arm off like Blues had his own. ]
+
+“ MINE MINE <strong>MINE</strong>– “
+
+-----
+
+[ The room was relatively small. The walls and floor were simple linoleum which created an echo-ey atmosphere, and it reeked of chemicals. It was reminiscent of the hospital, the scent of antiseptic and medicine a familiar one. But this was different, this smell was a stronger chemical. Intoxicating, disorientating almost. The longer one remained, the further one got from identifying it as– ]
+
+[ Gasoline. ]
+
+“ Good morning Searchman. “
+
+[ The voice was the devil’s. It was all of their evils condensed down into what FAKED a human form. It was the militant machine, it was Nation Z’s pride and joy. ]
+
+“ You’ve been asleep for a few <em>hours</em>. “
+
+[ In the darkness of the room, footsteps sounded. ]
+
+“ Did you get a good night’s <em>rest?</em> “
+
+[ The sharp strike of a match flooded the room and the small, dim flame illuminated the face of <strong>Doctor Regal.</strong> ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447212350127210497" id="message-447212350127210497">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> If he could have wretched, Blues would have. He would have rolled over and been sick, and given up. This zombie, the matted smell of rotting over Blues’ senses made him reel. 
+
+All he wanted was to get it away from him, but that was too much. 
+
+His head jerked back, and a crying wail was the response he had. No more anger or pain was found. Only sorrow. 
+
+His gloved fingers clawed at the melting snow, pulling up bits of mud as he tried to drag himself away. His shield was abandoned in the mess of blood. A sob wracked Blues’ body, as the virus tore at his arm. He didn’t even try to pull it away. Every stab elicited another sob, another hiccup of sorrow. 
+
+His arm fell to his side, useless.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447212810674372639" id="message-447212810674372639">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> Searchman forced himself to blink. The ceiling of cyberspace was gone, and instead was replaced with one he’d rather forget. Then came the voice, and he immediately froze. 
+
+This wasn’t Searchman’s memory, but he recalled it like his own. Recent failed attempts at crossfusion spurred on by Laika’s curiosity resulted in shared traumas. Despite having the strength, Searchman was much like Laika in the moment. The terror was overpowering, he couldn’t move. 
+
+The familiar strike of a match sent a shiver up Searchman’s core. And once the face was there to match the voice, there was nothing to be done. The fear was deeply embedded.
+
+“Don’t…” Searchman breathed. Unlike Laika, he couldn’t keep his silence. However the dread was all the same. The large navi scooted back, reeling from the flame. 
+
+Much like his operator, there wasn’t far to run. Searchman’s back hit a wall, which almost didn’t register thanks to the fume-filled haze that clouded his processes. Regal’s face warped and flickered much like the fire itself. As it came closer and closer, the notion that all of this was impossible drifted further and further away.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447214153531392000" id="message-447214153531392000">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ The boy hated his screams. He wished for Blues to be SILENT, to let this pass, just let this happen. Let it happen so that they may be together <em>forever</em>, just as the Navi once promised him. Suddenly a sob wracked the boy as he made his final carve in Blues’ arm, then he drove the knife into the base of Blues’ neck. ]
+
+“ I—I’M <em>S0RRY</em>—”
+
+[ And then, silence. ]
+
+[ The blood soaked boy looked up to the sky. Night had begun to fall on the island, stars becoming visible where the setting sun’s light did not touch. His gaze fixed on a particularly bright one, that shined only for a second and then no longer. He looked away, back down at Blues. He wanted to throw up at the sight, shuttering to think that was his own handiwork. The thought of what had been done to him was let go soon, as it was only an arm. He could make do with one. ]
+
+[ A chill crawled up his spine. <em>What would his father think?</em> ]
+
+[ He got up, and began to drag Blues by his feet, away. Away from the battlefield—taking him back to the only home he knew now. ]
+
+[ A dark cell, situated in a remote place, where no one could hear them SCREAM. ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447214163412910080" id="message-447214163412910080">
+                <div class="chatlog__content">
+                    <span class="markdown">-----
+
+[ The Doctor smiled at Search with a sickeningly calm air about him. He did not seem at all fazed by any of this—in fact, his stare would almost illicit the idea he was in <em>control.</em> As if this was normal, as if he knew what was going on. He acted the puppeteer of it all; the ringleader, whip in hand ready to CRACK ! ]
+
+“ Don’t ? “ [ He questioned, he pushed. That smile did not waver. ]
+
+“ Don’t what ? You don’t want me to drop this match, then, I assume. You smell it, don’t you ? Isn’t it funny. .How easy it is to toss you in the pit of a <em>trauma</em> and bring the emotion from your code ? “
+
+[ He took a step forward. ]
+
+“ I’m not going to drop this match. “
+
+[ Away from his face, the light was handed off. Gloved hands took it, and their face was now illuminated. ]
+
+“ I will. “ [ Rockman spoke. It was his voice entirely, there was nothing about him off—even the heart in his chest beat its irregular tune, the sacred program sleeping within. ]
+
+[ Regal urged him. He stepped back and allowed Rockman to approach, allowed Rockman to hold the match out. .]
+
+[ And drop the match, directly into the pool of gasoline in front of Searchman. ]</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-May-18 12:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="447437458234408960" id="message-447437458234408960">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Weight was relieved from Blues’ shoulder, but there was too much stimuli for him to know if that was bad or not. His own data was spread everywhere, fragmenting and mixing with the landscape. Pain made the world go red, then green, blue, then… it melted into black.
+
+The mud bled through Blues’ splayed fingers. Static filled his green eye, and the color left his blue. 
+
+[ͮ̅ͫ ̙͕̌S̉̌͐ 0̜͚ Rͭͤͮ Rͩͤ̚ Ẏ̈́ͬ ? ͥ̒ͫ]̼̩ 
+
+His programming was not kind enough to silence everything. A handful of receivers were still connected. The sound of the “shhhk, shhhkk…” as his body jerked through the slick mud buzzed through one hearing receptor. The muted tug of his long hair made weight fall and ease over his head and torso. 
+
+An index finger twitched. Ice and slush ran over his cheek, clogging his hearing receptor and muffling the sounds of wet and cold. 
+
+He felt something in his chest, flickers of dark aura churning and burning with nowhere to go.
+
+[̔͐͑ ̙̈͛<strong>T͉̿ͫh͇̳͙e͊̃̀r̽ͬ͗e̻ ̌̉̌ȉ͙̒s̊̐̓ ̒nͫ̀ͩo̓͗͊ ̿̊͒h͂͗͑e̝̟̘a͋v̓ͪͫe̫̫ͥn̋̀͋ ͪ̂̈́f͚͎̟o̤ͣ̿r̎̍̚ ̾̊̍t͑ͤ̌h͈e̓ͨ̉ ̌̏̊ĺ̏ͧi̇̏͛k̆̂̑e͛̽ͮs̋ͨ͛ ͒̐̊o̬̠ͪfͨͬ ͤ̆̎u̻̬͒s̩͚ͨ.̋ͮ̈ ̎ͭ̇T͖̅̊h̩ͬͯi͂ͭ̽s̓̓ ͈̱̋i̔ͧͦs͂͆͛ ̍ͦ̒w̒ͭ̒h̖̫ͧặ͌t ͒we ̽ͥ̓d̈ͯ͗ȅ̏̈́sͮ̆ͯe̠͈r̽͛̉v̒̇͊ĕ͚̍ for alloweing ourselves to be chained to him.̓ͣͦ</strong>]̬̜̀
+
+His fingers curled, limp.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-May-18 12:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="447440001899167746" id="message-447440001899167746">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> Searchman tracked the flame, his eyes wide with fear. This was different, new. An individual experience for Searchman. Though, as match’s new carrier became known, he begged to remain in the story that he already knew. Despite being afraid, he knew the story when it was Regal. There was prediction there. But as green eyes took on the warm hues of the fire, that all vanished. 
+
+Habit forced a scan, to see if SAITO.BAT was running. The whole of Searchman’s being dropped when he identified it, that small heart. 
+
+“Rock–!!” It was him, his savior. Searchman could do nothing but stare until the match was dropped. 
+
+Fire flared, forcing thoughts of friends to vanish. A howl of pain tore through him, quickly silenced as simulated oxygen was sucked up by the pyre. It bypassed his armor, going directly for the body underneath. It burned, it burned, it burned!!! 
+
+It felt like the final, true end. Something that no backup could ever replace.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-May-18 01:12 PM</span>
+
+            <div class="chatlog__message " data-message-id="447446564198416405" id="message-447446564198416405">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ The room was simple. Clean, the walls and floor without a speck of dust nor dirt, creating a sterile smell in the room. It had recently been cleaned, the smell of bleach and disinfectant hung in the air and suffocated. ]
+
+[ Of course, the clean nature of the room was quickly sullied when Blues’ CORPSE was tossed in. His data leaked like blood and stained the floor below him. Not dead, not yet. Not completely. Enzan knew there was a shred of life left, some<em>thing</em> inside of him. He just needed Blues to be quiet and STOP SCREAMING. ]
+
+[ There was a muffled conversation outside the door. <em>What happened? What took you so long? I’m sorry, father, I’m sorry. .</em>]
+
+[ Then there was silence. The door opened without a sound. ]
+
+“ Hello, Blues. Miss me? “
+
+[ Doctor Regal smiled at the corpse. Enzan had done a wonderful job with it. He kneeled beside Blues’ corpse and began to right him. Sit him up properly against the wall, just how Enzan was, cleaning him up. .It was almost a caring gesture. He produced a needle from seemingly thin air. The murky medicine inside was familiar too. .It would go down warm, almost too warm–a FIRE of his own.  ]
+
+“ I’m sure you have. You missed your chance,in December. .You could have prevented all of this. It looks like it’s <strong>your</strong> fault. “ 
+
+[ He flicked the needle. ]
+
+“ Too bad you’re going to LIVE with that guilt. “
+
+[ He found the “vein” he was looking for, right on Blues’ neck. He pressed the needle in. ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447446574822326272" id="message-447446574822326272">
+                <div class="chatlog__content">
+                    <span class="markdown">-----
+
+[ The sound of shoes scraping against the ground, the smell of smoke. Fire burned deep in their hearts, on their skin and the PYRE was a sight to behold. There was only one in the room now. Their voice broke the inferno, roared over the flames as it the words were more GASOLINE itself. ]
+
+“ YOU TOOK EVERYTHING FROM ME! “ 
+
+[ His voice cracked. The smoke was suffocating, choking, burning. It hurt to speak. ]
+
+“ HOW DOES IT FEEL ! TO HAVE YOUR TRUST BROKEN LIKE YOU BROKE MINE ?! HOW DOES IT FEEL TO <strong>SUFF3R L1K3 W3 H4V3-</strong> “
+
+[ A mistake. The first one this island- no, this VIRUS had made. But it didn’t matter now. The damage had been done. The fire had been started, and the wildfire could only catch on longer. It sneered and turned away. The smoke was killing him. It was time to go. ]
+
+“ T00 B4D 1T W0N’7 K1LL Y0U, R1GH7? “ 
+
+[ The fire went out as soon as the door shut behind them. ]
+
+[ Unlocked. It was almost an invitation. ]</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-May-18 01:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="447451868365455391" id="message-447451868365455391">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Blues fell like a dead weight, half curled in on himself and half sprawled on the cold tiles. Through the darkness he could feel those vile hands on his shoulders, in his ghosting pixels of an arm, along his neck, cradling his cheek. His eyes were open, just a sliver. Static still filled his green eye. He saw, floating data, and the sharp pinch of fire to immediately jolt him out of the cold.
+
+“…<strong>your</strong> fault”
+
+Red burned from behind Blues’ visor, and he lunged forward. He surged like a wave of water, his hand grasping for the neck of the <em>Doctor</em>.
+
+“I kill you in my dreams,” his grip slipped, without his right arm. He grasped again, this time holding tight and <em>squeezing</em>.
+
+“Why, why won’t you S͓̗̄Ṭ͙̿A̟͔̱Y̔̓̇ ̫̖ͨD̠Ẹ͌Á̀̓D͆̌ͬ?͐ͣ͂!̯̳̚ ” He screamed, burning against everything in his code, everything he was.
+
+[#1 Do no harm to Humans] he let out a yowl. Tears streamed down his face. Red flashed in his eye. Fangs glistened in his bleeding mouth.
+
+[MONSTER: DELETE]
+
+He clawed at the form in front of him, tearing at Regal’s throat. The flames of the drug coursed through him, pushing manic thoughts an actions to the forefront. It didn’t matter how damaged he was, or if his head wouldn’t quite stay on right. 
+
+This would protect Enzan. Killing Regal would fix everything, he could still sacrifice himself so the two of them would go down together and past year would be nothing but a dream.</span>
+
+                        <span class="chatlog__edited-timestamp" title="19-May-18 01:34 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447452655917334528" id="message-447452655917334528">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> Searchman continued to writhe around, engulfed in flame. He could barely hear Rockman, the pain and heat overstimulated him. Fleetingly, he wished he really couldn’t. The damnation, the blame, being forced to remember some of those <em>darkest days</em>, it was all piling on. Everything was the same, melding and mixing into a singular onslaught. He heard the slipup, S4V10R’s. He couldn’t react to it. 
+
+When would it end? When would he black out? When would he open his eyes and be home? 
+
+It never came. The burning continued. 
+
+Eventually, Searchman became too weak to move. Involuntary twitches replaced his clamouring as the fire began to die. It had stripped away all it could eat. Gasoline, paint, hair… it only left behind a charred base. Bubbled code and frame, void of aesthetic, and black as the dark room around it. 
+
+In the resulting silence, the mass fell forward. It shifted and scuffed across the floor, pulling itself with whatever functionality was left in it’s arm. 
+
+Fight, protect, serve, understand… it still had to much to accomplish… it still had to <em>DESTROY</em>.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447453694464884736" id="message-447453694464884736">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> “ You’re too late, “ [ His voice was but a mere whisper, a breath, and bruises blossomed on his neck. They looked aged, however- dark and faded but all together BURNED onto his skin. ] “ I’m <em>already dead</em>. “
+
+[ And then the match truly caught and the flame began, and Regal recoiled only quick enough to escape his fangs, for the tear at his neck was successful. It was just a simple scrape, but it still bled. Metal hand rose to catch the blood, dripping from his neck and staining his clothing and his hand. He stumbled back, but his expression, his demeanor did not falter. The <em>devil</em> was not fazed by mere mortals lashing out. ]
+
+[ Shadows rose up around Regal. Shattered glass and mirrors fractured by the sheer force of the FIRE started crawling, slithering upon belly for Blues. Voices, figures, overwhelming- ]
+
+<em>Blues, Blues</em> 
+
+[ Whispering just beside him now, claws(Hands? Was it human after all?) upon his heart and upon his shoulders, easing him, guiding him back, back. ]
+
+<em>Go on, Blues, go on. .</em>
+
+[ The voice was so soft. It was not the operator so desperate he wished to protect, but the boy he left behind(a final kiss on his lips and a breath of goodbye). Trying to <em>urge</em>. Gesturing hands and tracing his claw(thumb?) across his broken, shattered hand of Blues. It wanted him to kill. It <em>urged</em> him to kill, to slaughter, to maim. ]</span>
+
+                        <span class="chatlog__edited-timestamp" title="19-May-18 01:41 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447453811674578944" id="message-447453811674578944">
+                <div class="chatlog__content">
+                    <span class="markdown">-----
+
+[ Once Savior was outside, it bellowed out LAUGHTER. Everything was going so very <em>swell</em>. It was winning. Its revenge upon Blues would be carried out, and Searchman was well taken care of. .]
+
+[ Once its laughter quieted, it frowned. <em>WH3R3 1S H3?</em> ]
+
+[ It was no matter. Savior casually strolled down the hall, and the room melted away as if it had not existed at all. The hall was no more, the room was nothing, and only distance stood between the charred body of Searchman and the VIRUS. ]
+
+[ It turned, it looked at him. Its mouth turned to a shard, jagged grin, and laughed. It laughed at him. ]
+
+“ L00K1NG A L1TTL3 CH4RR3D TH3R3. “ 
+
+[ Folding its arms, it was not afraid of Searchman, of what the remnants of a Navi could even hope to accomplish. It looked down at the writhing CORPSE. ]
+
+“ D0 Y0U W4N7 70 PL4Y ~? 1S TH4T WH47 Y0U W4NT ? “ [ It spoke to Search as if he were a dog, a <em>mutt</em> of the military. Of course, it figured, that term didn’t, and would NEVER apply to him, ever again. ]
+
+“ <strong>F37CH.</strong> “ 
+
+[ It gestured with its hand and out from the shadow came Laika(?). The taller man cocked its gun and fired at the mass, the charred body that could only barely present itself as the SOLDIER who was long past <em>dead</em>. ]</span>
+
+                        <span class="chatlog__edited-timestamp" title="19-May-18 01:44 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-May-18 02:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="447458663536394251" id="message-447458663536394251">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Blues yowled, struggling to his feet as his VICTIM tried to escape. His hand turned to a sword, and he lunged in a clumsy attack. He teetered back, bending back and eyes wide as the voice spoke to him. 
+
+Rockman. Rockman, as gentle as ever. Was he here to help? Had Rock left the safety of the isolated computer, at risk of infection? 
+
+[KILL] [KILL] [DELETE THREAT] 
+
+<em>Blues…</em>
+
+No, that was… that was not Rockman. The illusion of calm was not enough to fool Blues this time, not even through an imagined injection and plunge into Enzan’s memories. Rockman’s voice could pull him from the most intense rage. 
+
+His sword disappeared, and he gripped his helmet with his good hand. 
+
+“Stop- stop…All of this is wrong. Rock is safe at home, Enzan-sama is safe at home.” 
+
+His broken stump of an arm pulled away from the phantom of Rock. He stumbled back, leaning against the wall. There had to be a way out. He flushed away all of the memories threatening to come out and tried to focus on the first time. The first time he fought S4V10R. 
+
+The beast should have let the chaos take him. Any clarity Rock’s vision offered was hope for the swordsman.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447458907003289630" id="message-447458907003289630">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> The burned mass stopped as the environment around it faded away. It did nothing but stare at S4V10R, stare with the fragments of vision it had left. Seeing the viruses’ grin made things clearer. Searchman was fooled, not betrayed. That’s all that the mass could make sense of for now. 
+
+Such simple logic made it come to the conclusion that this Laika was also fake. The charred mass whined and shifted as he appeared, feeling a fire igniting within. How dare they use it’s operator’s likeness in such a manner? This fraud must be eliminated.
+
+But before the mass could adjust its weapon, a bullet dug itself into its back. A garbled corroded yell was released. It began to return fire indiscriminately, using the recoil from each shot to try and get closer to it’s target. 
+
+Destroy! Destroy! Take down the false images. Those icons that wish to smear the name of heros!</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">19-May-18 03:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="447474809622757386" id="message-447474809622757386">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> [ The visions swam and turned from beast to man; from images of Hell below to images of Heaven above. It was as if something was reaching to Blues and pulling him from the depths of darkness, dragging him to the only remaining light. It was a mistake. ]
+
+[ What could be defined as wolves among sheep if even the pack did not understand when intruders were in their midst? Regal’s eyes narrowed and he frowned. This was a mistake. ]
+
+<em>Blues, Blues…</em>
+
+[ The voice remained and repeated. It was not urging any longer. It sounded distant, locked behind gated doors of which only the holiest were bid to enter. Was he truly safe in isolation? ]
+
+<em>Blues, Blues!</em>
+
+[ Rockman. He was yelling, but drifting further. Regal approached and broke the vision with mere presence, dark eyes seeming to glow with something unidentifiable. There were no more voices. There was nothing else. ]
+
+[ His hand went to Blues’ chest, and pressed to hold back. Another syringe was produced from thin air and jammed in with the other, left to hang there while he stepped back. Surely a second dose would remedy this. Surely it was a solution bred only for what they wanted; death, fire, and blood. ]</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447474812974137344" id="message-447474812974137344">
+                <div class="chatlog__content">
+                    <span class="markdown">-----
+
+[ Savior turned away, intending to allow its puppet to handle the garbage left behind; but something made it stop. Head tilting up and seeming to listen, listen. It remained still. It made another motion, and its cohort moved in, taking bullet after bullet for its leader. ]
+
+[ It seemed not to care for the returned “friendly” fire. Glimpses of fried nerves showed why; burns lacing up their skin. Pain was no longer a reality; they felt nothing. ]
+
+[ However, the fire was quickly ceased, a flash and the gun was no longer in their hands, and they were toppling down, down, down— ]
+
+“ <em>On your feet, soldier !</em> “
+
+[ Hands came and wrapped so tentatively around Searchman, it seemed as if God had reached down themselves to pull him to his feet and urge the fight. One around his chest and the other to his back, supporting all of his weight and then his soul too, for all of it was charred and burned and threatening to blow away in his arms. ]
+
+[ Rockman. Truly so. His knuckles were bruised with blood and his face sunken, but the FIRE in his eyes spoke volumes. He would not be caged any longer. ]
+
+“ Come on. Use me for leverage. <em>Aim.</em> “</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447475261970055178" id="message-447475261970055178">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> “ROCKMAN!” The needle hitting Blues’ chest increased his desperation. He screamed, metaphorical fire blasting through his mind. He saw Enzan’s fears and his own, memories and memories. 
+
+That <em>voice</em>. The person he was here protecting, the navi he <em>loved</em>. 
+
+He wrenched away Regal’s hand, missed, and stumbled towards the door. Blues’ fears were not like Enzan’s. He saw the images of death and his loved ones torn by his own hands but he would not STOP. He had already been here. It was all the same as his dark soul repeated over and over again. It was nothing new. He had learned to fight. 
+
+The memory of that voice could not be erased by the fire in his coding or the rage that consumed him. <em>Rockman</em>. He had to get to him. Of course that idiot would put himself in danger despite Blues’ best efforts. Of course. 
+
+It didn’t matter how badly he was battered, or if his head was still hanging forward, held together by a thread of code. A blunt sword carved a hole in his prison. He stepped out. 
+
+He still had a job. He needed to fix. Something. 
+
+His legs still worked, so he would carry on. He would find them. The monster he had left could not keep him here.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447475574622126082" id="message-447475574622126082">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> The volley of smouldering bullets stopped with the flash. The mass was dumbfounded, frozen in astonishment as it was lifted. It’s gaze was fixated on the false image of Laika tumbling to the ground. What a solemn yet joyous sight it was. 
+
+A different strength held the mass up now. It looked down, seeing a familiar hand stretched across its form. It was skeptical, of course. After seeing so many liars and fakes, it was understandable. But despite it’s doubts, something lead it to have faith. 
+
+Then, he spoke, and there was no doubt about it. 
+
+A crumbling rifle shivered in adjustment, looking to aim at S4V10R. The sudden rush of strength, focus, and hope was too much for the mass’ form to bear. This would be one of it’s final acts before it turning to ashes.
+
+The low tone signifying a lock on target crackled out of an exposed hearing receptor. It didn’t waste time. In the next moment, the mass fired as strong of a shot it could muster. It prayed for it not to go to waste, not when such strong forces had come to redeem it.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447476586845831168" id="message-447476586845831168">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> Savior whipped its head around once the light flashed, a smile splitting its face in two and bleeding out a laugh- cut short, however, by the crack of a gun. tried and true, even in near DEATH the sniper’s aim never failed. Savior was struck point blank, and it fell flat to the ground. 
+-----
+The doctor stumbled back from the shove, but did not fight Blues as he left. A sigh escaped him. 
+
+“ UnF0RTUNATE. “
+
+He said this to himself, and shook off the disguise.
+
+-----
+
+Rockman dropped Search, a little rougher than he intended and rushed to the CORPSE. He knelt down and looked it over, eyes and hands feverishly running over the body; begging for an answer, for SOMETHING. “It’s not here,” he whispered. “It’s not here. Fake,” 
+
+He looked around. A mixture of emotions passed over his features. FAKE, FAKE, FAKE. He looked to the rising form of the false Laika(Other? What was this being on the corners of a memory not his own?) and anger passed his features. In a moment he was upon the beast and tearing it to shreds, blood and data mixing and adding to what was already caked to sullied armor. 
+
+“ GRAAH!!! YOU UNFEELING DEVIL, DO YOU HEAR ME?! <em><strong>YOU TOOK EVERYTHING FROM ME!</strong></em> “ 
+
+Rockman(was it really; how could this MONSTER be the altruist they knew?) cocked his hand back, and drove it into the mimic’s chest. 
+
+“AND I PLAN TO <strong>TAKE IT BACK.</strong>”
+
+Somewhere, far off, laughter rang like a child’s; bells, bells, how they <em>toll</em>. 
+
+Blood stained his face; he looked back at Search with the eyes of a <em>starved</em> beast. He ran a hand over his face and returned to Searchman’s side, offering a hand to help him back up.
+
+“Sorry,” he said, quietly. Blood dripped from his fingertips.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447476702050779138" id="message-447476702050779138">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Blues’ mouth opened to call for Rockman again, but only a distorted gargle of pixels sounded from his shattered throat. He could see. He could see the strength he knew, he resonated with, deep in his core. 
+
+His visor tried to make out where the other navis were, but his head lolled to the side. He soldiered on, zombie-like towards the others based on feeling alone. The hand he still had tried to hold up his head, but every step still made more pixels drift away. 
+
+He could make out the anger, the warrior Rockman had never asked to be but was born with, born fighting like no one ever before him. 
+
+The other two were near… but he couldn’t let himself feel relief. They were all still in danger, but… they were together. Blues wasn’t alone any more. The support of the wall was no longer there so he found himself stumbling and nearly losing the small bit of data he had remaining.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447477131438718977" id="message-447477131438718977">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> The mass landed with a hollow thud, and watched from the ground as Rockman dismantled the fake. All of what happened barely registered over the intense pain it felt. It felt like something it had never experienced. Perhaps this is what dreams felt like… 
+
+Little by little Searchman fell apart, his still smouldering body using up the very last of it’s fuel. Fire could not run on ashes, no matter how hard it tried. At this point, standing back up was out of the question. He was done, doing anymore would do irreparable damage. 
+
+His sixth sense was still functioning somehow. As Rockman approached he felt another drawing close. Who, what was it? Searchman cast his sight away from the offered hand, and towards where a new presence was felt. 
+
+Unable to speak, he just hoped Rockman took the hint. Whatever was approaching was more important now, not him, not the mass and it’s deteriorating state.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447478030168883210" id="message-447478030168883210">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> Rockman’s hand twitched at the sight of Searchman’s deteriorating body, but his facial expression bared nothing- it was extremely difficult to read what he was feeling in the split second Search and him locked eyes. But it soon turned to confusion when the decaying mass reared its head just past Rockman. 
+
+Under any other circumstances, any place, any time other than this; Rockman would have hurled. He did not. He looked at Blues’ lolling head, and gulped. But no expression came across his features, as he scooped Searchman over one shoulder(delicate this time, knowing how pained he was), and rushed to Blues’ aid.
+
+A comment wanted to bubble from his lips. His system said <em>don’t lose your head now, we’re going to make it</em>, or <em>it’s going to be okay</em>. He didn’t speak. The comment would be hollow. Lacking.
+
+“I need to get you two out of here.” He said, mechanical. As if to issue a command. His arm came around Blues’ stumbling form, and supported his head. Fingers brushed the wound, barely. He looked left and right, the island settling in around them. He didn’t know where he was. At all. This was not his memory; this was Blues and Search’s. But they couldn’t speak- could they?
+
+Rockman glanced between the two rotting bodies he was holding. A moment passed before a command passed over his eyes- 
+
+R:&gt;RUN SOUL_UNION.BAT
+
+-----
+
+Its body was somewhat a mess. A gun in one hand and a knife in the other, it took a moment to breathe before wobbling to its feet. <em>Where do we go? it probed inwardly, asking of the trio within. Where would it be hiding? Who hid here before and where?</em></span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447478558861033482" id="message-447478558861033482">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> “I’m s…or..ry-” He practically crumbled into Rockman’s arms. 
+
+The relief of the double(triple?) soul was something like ecstasy. Holy light encompassed them, easing the pain at his throat and arm. His thoughts were to be as close as he could to them. Just close. That was all he wanted. 
+
+It didn’t even matter to him that the fusion was imperfect, or that the soul space could not form completely. He could feel the others, alive and with him. He could still be useful this way. 
+
+Blues offered up the memories in pictures, words were too much right now.
+
+He showed Rockman the island as he remembered it, covered in slush and mud. He showed the beach where he had fallen, and the building with the room they had cowered in before their trouble multiplied. He showed him the <em>trophy</em> room. He showed the forest they had run and run and run through. He laid it all out in a rush, unable to pick out an individual moment. 
+
+The moment The Other had revealed itself lingered. Blues, standing on Enzan’s shoulder, urging him to <em>RUN</em>.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447478825769631744" id="message-447478825769631744">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> Within the space, Searchman leaned on the support of the others. They were close, securing his position and allowing him to give his last. A hint of his healthy green returned to what was burned inside the space. He felt awashed in relief, joyful of the stillness and sudden lack of stimulus. His eyes sat half opened, staring out as he was finally allowed some comfort.
+
+Memories that Searchman offered were nothing new to Rockman, but Blues could now see his sucker’s luck. The encounter with Serenade, finding false hope, discovering The Other and, finally, their replacement for him. 
+
+He stared at what else was offered, numb and unable to fully take it in. But it helped them find where to go next. His skills allowed the union to look towards the only building of the island. It was marked as their target, where they would find who they were looking for.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447479824316104705" id="message-447479824316104705">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> It bit its lip until it tasted the tang of blood. It knew where to go by now; and it began to trudge there. Memories flooded the space and pressured, urged, RUN RUN RUN. 
+
+Rockman, not absent within the space but not present either, gave up what he could. Memories shared with everyone and no one. Of Regal; of blindness and the sight of no evils. Of Savior. Of the evil seen now; and about to be SLAUGHTERED.
+
+He showed what it had done to him; the slow, systematic breakdown of everything he had been, and the death of a hero. Then the takeover. Then the removal- triumph. But of course not long. Something had gone amiss in that place, something had been wrong. 
+
+A missing heart. 
+
+Their body picked its pace up, and used trees for leverage. Pushing against them and RUNNING, RUNNING, RUNNING. 
+
+Rockman shared his memory of Regal; and how a late night visit turned into blood.  <em>Tell me or I’ll make you <strong>unrecognizable</strong>. The memory whispered in Regal’s ear. Tell me or Nation Z will get you in <strong>pieces</strong>.</em> 
+
+It then turned into an unrecognizable mess. Rockman was done sharing memories, and his presence in the space dissipated. Focused only on keeping the union together. How could he support three souls?
+
+Or, perhaps, maybe there were only two.</span>
+
+                        <span class="chatlog__edited-timestamp" title="19-May-18 03:33 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447479828262944771" id="message-447479828262944771">
+                <div class="chatlog__content">
+                    <span class="markdown">-----
+
+A cliff. The sound of the sea. A building, nothing special…Except for a tower, stretching far beyond the sight of the union. It stared for a long while, before the being they wished to see willed itself into the space, sitting atop the tower. A speck in their eyes.
+
+“T00K Y0U L0NG 3N0UGH, R0CKM4N.”
+
+It hopped down from the tower, and stood near the cliff, as if to beckon. It wore the coat of Regal; slightly blowing in the ocean’s breeze.
+
+“<strong>I’m here of my own accord.</strong>” Their voice was rough. Calloused. Only Rockman spoke, but the others were free to. It raised its gun.
+
+“H4 H4. N0N3 0F Y0U 4R3 HERE 0F Y0UR 0WN V0L1T10N. UNL355 Y0U’R3 S7UP1D 3N0UGH 70 W4LK 1N70 A SL4UGH73R.”
+
+It faltered. Rockman stood, steadfast, gun raised but unable to fire. 
+
+“L00K’7 Y0U. WH47 A M0NS73R. H0W’S 17 F33L 70 B3 R0771NG FR0M 7H3 1NS1D3-0U7?”
+
+<em>Do something,</em> Rockman begged. <em><strong>Please.</strong></em></span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447480608730644483" id="message-447480608730644483">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Even while so much of this was foreign, Blues could still recognize enough to follow Their will.  He was used to following orders and desires on instinct, he was an expert on fusion. The other two were too, in a way, and it was okay.
+
+They could do this.
+
+He was with Rock, raising the gun, arming Them. He gave confidence to the fusion, an extra streak of violence. Fury still had a hold on him.
+
+He felt for Searchman as well, not so much seeking permission as simultaniously ensuring he wouldn’t hurt Them by doing this.
+
+A smile blossomed across the fusion’s face, for a moment. He knew how to defeat this 7H1NG. They were whole, they were healing, and 17 was a liar. He felt solid, seeing the truth behind S4V10R’s lies.
+
+“<strong>There will be no more death.</strong>”
+
+Blues held Rock’s trigger hand, and reached for Searchman’s.
+
+“<strong>Only your deletion.</strong>”
+
+Three shots rang out, but their aim was up to another member’s cooperation.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447480863073239040" id="message-447480863073239040">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" />  Rockman’s plea rang through the encroaching fog out Searchman’s head. It cleared in the moment, allowing for him find focus. His eyes opened wider to fully take in the scene, to understand just what their union was facing. He saw S4V10R there. He felt Blues reaching out. 
+
+Despite being lame, he could still see that the other two weren’t going to hit anything as they were. Searchman grabbed Blues’ hand and pulled himself up. He had to get closer and guide them. Seeing the unseen was what he did best. 
+
+His hand rested under both of theirs, and adjusted the gun before the shots were fired. Searchman would be their support in this fight. His all seeing eyes would perfect their aim, and never lose sight of the enemy.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447481749899968522" id="message-447481749899968522">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Rock" title="Rock" src="https://cdn.discordapp.com/emojis/392815541229846538.png" /> Head head <em>HEAD</em> Rockman jerked, pulling their aim too high. Internally he winced, realizing he blew their shot- until Savior screamed in pain and grabbed its face. The Union stumbled back. 
+
+<em>Sorry- sorry</em>, Rockman apologized profusely. For a moment it seemed as if they were not within a war; they were in practice, they were preparing and sparring and safe, safe- 
+
+When Savior raised its head again, hands wiping away errant data, a shot had burned its face. Peeling away false skin had exposed a row of sharp teeth. It <em>growled</em>. 
+
+Rockman, for a moment, breathlessly felt himself smile. His mistake did not cost them.
+
+“Y0U <em>W1SH</em>.”
+
+<em>I need- I need it. I need to go for its heart. But it can’t be damaged,</em> Rockman tried to explain, clarity returning to him slowly- slowly, ever surely. The familiarity brought back a HERO. When Savior leaped, They stepped back. <em>I need its heart. I need it. You have to help, please- I can’t do it by myself-</em>
+
+He pulled all of his strength into giving Blues and Searchman life, not allowing them to become just simple corpses dragging on the wayside. Strength was within unity and unity was within their grasp! It was time to send Regal a message, it was time to send Regal this monster’s HEAD! Nail it into his own coffin- this was the <strong>POINT OF NO RETURN!</strong>
+
+<em>We have the power to break this cycle!</em> Rockman shouted within them, kicking Savior away from them. 
+
+Savior let out a choked sound, and tipped its head up. Data dribbled from its exposed teeth. It seemed…Smaller. Weaker. It rose from its spot and readied a shot, firing it with all its might- much stronger and much <em>deadlier</em> than the Buster it was imitating.
+
+*We have it <strong>NOW!*</strong></span>
+
+                        <span class="chatlog__edited-timestamp" title="19-May-18 03:33 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447482402718089236" id="message-447482402718089236">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Blues" title="Blues" src="https://cdn.discordapp.com/emojis/392816319369838592.png" /> Blues jerked their body out of the line of fire, grinning madly. Fear of what they could have destroyed made the grin manic, hiding near tears, but together with Rock’s relief and Search’s success. This pathetic corpse could not hurt them.
+
+It was okay, he urged them, they were still in control. They could slay this demon. No damage would come to Rock, nor them. They were done with being hurt. Blues was done with letting it happen.
+
+He recalled deleting the copy rock. An event from over a year ago fresh in their minds, just for a moment. 
+
+Their free hand extended, claws sharpening. The memory powered Blues’ actions, urging the other two to <em>feel</em> what he wanted to do. They would take back Rockman’s heart. 
+
+They needed to get closer. The thought of violence was still unshakable in his anger. 
+
+He was halfway there. Their steps dragged toward the fallen monster.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="447482644620509195" id="message-447482644620509195">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji " alt="Search" title="Search" src="https://cdn.discordapp.com/emojis/392816009934929920.png" /> Mania spun around the three, but despite it Search remained calm. He couldn’t afford to waste the energy to smile, holler, or yell. It was all poured into keeping the hero’s body steady and even. To be so close to the end and wind up short because of jitters, Searchman couldn’t even entertain the thought.
+
+The final blow was up to Blues and Rockman, as they deserved it. Swords, claws and fists were not Search’s forte. But staying composed under immense pressure and providing support? He could certainly do that. 
+
+<em>Target located</em>, a grounding voice mumbled, <em>Located… Guiding…</em>
+
+Small nudges adjusted the extended hand, positioning it to whatever was an optimal entrance. After, it gazed to the rest of the target, taking in the damage done. It was fitting for it. A small amount of excitement was allowed in.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">25-May-18 11:24 PM</span>
+
+            <div class="chatlog__message " data-message-id="449774714261602307" id="message-449774714261602307">
+                <div class="chatlog__content">
+                    <span class="markdown">The memory&#39;s flash made drive more apparent, stronger inside the cross that was held together by fire and blood. Rockman pulled the three to the forefront, determined that they <em>all</em> deserved this final moment, this culmination of it all! The shots rang true and struck the form, but they did not waver. This death, this murder would come— 
+
+Savior drew in close, gnashing teeth and tongue and dipping down close, hand on their weapon stealing away the control for a brief period. A stillness, a challenge, a well deserved beat of peace. The monster reared back, aiming a slash across their face. In the hand opposite gun, a knife was readied and plunged into Savior&#39;s side. Strategically, guided by Searchman&#39;s eagle-eyes, Blues&#39; knowledge of blade, and Rockman&#39;s resolve. The knife drove up and out, tearing a gash in its side to which it screamed and stumbled back, falling to the ground. Quickly, a foot was leveled to its chest and the weight of everything emptied atop it. It squirmed and grabbed for their ankle, trying to trip them up-
+
+The gun leveled to its forehead. This one was no fake. A point blank shot would end it all, end this monster, end this place. The sea crashed against the cliff and roared with intensity. 
+
+<strong>&quot;Where&#39;s your savior now?&quot;</strong> Rockman taunted, something venomous. He readied the shot, finger not yet on the trigger. He waited for the others, waited for guidance. 
+
+&quot;4-4LL 74LK 4ND N0 B1T3.&quot; Savior wheezed a laugh, like a hyena.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">25-May-18 11:39 PM</span>
+
+            <div class="chatlog__message " data-message-id="449778537797386260" id="message-449778537797386260">
+                <div class="chatlog__content">
+                    <span class="markdown">Blues how effortless it was to flow with the others exact movements. Their thoughts were one. Justice for Rockman, cleansing of their past, and deletion of the <em>virus</em>.
+
+Their glowing hands converged on the gun. Blues guided their hand, almost tenderly. Their finger placed to the weapon, all together. 
+
+They could feel their hackles raise; overwhelmingly bright emotion made them press the trigger. 
+
+[Heart] 
+
+Their knife hand reached and grabbed and <em>pulled</em> for the heart. It was hard to place, exactly. They had to rip and tear and destroy, but in order to <em>protect</em>. They knew, with their synchronization, they could find what was <em>theres</em>.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-May-18 12:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="449784106272948224" id="message-449784106272948224">
+                <div class="chatlog__content">
+                    <span class="markdown">The surgery was left to the one with a deft hand, as it should be. Searchman kept the cross&#39; hand steady despite the overload of rage and fury building up between the three of them. Nothing would shake, their was no room for such errors. The cross was a heavy rock within the storm. 
+
+Searchman&#39;s attention went to the gun. It would be the soldier-- the executioner-- who would finally make that bullet fly. His calm hand squeezed the other two tight, forcing the trigger down fully, and starting the reaction that would lead to S4V10R&#39;s death. It was only a <em>half a second</em> away.</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-May-18 12:05 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">14-Jun-18 02:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="456707279333621761" id="message-456707279333621761">
+                <div class="chatlog__content">
+                    <span class="markdown">A flash, bang! A beam of light pierced the heavens and it was all over and tumbling down, down-
+The three fell out of each other, falling to the dirt that faded away along with the monster, the beast. Deleted. 
+
+Rockman rose from the ground weakly, on all fours, coughing blood into the grass, body overworked and exhausted. He tried to force the coughs away, vaguely aware of his two other halves, these new parts of him, these greens and reds- he crawled to them, bawling, coughing, as if new again, born again. He had to save them, had to get them home, out of this infernal island, this memory that was not his- 
+God, what had he <em>done?</em> Rockman reached out for them and grabbed their hands. The image of the island was fading away. He paged himself again for soul union and found the function missing, dysfunctional. 
+What had he done! What had he shared with them now, what had he dragged them into? His mind burned, his soul screamed with resolve. This could not happen again. This would <em>never</em> happen again. 
+He grabbed their hands, squeezed his eyes shut, and called in a favor. 
+
+When he opened his eyes again, they were in Scilabs, and he allowed himself to finally drift into a void, dreamless rest cycle.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 54 message(s)</div>
+</div>
+
+</body>
+</html>

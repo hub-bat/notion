@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - residing-at-seaside</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">residing-at-seaside</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">03-Jul-19 02:31 PM</span>
+
+            <div class="chatlog__message " data-message-id="596045300813004814" id="message-596045300813004814">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>It will only be for a little while. You can complete your walking for the day in the meantime.</em>&quot;
+
+Laika rolled his eyes over to his shoulder, giving Searchman a grumpy look. He didn&#39;t want to be up and out, but the nurses had forced him to. They needed to clean the room, or something. <s>Probably sweep it.</s> Usually it was done while he was out for therapy, but for some reason it just <em>had</em> to be done today. He was forced to go be a human for a while and it wasn&#39;t a rosy thought. 
+
+Walking wasn&#39;t really the problem anymore, even if it did tire him still. Laika just didn&#39;t like to be seen like this. Mute, mutilated, completely messed up... what if someone recognized him? Not that they could unless they looked really close. He was still as thin as he came, and there was nothing but mint fuzz left on his head. 
+
+&quot;<em>There is a sitting area up ahead.</em>&quot; Searchman quietly informed. 
+
+Laika looked up from his feet and took his hand off the wall. Maybe he could read or something. A nap to pass the time, perhaps. It looked like a good place to hide away. He couldn&#39;t really see it until he came right up to it.
+
+There were already kids there, though. Laika was probably sure they saw him too. Great.</span>
+
+                        <span class="chatlog__edited-timestamp" title="03-Jul-19 02:55 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">03-Jul-19 08:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="596142861964148771" id="message-596142861964148771">
+                <div class="chatlog__content">
+                    <span class="markdown">The two kids appeared to have been deep in conversation, &quot;and when I&#39;m older, I&#39;ll make a device that can-&quot;
+
+Eishi jumped at the site of a stranger. He was much smaller than Mamoru, and ducked his head a little behind his wheelchair. Upon getting a glance at Laika, he stood up from the bench, but remained behind the safety of his new friend. 
+
+He whispered as quietly as he could to Mamoru, &quot;do you know him?&quot;
+
+&quot;I don&#39;t, but it&#39;s okay.&quot; Mamoru rolls his chair out of the way from the bench. He looks up to Laika and gestures to the bench. &quot;Here you go. We&#39;ll get out of your way. Eishi, we can go back to my room...&quot; 
+
+Eishi shook his head. &quot;I wanna say hi.&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="08-Nov-19 08:40 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-19 09:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="642551676389163028" id="message-642551676389163028">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika stared through the kids, half-hoping his haunting appearance would drive them away. Instead he got politeness and some shyness. Two blinks to orient himself, and Laika shuffled over to the bench. As long as they were going away, he didn&#39;t care.
+
+&quot;<em>Thank you very much.</em>&quot; Searchman handled addressing the children further. He bowed on Laika&#39;s shoulder. &quot;<em>We apologize for the trouble.</em>&quot;
+
+Laika busied himself with pulling out his PET. While scrolling through the most recent titles of ebooks, he wondered why the kids hadn&#39;t moved on yet. A glance up showed that the one in glasses wanted to linger. There wasn&#39;t a reason to, not that Laika could tell. He didn&#39;t look like the type to gawk.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Nov-19 10:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="642560635032436737" id="message-642560635032436737">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;No trouble!&quot; Mamoru smiles kindly at Searchman and rolls a little farther away to give Laika space. Eishi pops up from behind Mamoru. 
+
+&quot;{Your navi is really cool, sir.}&quot; Eishi&#39;s tiny fingers twisted into his shirt after he signed. He waited to see if Laika could understand what he was signing. 
+
+&quot;Eishi, he wants to read. It&#39;s okay if he can&#39;t talk to us.&quot; Mamoru mumbled to Eishi. 
+
+&quot;I know it&#39;s okay. Sorry...&quot; The younger boy shrunk back and frowned. This older man was just... Interesting. Eishi hadn&#39;t reached out to many people here, but this guy seemed different. He wasn&#39;t unnerved with the worry that he&#39;d be teased or pitied.</span>
+
+                        <span class="chatlog__edited-timestamp" title="09-Nov-19 12:37 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-19 09:15 PM</span>
+
+            <div class="chatlog__message " data-message-id="642910202080788494" id="message-642910202080788494">
+                <div class="chatlog__content">
+                    <span class="markdown">With the waves of hand, Laika couldn&#39;t help but look over. He understood, and it was clear  that he couldn&#39;t ignore the kid. Was it that obvious that he couldn&#39;t speak? So many things made him nauseous these days. Nauseous and dark. 
+
+Still, compliments on Searchman&#39;s appearance still tickled whatever pride was left in him. All that hard work to make him perfect was still a very real memory.
+
+&quot;{Thank you.}&quot; He signed back. &quot;{It took a long time. To get him like that.}&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="09-Nov-19 09:22 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-19 09:39 PM</span>
+
+            <div class="chatlog__message " data-message-id="642916217165709345" id="message-642916217165709345">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi stood up straight, his expression brightening. He was clearly surprised&quot;{I can tell. I want to build a Navi too.}&quot; 
+
+Mamoru looked surprised. Eishi rarely found someone to talk to so openly- he&#39;d needed to start out talking with a normal Navi translator so Eishi could feel comfortable. 
+
+&quot;{He looks very strong. I bet he can go on adventures.}&quot; Eishi mimicked a plane, a clumsy swordfight, and a cowboy. Mamoru got lost in the play and laughed a little. Mamoru mimed his own adventure.
+
+Eishi calmed and twisted his shirt again, embarrassed. &quot;{What are you reading?}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">09-Nov-19 10:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="642928055056334849" id="message-642928055056334849">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>We have gone on a lot of adventures similar to-</em>&quot;
+
+Searchman stopped with Laika&#39;s hand raising up. A glance was enough to keep him from sharing anymore. 
+
+Laika just watched as the kids took a moment to play. They seemed happy, which was good. At least there were some people happy here. He could only stare. 
+
+&quot;{Nothing exciting.}&quot; An answer came after he turned his screen off. &quot;{Sign. Learning more. This is how I have to talk now.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 12:58 AM</span>
+
+            <div class="chatlog__message " data-message-id="642966412004032512" id="message-642966412004032512">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{I can show you the games we do in class. They put me there because I don&#39;t like to talk.}&quot; Eishi flushed because he realized something about <em>choice</em> and <em>freedom</em>. The feeling of guilt hit him in a wave, something his years and bookishness had not allowed him to define yet. His stomach already hurt for so many other reasons, this was nothing new.
+
+&quot;I don&#39;t really understand everything you two are signing,&quot; Mamoru admitted. 
+
+&quot;I&#39;ll tell you later.&quot; Eishi leaned in close to Mamoru to tell him as quietly as he could. 
+
+&quot;{I recommend Doctor Unusual comics. They are more fun to read. I have some- and I can bring more from the orphanage when I come back.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 07:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="643070045240688653" id="message-643070045240688653">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{You sound like a friend of mine. Always goes to comic books.}&quot; 
+
+Laika put his hands down. This was turning into a chat, and he hadn&#39;t chatted to anyone besides Enzan in months. Worries crept up. He could scare these kids off to avoid them. The energy wasn&#39;t there. He was stuck with this. 
+
+His affect stayed flat even as the kids talked to each other for a moment. 
+
+&quot;<em>Do you two come to this hospital often?</em>&quot; Searchman picked up the conversation. There were enough hints to figure out what Laika wanted to know.</span>
+
+                        <span class="chatlog__edited-timestamp" title="10-Nov-19 01:48 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 01:35 PM</span>
+
+            <div class="chatlog__message " data-message-id="643156797988929554" id="message-643156797988929554">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I don&#39;t have to come as often anymore. But still, a lot. Seaside is like home.&quot; Mamoru smiled and felt a bit more comfortable with Searchman involved in the conversation. Despite his small stature, he seemed a bit older than Eishi. 
+
+&quot;{I have to come a lot. Whenever I get a stomach ache. I go a lot more since starting to live at Yoko Orphanage.}&quot; Eishi lifted his shirt up to reveal a little monitor taped to his stomach.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 04:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="643201717063778306" id="message-643201717063778306">
+                <div class="chatlog__content">
+                    <span class="markdown">A home. Laika dreaded the thought. He had nothing he wanted to call home here. Enzan didn&#39;t live here. His parents left ages ago. This  place was a prison, confining him for his own good.
+
+But, to a child, maybe hospitals were different. Seeing the device was enough of a guess. That thing probably kept him from dying early. And this kid seemed so... bright. 
+
+&quot;<em>I see. I am glad the doctors here take good care of you both.</em>&quot;
+
+Laika didn&#39;t focus on that part. His hands lifted. &quot;{You live in an orphanage? Rare.}&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="10-Nov-19 04:34 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 04:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="643203880150368259" id="message-643203880150368259">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;We all take good care.&quot; Mamoru said it like a promise. He rolled a little closer, conspiratorially. &quot;This is a safe place. Rockman- have you ever heard of him? He made it safe, and the network&#39;s navis keeps it that way. Nothing bad ever happens, &#39;specially during surgeries.&quot; 
+
+Eishi nodded along excitedly until it was his turn to talk. Mamoru paused when he became a bit breathless. 
+
+&quot;{I live there until they find a house for me. I hope they find one where I can live with my friends and some navis and we just do science experiments all day.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 05:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="643222907694350347" id="message-643222907694350347">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>Rockman...</em>&quot; 
+
+&quot;{Is a close friend of ours.}&quot; Laika took over. The way Searchman paused was too telling. He was still sorting it all out.
+
+&quot;<em>And yes this place is safe. We would not allow my operator to be here if it was not.</em>&quot;
+
+Uncalled for, but Laika didn&#39;t acknowledge it. He just focused on his own questions. Still nothing about his expression changed. It stayed flat. 
+
+&quot;{That would be for the best. I am from Sharo. There are many orphanage there. Most kids do not get a home. I hope it&#39;s different here.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 07:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="643253153709424661" id="message-643253153709424661">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;You&#39;re <em>both</em> friends with Rockman?&quot; Eishi marveled at the two of them. Surprise finally bid him to indulge in a vocal reaction- and he wanted Mamoru to know. &quot;Could you introduce me?&quot;
+
+&quot;He&#39;s been pretty busy recently. As far as I know.&quot; Mamoru murmured, a little sadly. &quot;I told you that.&quot; 
+
+&quot;Mm... you did. I&#39;m sorry.&quot; Eishi bowed his head lightly to apologize. &quot;I hope it&#39;s different here too... Sharo sounds like a scary place. Can&#39;t we build things to help fix it? I&#39;d like to build houses for me and my friends.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 09:07 PM</span>
+
+            <div class="chatlog__message " data-message-id="643270602110533642" id="message-643270602110533642">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{Sharo is not scary. Not now.}&quot;
+
+The familiar pride bubbled up. Laika couldn&#39;t stop it from weaving through his fingers. Defend his home, his fatherland. It almost brought about a determined look in his eyes. That use to be his duty. He wished it still was.
+
+&quot;{The new government is better. Still needs work, but better. Houses would help.}&quot;
+
+Anything more, and the kids wouldn&#39;t care. Laika gave up on the subject, and switched back to Rockman. That was common, safe. 
+
+&quot;{Rockman is... healing. He will be okay.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">10-Nov-19 09:13 PM</span>
+
+            <div class="chatlog__message " data-message-id="643272004287463424" id="message-643272004287463424">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{I&#39;ll build houses with secret doorways and basements and towers.}&quot; Eishi was excited by how much Laika was listening and reciprocating. He hopped up to sit beside Laika on the bench. 
+
+&quot;He said Rockman is healing, but he&#39;ll be okay.&quot; Eishi whispered to Mamoru and kicked his legs a little. 
+
+&quot;Oh... Rockman got hurt again?&quot; Mamoru looked stressed. He made a face, and curled in on himself a little.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">12-Nov-19 04:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="643919580250505266" id="message-643919580250505266">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika had no way to fix Mamoru&#39;s reaction. He couldn&#39;t say that Rockman was protecting someone, or that he was on a mission against evil. He wasn&#39;t even sure <em>why</em> Rockman was healing right now. It was a problem beyond his control, and thus people had decided not to bother him about it. Even Searchman stayed mute on the details. 
+
+Eishi&#39;s proximity forced him away from thoughts on how sheltered life had become. Laika finally emoted, raising his eyebrows in mild shock. Only Enzan dared to get this close. For some reason he had worry. What if this kid broke him? 
+
+&quot;{Why...?}&quot; was the only word Laika could sign.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">13-Nov-19 11:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="644390472604844048" id="message-644390472604844048">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi scootched a little away from Laika so he had room to gesture. &quot;{Well, I need room for experiments. And if something messes up, we need secret passeges to block from the explosion!}&quot;
+
+Eishi thought a little more, wrapped up in his imaginings of this house. 
+
+&quot;{Basements and towers are exciting. The older kids can live at the top cause they aren&#39;t scared of heights. Then there will be lots of room for all the orphans to live together and be a family.}&quot; Eishi smiled confidently. He was missing a baby tooth. 
+
+&quot;{Oh, and we&#39;d need a sports area. Some of my friends <em>hate</em> science, but they like sports. Maybe a baseball field.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">14-Nov-19 05:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="644667015683899412" id="message-644667015683899412">
+                <div class="chatlog__content">
+                    <span class="markdown">There were so many reasons that Laika could only nod. They were all so innocent, void of any real world logic. This kid&#39;s palace was probably impenetrable too, walls lined with the next generation of protection. It&#39;d be an utopia. 
+
+The time Laika could think like that was so far removed from him, that he couldn&#39;t even bring up a memory. All that came back was smoke. 
+
+&quot;{If it is in Sharo, there should be a place to play hockey. Ice skate.}&quot; he tried to offer up something to the fantasy. It was hard to think of home like this. Laika tried to think of another question. 
+
+&quot;{Still young enough to loose teeth. No tower for you?}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">15-Nov-19 09:08 PM</span>
+
+            <div class="chatlog__message " data-message-id="645082713014927380" id="message-645082713014927380">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{Hmm... No, I&#39;d like to live in the basement anyways. I&#39;m seven. To live up there you&#39;d have to be like... twelve.}&quot; Eishi is slowing down, waving his feet a bit less. 
+
+&quot;I&#39;m tired... I have to turn in, Eishi.&quot; Mamoru smiled wistfully. He rolled in front of Laika and bowed his head. &quot;It was nice to meet you, sir. My name&#39;s Mamoru. I&#39;ll see you around.&quot; Neither child had to ask to know that all three of them would be back many times.
+
+Eishi reached out his hand and held it out for Mamoru to do the same. They touched hands instead of shaking and Mamoru starts to roll away.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">17-Nov-19 09:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="645805570346975272" id="message-645805570346975272">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika gave Mamoru his attention. That was a name he had heard before. He could almost imagine it being used by more familiar voices.  A blink, and a memory came back. Didn&#39;t Netto have a friend who went to the hospital a lot? One he always talked about being stronger than they looked. 
+
+&quot;<em>Thank you for talking with us.</em>&quot; Searchman returned, giving a slight bow as Mamoru went. Laika raised his hand in a wave, choosing not to worry about a name. Probably for the better. Safer to keep anonymous.
+
+But that left Eishi still. The talk of energy had him aware of just how little he had left. At this rate, a nurse would have to come get him.
+
+&quot;{You have a good friend there.}&quot; Laika signed. &quot;{Probably makes the stays easier.}&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="17-Nov-19 09:09 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">25-Nov-19 11:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="648561213470408744" id="message-648561213470408744">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi nodded very seriously. &quot;{Mamoru might be my best friend. I&#39;m not sure yet because I like Daiki too. He lets me teach him about maths. I was alone before them.}&quot; 
+
+Eishi was much more subdued despite how much he communicated. He only kicked one foot out every once in a while. 
+
+&quot;{I was only alone because Mom and Dad are gone, so. I&#39;m finding new family. I think. The orphanage says they give us one, but I&#39;d rather find my own. Do you have a lot of family?}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">25-Nov-19 01:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="648592027033927705" id="message-648592027033927705">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;{No.}&quot;
+
+Laika put his hands down for a moment. This kid was something else. A master of his own fate at very early age. And somehow still upbeat about it all. Laika tried to imagine how it was possible, he couldn&#39;t. 
+
+&quot;{Just my mother, father, and uncle. They live far away.}&quot; He brought back. &quot;{They were here when I first came, but now they&#39;re gone. It&#39;s just myself now.}&quot;
+
+Enzan would be left unmentioned. Who knew what else this kid was tied to. Laika wouldn&#39;t have his significant other compromised by coming here. If Enzan couldn&#39;t come visit everyday, things would be worse. Way worse. 
+
+&quot;{The doctors like it better that way, I guess. Less pressure on them.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">25-Nov-19 08:25 PM</span>
+
+            <div class="chatlog__message " data-message-id="648695760652599308" id="message-648695760652599308">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Oh...&quot; Eishi sighed out a mournful note of solidarity. &quot;{It&#39;s not great to be alone. I&#39;ll be your buddy, if you want.}&quot; 
+
+Eishi hopped off of the bench and stood in front of Laika. He bowed his head nice and low. 
+
+&quot;{Welcome to SeaSide, Mister. I&#39;m happy you didn&#39;t die. Stay not-dead so you can be in our family, okay?}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">25-Nov-19 08:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="648702927028092940" id="message-648702927028092940">
+                <div class="chatlog__content">
+                    <span class="markdown">What should&#39;ve been an invitation to lighter days came as a crushing weight to Laika. His hands dropped again and eyelids drooped. &#39;Happy you didn&#39;t die&#39; sounded so wrong. Was that just due to his signs or something else? Either way it pulled Laika under. 
+
+Everything got dark for a moment. He didn&#39;t deserve this. This was too hard. How could he stay &#39;not-dead&#39; when there was nothing of him left? His soul was already gone, up in smoke. A lump was suddenly building in his throat. This walk was supposed to prevent this. To stop him from feeling like a husk.
+
+&quot;{... No.}&quot; Laika signed from where his hands rested. &quot;{I&#39;ll just... keep you from feeling better. You don&#39;t need that.}&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="25-Nov-19 09:25 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-19 10:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="648914675882393602" id="message-648914675882393602">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi searched Laika&#39;s face for understanding of where he&#39;d messed up. The pit of guilt and pity was suddenly dizzying. Was he having an attack? What was this feeling, so immense? It&#39;d been so bad since the accident, too. 
+
+&quot;I&#39;m sorry.&quot; Eishi whispered. Was that no because Laika was going to die? Did he figure wrong? Or was this still about the loneliness? 
+
+&quot;I didn&#39;t mean to make you sad. No one can stop me from feeling better. I promise. You&#39;re nice, not bad.&quot; Eishi held out his hand like he had to Mamoru. Just for a gentle touch to Laika&#39;s hand, no more.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-19 08:40 PM</span>
+
+            <div class="chatlog__message " data-message-id="649061966664564775" id="message-649061966664564775">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika looked up, just enough to see the hand. Everything was blurry now. The lump in his throat seemed to jump past his nose and make his eyes sting. Instead of reaching to check, Laika stayed still. He let Eishi make contact. In the blur, he compared their two skin tones. When had he gotten so ashen? 
+
+A silent gasp of air was taken, and something warm rolled down Laika&#39;s cheek. Just one or two before he caught himself. His other hand came up to wipe the tears away, then it went to his chest. 
+
+&quot;{Sorry.}&quot; Is all Laika signed. This kid didn&#39;t need to see anyone like this. He was overwhelmed by himself, by the thoughts. Pain was creeping back too from sitting up for too long. His back ached, and he couldn&#39;t rest it.
+
+&quot;{Sorry.}&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Nov-19 08:58 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-19 08:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="649065803378851840" id="message-649065803378851840">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Can I help you back to your room? Please?&quot; Eishi stood close to Laika, &quot;I&#39;m sorry I made you tired out. Sometimes when I&#39;m tired I get sad too.&quot; 
+
+He was emboldened enough to speak fully. The urge to help made his bravery come to the forefront. He kept his hand nearby and accessable. Even if he was small, he could still help. 
+
+&quot;I can at least get you a tissue...&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-19 09:22 PM</span>
+
+            <div class="chatlog__message " data-message-id="649072590652178432" id="message-649072590652178432">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>We are here because the room is being cleaned. They do it periodically since we are long term.</em>&quot; Searchman chimed. &quot;<em>They might be finished.</em>&quot;
+
+Knowing that, Laika nodded. He gestured for a tissue at least. Things quickly shifted from being dark to being scared. Scared of himself, anxious about being alone. Enzan wouldn&#39;t be here for a few more hours. Could he last that long? Maybe he could sleep. Wake up and all of this would be over.
+
+&quot;{R-o-o-m.}&quot; Laika fingerspelled.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-19 09:48 PM</span>
+
+            <div class="chatlog__message " data-message-id="649079102535499787" id="message-649079102535499787">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi walked over to the closest desk. He raised up on his toes to reach the box of tissues. He plucked a few out and walked back over. He placed the tissues in Laika&#39;s hand. 
+
+&quot;I&#39;ll take you, Mister. Just hold my hand and point where okay?&quot; Seeing an adult cry was strange. It seemed like all the adults he knew were crying now, when before the a accident he&#39;d never seen even one cry. 
+
+&quot;It&#39;s okay, everyone gets tired. No one will be angry.&quot; He&#39;d apologized so much after all. Eishi wasn&#39;t mad, just full of that weird queasy feeling.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">30-Nov-19 07:25 PM</span>
+
+            <div class="chatlog__message " data-message-id="650492588343951390" id="message-650492588343951390">
+                <div class="chatlog__content">
+                    <span class="markdown">The tissues quickly came up to clean what Laika&#39;s wrists couldn&#39;t catch. Sniffles wouldn&#39;t quit, and he knew this was an upset he couldn&#39;t shove down. His ability to had gotten so weak. He was so weak. 
+
+Eishi&#39;s offer was too good to pass up, but Laika worried that he&#39;d get there. He was tired from just the walk here and talking. It would cause a scene if he collapsed in the hallway. But staying here like this wasn&#39;t an option. What if he had a gap?
+
+Laika nodded and stuffed the napkins away in his robe. He took Eishi&#39;s hand and used the other to help himself up. Searchman popped up on his shoulder, to help with guidance.
+
+&quot;<em>Our room will be down that way.</em>&quot; Searchman pointed.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">30-Nov-19 09:00 PM</span>
+
+            <div class="chatlog__message " data-message-id="650516638680219682" id="message-650516638680219682">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;If you get too tired, I&#39;ll call a nurse okay? Nurse Fea is very nice with helping people to their rooms. I&#39;ll wait with you.&quot; Eishi had good bedside manner from watching nurses work. He knew what he liked when he was being taken care of, so that was easy to use with others.
+
+Eishi looked up at Searchman and followed his directions. They hobbled down the hall. 
+
+&quot;Ohh you&#39;ve got a nice room too. This is a good wing. Good nurses. And good doctors. They take care.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">30-Nov-19 11:10 PM</span>
+
+            <div class="chatlog__message " data-message-id="650549258654842921" id="message-650549258654842921">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika kept himself close to the wall, leaning on it for most of the way. With Searchman taking over, his free hand could cling to his robe over his chest. He wasn&#39;t calming down, even with all this help. Had the reminder of death struck that badly?
+
+&quot;<em>They do.</em>&quot; Searchman held conversation the best he could. &quot;<em>They need to.</em>&quot;
+
+&quot;<em>Are you in the same area?</em>&quot; 
+
+Laika was thinking it. He barely noticed that the thought was shared. He was too busy staring down the hall. They&#39;d have to turn soon.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">01-Dec-19 12:00 AM</span>
+
+            <div class="chatlog__message " data-message-id="650561823355043861" id="message-650561823355043861">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi looked a little embarrassed. &quot;Ah... No, when I come I stay downstairs. In the kids area. I visit a lot to get checked on, but I usually stay living at... Uh... Home.&quot; It was weird to call anywhere home anymore. It had been such a concrete idea before everything went upside down topsy turvy. 
+
+They reached the end of the hallway, and Eishi looked to Searchman for guidance. This was taking a long time, but the kid didn&#39;t seem to mind. Eishi didn&#39;t care about Laika&#39;s scars or how slow he took walking. Some days Eishi felt how Laika looked.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">01-Dec-19 12:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="650575780774019105" id="message-650575780774019105">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>I see. I have heard the pediatric center is also very good. The kids that we see tend to be happy. They sneak up here at times to test their courage.</em>&quot; 
+
+Searchman pointed to the left, but dropped his hand when he looked further down the final hall. There were several people coming in and out of Laika&#39;s room, with cleaning materials. One held personal affects. 
+
+&quot;<em>I am mistaken, a right please.</em>&quot; He quickly corrected their journey. 
+
+Laika glanced up, trying to squint and see why there was a change. He spotted someone holding his notebooks, and tried to pull away. Was he right? Were they combing his room?! He had been good! He hadn&#39;t tried to hide anything from them. Why were they taking his notes?!
+
+&quot;<em>Sir, breathe.</em>&quot;
+
+Laika stopped his weak resistance. He still held Eishi&#39;s hand. All Searchman did was bring attention to his physical ails. He didn&#39;t have the energy to fight. He was forced to let it happen while they walk away. It hurt. His back and neck hurt awfully.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">01-Dec-19 01:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="650582246721454089" id="message-650582246721454089">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi took a step towards the moving people, but he stopped when Searchman spoke up. 
+
+&quot;It&#39;s okay mister, I can help you.&quot; This adult man looked so <em>scared</em>. It almost made Eishi panic too, but he reminded himself that it was just how the hospital was. Everyone got scared sometimes. Everyone got tired. &quot;Is that your room?&quot; 
+
+It was odd how all the guilty emotions and curious and uncertainty was broiling up in Eishi. It almost felt religious. He reminded himself to breath deeply, just like Searchman said. In... five counts... hold... out...
+
+And they were back at another seating area, away from the rooms. Eishi didn&#39;t see much point in walking in circles. &quot;You should lay down sir, if you&#39;re tired. You can lay anywhere and no one will be mad with you.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">01-Dec-19 10:56 AM</span>
+
+            <div class="chatlog__message " data-message-id="650726888238743562" id="message-650726888238743562">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>They were not finished with the cleaning. I apologise.</em>&quot;
+
+Laika sat down, this time taking the kids advice and lowering himself to rest his back. He sighed, releasing some of the knots accumulated in his chest. This wasn&#39;t a good day. 
+
+&quot;{Sorry.}&quot; Laika managed to sign. His hands were a little shaky. &quot;{And, thank you. This is more than I ever do anymore.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">01-Dec-19 02:38 PM</span>
+
+            <div class="chatlog__message " data-message-id="650782736130506787" id="message-650782736130506787">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi lowered himself to the floor, dusted the ground with his arm, and laid down. &quot;It is okay sir. I understand. Sometimes just doing a little makes you very very very tired. One time I stayed up all night writing a paper and I had to sleep for... maybe two whole days.&quot; 
+
+He touched his stomach and fiddled with the sensor there. Everything was okay, he was just fatigued like the doctors said he would be. 
+
+&quot;It&#39;s okay if that happens though because sleeping is good for you. You&#39;re not going to miss anything big except maybe an episode of Doctor Peculiar on Marfell channel, but they play reruns all the time.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">02-Dec-19 07:30 AM</span>
+
+            <div class="chatlog__message " data-message-id="651037477452120065" id="message-651037477452120065">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika stared up at the ceiling, contemplating the words. You don&#39;t miss anything big when you&#39;re asleep. That wasn&#39;t entirely true, but would his coma count as sleep? That week was hell for everyone around him, that&#39;s pretty big. He could&#39;ve done something...
+
+No. He couldn&#39;t. He kidded himself. He couldn&#39;t even sit up then, let alone think coherently. This line of thought needed to stop. 
+
+&quot;{Some days that&#39;s all I do. Sleep.}&quot; Laika signed. &quot;{There is a lot of healing my body needs to do. Makes me very tired. And- sad. I guess.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">02-Dec-19 04:29 PM</span>
+
+            <div class="chatlog__message " data-message-id="651173098745233428" id="message-651173098745233428">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Sometimes that&#39;s what your body needs to work. Mmhm. I&#39;m sorry it makes you feel badly though. I hope you can find ways to make it less sad.&quot; Eishi&#39;s mind was already working on ways to make that happen. His family was far away, but he already probably contacted them online if he wanted to. More friends, perhaps. People being there in person was always nice. He knew he got lonely now. His found family was nice, but nothing could replace the two people that had been God given to him being gone. 
+
+Eishi didn&#39;t want to think about that right now. 
+
+&quot;I can visit when I&#39;m here, sir. I think resting can be better if you have something to keep you occupied. Reading stories at rest time is what you&#39;re supposed to do. Me, or one of your friends could read you what you like.&quot; That&#39;s what his parents used to do for him, and what Eishi wanted to do for younger kids at the orphanage. Reading was sometimes all you could do. Proven to help, too. Scientifically.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">04-Dec-19 07:40 AM</span>
+
+            <div class="chatlog__message " data-message-id="651764737427767297" id="message-651764737427767297">
+                <div class="chatlog__content">
+                    <span class="markdown">All this talk of sleep slowed Laika&#39;s heart down. He was still so excited over the panic that the effects of exhaustion joined the other aches he had. The thought of more visitors troubled him, especially a kid. His eyes shut as a shot a pain coursed down his back, and the worry of something else greeting Eishi flourished. What if it came back? 
+
+&quot;{I read a lot. Already.}&quot; Laika kept to easy conversation. &quot;{I learned how to speak again by reading. Signing.}&quot; 
+
+Eventually he let his eyes venture over to find the kid. 
+
+&quot;{Sometimes, reading keeps me awake too. The doctors are picky. I either don&#39;t sleep enough or I sleep too long.}&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">04-Dec-19 06:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="651935496473149441" id="message-651935496473149441">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;I see.&quot; Eishi did. Some days, he couldn&#39;t be helped either. This man seemed very sad by the idea. And yes, it was a sad idea. Sometimes the only one who could help you was your own brain. 
+
+&quot;Doctors <em>are</em> picky... They don&#39;t like when I stay up like that. But sometimes you&#39;ve gotta. I can sleep okay after I write out all my ideas. Oh, maybe, there could be a machine to write out what I&#39;m thinking before I go to bed so I don&#39;t forget.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">05-Dec-19 08:36 PM</span>
+
+            <div class="chatlog__message " data-message-id="652322434547974165" id="message-652322434547974165">
+                <div class="chatlog__content">
+                    <span class="markdown">Laika&#39;s shoulders shuddered. A pity laugh. 
+
+&quot;{We&#39;re opposite, in that regard.}&quot; There were so many thoughts that he wanted to forget. &quot;{It would be useful for the elderly or forgetful.}&quot;
+
+With that, Laika&#39;s hands rested. Sleep, dreams, doctors, thoughts... even with pain on the rise his eyes threatened to shut. This had turned out to be far more exhausting than an afternoon walk. The only things keeping him awake now were the kid, the pain, and the dread of going back to find his things missing.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">05-Dec-19 11:48 PM</span>
+
+            <div class="chatlog__message " data-message-id="652370754624815134" id="message-652370754624815134">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi slipped a small notebook from his robe pocket and started to scratch at it with a small pencil. He remained quiet after that, not wanting to disturb the man he didn&#39;t yet know was named &quot;Laika.&quot; If they were done talking, that was okay. 
+
+&quot;{I&#39;ll still help.}&quot; Eishi waved his hands up to the sky. It was okay if Searchman didn&#39;t see it, but he sort of hoped he would. 
+
+It was a promise the young boy wouldn&#39;t have to keep, however. A nurse swept over, tisking over Eishi laying on the ground again (once she was certain there was no danger.) He was gently checked up on, while another young man was called over to help Laika back to his bed. The bench was certainly no fit place for Laika to be sleeping.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">06-Dec-19 07:40 AM</span>
+
+            <div class="chatlog__message " data-message-id="652489628804186133" id="message-652489628804186133">
+                <div class="chatlog__content">
+                    <span class="markdown">Searchman did see, he had been standing by Laika&#39;s ear the entire time. But he stayed quiet, not sure if what he wanted to say would upset the boy. His operator had gone through something terrible, and help in the aftermath often came at the price of feeling overwhelmed. Laika rarely let people besides the staff and Enzan into his room. Searchman doubted that this kid would be easily remembered. 
+
+By the time the staff came, Laika had given in to the draw of rest. He barely stirred while being lifted up and off to his room. Before they left though, Searchman bowed to Eishi. He decided to say something after all. 
+
+&quot;<em>Thank you for spending time with us. While he did not show it, he probably enjoyed the company.</em>&quot; 
+
+And with that, they parted, heading down the hall that was avoided before. There was a crowd around the door down there still, bit this time there was someone well dressed with white hair. They didn&#39;t look very happy.</span>
+
+                        <span class="chatlog__edited-timestamp" title="06-Dec-19 11:23 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">06-Dec-19 12:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="652566906775273472" id="message-652566906775273472">
+                <div class="chatlog__content">
+                    <span class="markdown">Eishi made sleepy eye contact with the fierce looking young man. Eishi watched his expression shift into surprise for a half second, before shrugging him off and going back to being angry. Eishi liked the movement down the hall and the interesting people more than the sterile shoulder he was leaning on. There was still life all around, he felt, rather than thought. 
+
+By the morning and into the coming weeks, the two men felt like just that, a feeling imprinted on his mind. 
+
+He didn&#39;t bother asking Mamoru about it. He just relished in the fact that he&#39;d had a nice dream instead of a nightmare. Lately, they were hard to come by.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 46 message(s)</div>
+</div>
+
+</body>
+</html>

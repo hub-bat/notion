@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Trio - flashpoint</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    border-radius: 3px;
+    padding: 0 2px;
+    color: #7289da;
+    background: rgba(114, 137, 218, .1);
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/392813878012149770/cc89a94880f4abdfeade2fb82f1919a2.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Trio</div>
+        <div class="preamble__entry">flashpoint</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 01:06 AM</span>
+
+            <div class="chatlog__message " data-message-id="473717948834643978" id="message-473717948834643978">
+                <div class="chatlog__content">
+                    <span class="markdown">The sun dipped down past the lowest skyrises on the horizon. Fire danced through the windows of most of them, creating startling illusions to the untrained eye. 
+
+Enzan opened his blinds the rest of the way, and watched the orange light. He had a new appreciation for it. Little things like this didn&#39;t happen all the time, he should enjoy them. 
+
+He felt frozen there for an undetermined period of time. After a long sense of peace, an itch grew at his back that he should be somewhere else. Running, hiding... he should be anywhere but here. 
+
+But his feet felt glued to the spot. He could turn, so he did, and saw the solid red coating nearly everything in his office.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 01:11 AM</span>
+
+            <div class="chatlog__message " data-message-id="473719222539780127" id="message-473719222539780127">
+                <div class="chatlog__content">
+                    <span class="markdown">Red red red, the glaring light of it all dancing between raycast and shine, stripping it away and leaving nothing less. Without chaos there was no peace. But he had had his peace. It was time for the chaos again. A puppet on strings pulled the way the office and set him back down in that same, so very <em>clean</em> room lined with the smell of disinfectant and blood. 
+A scream down the hallway. As it echoed back it could be identified as Enzan&#39;s own. Feet like cinder blocks, now, though- could he even investigate? 
+
+A single eye glowed in the dark, a deep red. 
+
+&quot;You shouldn&#39;t be here.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 01:15 AM</span>
+
+            <div class="chatlog__message " data-message-id="473720292578033674" id="message-473720292578033674">
+                <div class="chatlog__content">
+                    <span class="markdown">The red warped and spun until it condensed into that single spot. He was transfixed, but by horror or facination was unknown. When the roar to run cascaded over his ears and he still could not move, he knew this was not where he should be. 
+
+He had no voice, either. Silence rocked the white room that was no longer an office, but a <em>cage</em>. 
+
+&quot;Neither should you.&quot; His voice finally trembled. He tried to boom, but it didn&#39;t come.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 01:20 AM</span>
+
+            <div class="chatlog__message " data-message-id="473721640451047425" id="message-473721640451047425">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;You don&#39;t understand.&quot; The voice was hollow and the eye burned streaks into the air as it turned and looked at the door. The scream changed, something different, warping. When looked away the screaming ceased. 
+
+&quot;You should <em>not</em> be here.&quot;
+
+When stepped forward, into the light the being had little form. It was as if two, fighting for dominance over a similar shape for a moment then settling into one, the other form cut down.
+&quot;But since you&#39;re <em>here,</em> &quot; the Doctor&#39;s smile curled into something sinister. &quot;I might as well have my way.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 01:25 AM</span>
+
+            <div class="chatlog__message " data-message-id="473722940936945665" id="message-473722940936945665">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan reached for his throat. He <em>felt</em> that stop. He felt it deep, ingrained in his memory. 
+
+His eyes watched the second form take on shapes from his fears. People and weapons and all parts of Regal that his memory could splice together. 
+
+The finished peice made his skin go pale and his insides boil. Yet still, he could not run. And even when he opened his mouth, it felt stuffed with cotton.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 03:31 AM</span>
+
+            <div class="chatlog__message " data-message-id="473754634016784394" id="message-473754634016784394">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal appeared so much more...alive. As if he was the man that never walked off the edge of the station so long ago, the man that was never damaged by SoulNet. A perfect snapshot. A perfect restore point.
+It was not the older man who had attacked them a year or so ago. It couldn&#39;t be. Yet that grin and glint in his eyes as he slowly strode, one foot in front of the <em>other-</em>
+He flexed his hands, he looked at Enzan, looking down at him, looming over him. &quot;You look so helpless.&quot; He reached out and grabbed the boy&#39;s chin and forced him to look up.
+&quot;Filled with fear. It gives me control.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 09:16 AM</span>
+
+            <div class="chatlog__message " data-message-id="473841316451713034" id="message-473841316451713034">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan saw Regal as he remembered him. The first time he saw him, as a child. Back then he had felt unnerved by him, but not afraid. Scientists were under his employment and a source of facination to be learned from at that age... and it should have stayed that way. 
+
+And he was a boy, small and stunned by the revelation that Regal was the source of so many of his problems. 
+
+&quot;Guh--&quot; He could feel the sound, but not hear it. His bluster and bravery from when he was young was eaten up by the cotton feeling. His true feelings were exposed, naked to the world. 
+
+He was already hypnotized by that eye, tracing its arches in the air to predict where the danger would come from. But now he was <em>forced</em> to stare. 
+
+Enzan reached up for the hand. He gripped it, panicking. Pull it away, pull it away-!</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 06:25 PM</span>
+
+            <div class="chatlog__message " data-message-id="473979472052224000" id="message-473979472052224000">
+                <div class="chatlog__content">
+                    <span class="markdown">Another hand came up, gripping his wrist. The doctor&#39;s grip was filled with renewed strength. 
+&quot;You thought you could rid yourself of me with your legal system. You thought you could rid yourself of what I have done with you-&quot;
+His grip shifted and he threw Enzan against the concrete wall. The noise was thick and resounded through the room in echoes and echoes. 
+&quot;You thought it would be that easy. That the remnants were all you had to deal with. Fragments of a past you could fight. You were wrong, weren&#39;t you?&quot; A step, two, he had the power to carry his own feet and he reveled in it. 
+Mechanical hand clicked as he reached out and traced the scar, thin over Enzan&#39;s neck. It was a shame he was treating it- and Regal could tell he was- because it was the perfect reminder. 
+&quot;You have your father&#39;s eyes.&quot; He whispered this, something dangerous coming to a head. He stretched his false hand and out from a fingertip he produced a syringe. He leveled his grip on Enzan&#39;s neck and aimed the new weapon at his eye.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">31-Jul-18 07:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="473989953114734603" id="message-473989953114734603">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s arm and neck felt like jello, with the doctor <em>sinking</em> his hand in. Poison filled his flesh, and forcing them to touch. 
+
+His head rocked back and slammed into the wall. Regal had just <em>flicked</em> him away. Colors were washed out and hazy from his fallen position on the floor-- aside from that red eye. 
+
+He collapsed like he had already been paralyzed for days, just staring up at his tormentor. Enzan felt his voice reverberate around, but his body was distant.
+
+&quot;I&#39;ll scrub it out. I&#39;ll get you out of me.&quot; 
+
+His old defiance, a fleeting thought amid the dying scream still ringing his ears.
+
+He shuddered when he was touched. His hand came up again to pull him away. Such heavy limbs, and yet no force behind them. He didn&#39;t <em>hurt</em> but he was so scared. His heart was screaming through his chest and all the pleading and pushing had no effect. His eyes were wide open to see the syringe. He couldn&#39;t think to close his eyes-- he hadn&#39;t been blinking all this time. His head tossed to the side instead.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">04-Aug-18 12:47 AM</span>
+
+            <div class="chatlog__message " data-message-id="475162830232879104" id="message-475162830232879104">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal&#39;s breath grew erratic. His hand shook, he was so very <em>elated</em> by this all. &quot;Too late,&quot; he whispered. &quot;Much too late. I&#39;ll scar you over and over again until it&#39;s one you can&#39;t bear.&quot;
+The syringe was gone, as if it had never been there. Regal wrenched Enzan to another point in the room, a mirror that had never appeared before in this place. He took very careful measures to not stand where the mirror would cast his own reflection, but bid Enzan to stand in front of it. 
+A monster was Enzan&#39;s reflection; a smiling thing with tired eyes and burned skin. A familiar thing, that <strong>Other.</strong>
+&quot;Look upon the beast that you created,&quot; he breathed. &quot;Look upon this <em>monster.</em> You love it so, it mustn&#39;t be so difficult.&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">04-Aug-18 12:58 AM</span>
+
+            <div class="chatlog__message " data-message-id="475165621932392459" id="message-475165621932392459">
+                <div class="chatlog__content">
+                    <span class="markdown">Faceless bodies drifted on the edge of Enzan&#39;s sight as he was guided. They twisted on the edges, sometimes familiar but always unreachable.
+
+&quot;Nh-- no--&quot; He pressed forward, hands to the glass as he was bid to <em>look</em>. &quot;Yours not--&quot; but he did see his lover in there, behind the haunting face and amid the still swirling faceless. He had so often in his dreams, run willingly up to that monster&#39;s barrel. Even if he protested in his mind, his body always made the steps. Laika would help him, Laika was str--
+
+Laika. The name was in his head and now he wished it wasn&#39;t. The less Regal knew about him the better. He was so sorry, so sorry, and he didn&#39;t want those to be his last words to Laika but they always seemed to slip out when he ran out of beautiful things to fill the gaps between apologies. 
+
+Enzan brought his hands to his face, and he saw the reflection move to. He almost could feel their hands. Cold, and bloody.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">04-Aug-18 01:15 AM</span>
+
+            <div class="chatlog__message " data-message-id="475169797143920641" id="message-475169797143920641">
+                <div class="chatlog__content">
+                    <span class="markdown">Regal reached out. His false hand in the reflection was skin, it was real. His hand wrapped around Enzan&#39;s. 
+&quot;Don&#39;t you wish for the pain to go away?&quot; His mechanical hand had no way to tell how hard it was holding Enzan&#39;s. It squeezed painfully. &quot;Have you ever thought of your own humanity, Enzan?&quot;
+It was so very cold in the room, all of a sudden.
+&quot;It hurts you so. Your navi can turn that off and survive all of the pain. You must endure. Aren&#39;t you just...tired?&quot; 
+His words were so heavy, laced with something that took it all out of the room. &quot;Don&#39;t you wish for it to end? To turn it all off and turn away?&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">04-Aug-18 10:17 AM</span>
+
+            <div class="chatlog__message " data-message-id="475306239442812938" id="message-475306239442812938">
+                <div class="chatlog__content">
+                    <span class="markdown">His fingers felt like they were in all the wrong places. As he had been, muscles pushed against all of Regal&#39;s touches, but it did little. 
+
+His eyes in the <strong>Other</strong> reflection were so sunken. He <em>was</em> tired; the evidence was right there. 
+
+The floor felt like it was dropping away. His head spun. And spun. And spun. 
+
+<em>&quot;I don&#39;t want this to be real anymore.&quot;</em>
+
+<em>&quot;I want to turn away from you. Away from what you did to me.&quot;</em> 
+
+There were tears on the <strong>Other</strong> face. His own, he couldn&#39;t tell. There was no way, when cotton and fear and faded colors were the only real senses he had.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">04-Aug-18 01:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="475358986930225152" id="message-475358986930225152">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;Then you&#39;ll have to kill me.&quot;
+He was standing behind Enzan now, reflection in the mirror looming over him- but it wasn&#39;t quite Regal. It was someone else, a single eye and a strong, human-like but just <em>not quite</em> hand over his-
+And then, he was gone. As if he was never there.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">04-Aug-18 11:12 PM</span>
+
+            <div class="chatlog__message " data-message-id="475501434314555405" id="message-475501434314555405">
+                <div class="chatlog__content">
+                    <span class="markdown">The Other was a reflection, mirror Enzan&#39;s every move. An arm lifted with an arm, tears fell with tears. So strange, so have something taller, obscene, moving along with you as if it was yourself. Perhaps because it was.
+
+Though, as Regal morphed, The Other&#39;s gaze broke from Enzan&#39;s trail. They strained to look to where Regal had stood, face subtly twitching as the mirror started to tremor.
+
+&quot;<em>Kill...</em>&quot;
+
+A whisper, corroded.
+
+&quot;<em>He needs to die. Die... Kill...</em>&quot;
+
+The Other brought Enzan&#39;s hand up, and made him touch the glass. Their gaze was back at him now, staring deep within as one does when looking at a mirror too long. Enzan&#39;s finger started to tap, tap, tap. Harder and harder as The Other commanded him.
+
+&quot;<em>I have to kill... him. I have to... kill...</em>&quot;</span>
+
+                        <span class="chatlog__edited-timestamp" title="04-Aug-18 11:16 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 12:06 AM</span>
+
+            <div class="chatlog__message " data-message-id="475514851628810252" id="message-475514851628810252">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan could feel the shift. Watching The <strong>Other</strong> move and twitch started to feel hypnotic, even as his heart raced. 
+
+He felt like such an observer it hurt. In his own space (for although it didn&#39;t look familiar anymore, he still knew deep in his bones this space <em>was</em> his.), he was forced to be a bystander. 
+
+ He wasn&#39;t even granted the luxury of trying to pull away anymore. 
+
+<em>&quot;I killed once before and I didn&#39;t care for it.&quot;</em> 
+
+<em>&quot;Blues wanted to kill him for me.&quot;</em>
+
+<em>&quot;Laika wanted to kill him for all of us.&quot;</em>
+
+The hate gripped him, as his own voice rumbled around like thunder. Regal should be dead... how was something he was uncertain about. The fear started to ebb. He wanted to know more.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 12:18 AM</span>
+
+            <div class="chatlog__message " data-message-id="475517945376800779" id="message-475517945376800779">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>No... no...</em>&quot;
+
+The whispers hissed in silence after Enzan&#39;s words. His fingers started to tap faster together, drumming the glass as The Other stared ahead. Soon the hands became a fist that began to pound. Each strike threatened the mirror to crack.
+
+&quot;<em>Kill, kill, kill... kill...</em>&quot;
+
+&quot;<em>Bastard... ruined us... ruined...</em>&quot;
+
+&quot;<em>Where did you go? Where where where did you go? I&#39;m scared. I&#39;m alone. That bastard... kill...</em>&quot;
+
+A crack, and the whispers began to mutter endlessly. The Other&#39;s mouth began to move, to frown and bare unsightly teeth. Enzan&#39;s punches grew harder with there&#39;s.
+
+&quot;<em>Kill... kill... kill... take it back... kill...</em>&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 08:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="475639410814091265" id="message-475639410814091265">
+                <div class="chatlog__content">
+                    <span class="markdown">The racing in his chest roared back like the high tide. Too fast, too desperate, too <em>monsterous</em>. He knew more than anything he didn&#39;t want that mirror to crack. Regal was all but forgotten.
+
+The faceless bodies behind The Other moved faster with the whispering. A buzzing, static-like feeling permeated his body, and he hated it. 
+
+<em>&quot;Stop. Stop! Let go of me! Let me go!&quot;</em>
+
+His left hand wrenched from the mirror and gripped his right. Anything to try and stop this thing had to be done, or his mind wouldn&#39;t be able to cope with it.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 09:55 AM</span>
+
+            <div class="chatlog__message " data-message-id="475663031997562880" id="message-475663031997562880">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;<em>Hhhh...</em>&quot;
+
+The Other&#39;s frown deepened, their eyes rolled around as a smoke started to cloud them. It was like wisps, like smoldering wood left to burn out. The whispers doubled over as it grew. Their hand, still forced punches.
+
+&quot;<em>Kill... kill... kill him... with me...</em>&quot;
+
+&quot;<em>I will go with him. Kill him with me</em>&quot;
+
+&quot;<em>Dispell us both... purify... he can--</em>&quot;
+
+Suddenly the whispers cut off. The mirror had cracked enough for the reflection&#39;s smoke to seep out. The Other gasped, and bared their teeth. Their form started to shift in the smoke, clouded from Enzan&#39;s view. The facade they wore crumbled away like ash, leaving just a blackened figure, starting, growling...
+
+&quot;<em>Kill...</em>&quot;
+
+It lashed out, smashing the mirror, releasing the smoke. Everything went black.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 10:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="475665145465667594" id="message-475665145465667594">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan&#39;s face felt pressed against the glass by an unseen force. His forehead and nose touched its cool surface, as it rumbled and cracked. His body felt disjointed. He could see his hand wailing away, but also <em>all</em> he could see was The Other&#39;s face pressed up on the other side. 
+
+Smoke tickled Enzan&#39;s hand and arm. When he glanced down, it was caressing his bloodied knuckles. 
+
+He pushed away from the monsterous figure with both arms. The sense of identity had crumbled away along with the mirror. The force backwards didn&#39;t end like it should have when he hit the ground. Instead, darkness enveloped everything, and he was floating... floating again, with only the memory of evil beside him.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/252985834402349058/dd2c3e4c25f4160a925fe319ff4be635.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="cellotherapy#3304" data-user-id="252985834402349058" style="color: #1ABC9C">chloe</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 01:21 PM</span>
+
+            <div class="chatlog__message " data-message-id="475714981158060032" id="message-475714981158060032">
+                <div class="chatlog__content">
+                    <span class="markdown">Something was burning in the black. Not quite wood. A strange mix of meat and plastic. Unseen smoke could still be felt in the air around, small ashy particles gracing the skin. 
+
+The evil shifted around, causing the air to shift and disturb what hanged around. Their whispers were inaudible, mutterings too quick for any human to comprehend. It was surrounding, like a doppler, or radar. The chorus of soft sound seemed to circle around. 
+
+A touch to Enzan&#39;s hand, gentle. Nothing like the demon that snatched him before.
+
+&quot;<em>It has to be me...</em>&quot;</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">05-Aug-18 02:16 PM</span>
+
+            <div class="chatlog__message " data-message-id="475728886433316865" id="message-475728886433316865">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan calmed down now that he was alone. In a sense. He, at least, did not feel the imminent physical threat. 
+
+Ashes were filling his lungs. 
+
+He wondered at the voice. His mind supplied options, swapping features of loved ones until Laika floated to the surface. 
+
+In the transition to waking, his face was still vivid in his mind. The only choice he had been allowed to make.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/189906724084252673/683a285590d924bbf06d369653eeb8d7.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="HUB.BATCH#2350" data-user-id="189906724084252673" style="color: #3498DB">Hub</span>
+
+
+        <span class="chatlog__timestamp">08-Aug-18 05:02 PM</span>
+
+            <div class="chatlog__message " data-message-id="476857662643109896" id="message-476857662643109896">
+                <div class="chatlog__content">
+                    <span class="markdown">A tear back down into dream as if someone was ripping him from reality. A hand across his neck tearing and a voice in his ear: &quot;I&#39;m standing right in front of you. A wolf in sheep&#39;s skin is the game I&#39;ve always played the best, isn&#39;t it? So go on, <em>find me.</em> &quot;
+Release. And wake.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/254710729934897153/2677ef6fae71c7f2f6460ff7c540fcd2.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+    <span class="chatlog__author-name" title="Penelope&#129402;Novella#4675" data-user-id="254710729934897153" style="color: #FF0000">#1 Blues</span>
+
+
+        <span class="chatlog__timestamp">08-Aug-18 05:13 PM</span>
+
+            <div class="chatlog__message " data-message-id="476860416279052308" id="message-476860416279052308">
+                <div class="chatlog__content">
+                    <span class="markdown">Enzan <em>choked</em>. He gripped his throat, eyes wide and searching. 
+
+This was how it always went. Reality and dreams collided. How could he be expected to search, when nothing and everything was real?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 24 message(s)</div>
+</div>
+
+</body>
+</html>
